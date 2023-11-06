@@ -8,9 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-    <nav class=" navbar navbar-expand-lg navbar-light nav-parent fixed-top " >
+    <nav class="bg-blur navbar navbar-expand-lg navbar-light nav-parent fixed-top border-bottom border-danger border-2" >
         <div class="container">
-            <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/travels-logo-png-for-business-design-template-03d1ab18244e3126af5a7b41554e7c99_screen.jpg?ts=1566599731" style="max-width: 100px; height: auto;" alt="">
+            <img src="../assets/img/icons/brands/logomandiri.png" class="pt-3" style="max-width: 100px; height: auto;" alt="">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -20,14 +20,20 @@
                         <a class="nav-link nav-menu  {{ request()->is('/') ? 'menu-active' : ''}}" href="{{route('welcome')}}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('diskusi') ? 'menu-active' : ''}}" href="">Discussions</a>
+                        <a class="nav-link nav-menu {{ request()->is('diskusi') ? 'menu-active' : ''}}" href="">Wisata</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('test') ? 'menu-active' : ''}}" href="">Parenting Test</a>
+                        <a class="nav-link nav-menu {{ request()->is('test') ? 'menu-active' : ''}}" href="">Paket Wisata</a>
+                    </li>
+                    @if (Auth::check())
+                        
+                    <li class="nav-item">
+                        <a class="nav-link nav-menu {{ request()->is('test') ? 'menu-active' : ''}}" href="">Keluhan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('artikel') ? 'menu-active' : ''}}" href="">Articles</a>
+                        <a class="nav-link nav-menu {{ request()->is('test') ? 'menu-active' : ''}}" href="">Pesanan</a>
                     </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link nav-menu {{ request()->is('about') ? 'menu-active' : ''}}" href="">About Us</a>
                     </li>
@@ -69,6 +75,9 @@
     @yield('content')
     
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 </body>
 </html>
