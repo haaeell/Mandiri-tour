@@ -24,5 +24,7 @@ Route::get('/', [LandingpageController::class, 'index'])->name('welcome');
 Auth::routes();
 Route::group(['middleware' => 'admin'], function () {
     Route::resource('users', UserController::class);
+    Route::post('/users/batchDelete', [UserController::class, 'batchDelete'])->name('users.batchDelete');
+
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
