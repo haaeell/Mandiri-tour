@@ -8,15 +8,7 @@
             <div class="card p-5">
                 <!-- Form HTML di dalam view Anda -->
 
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                
 
                 <div class="col-md-2">
                     <button type="button" class="btn btn-primary mb-3 " data-bs-toggle="modal" data-bs-target="#modalCenter">
@@ -55,7 +47,7 @@
 
                                     <td>
                                         <span class="badge {{ $user->role === 'admin' ? 'bg-primary' : 'bg-success' }}">
-                                            {{ $user->role === 'admin' ? 'Admin' : 'User' }}
+                                            {{ $user->role === 'admin' ? 'Admin' : 'Customer' }}
                                         </span>
                                     </td>
                                     <td>
@@ -64,9 +56,15 @@
                                                 class="btn btn-warning btn-sm  text-center" data-bs-toggle="modal"
                                                 data-bs-target="#modalEdit{{ $user->id }}">
                                                 <i class="bi bi-pencil-fill"></i></a>
-
-                                            <button class="btn btn-danger delete-btn btn-sm" data-id="{{ $user->id }}">
-                                                <i class="bi bi-trash-fill"></i></button>
+                                                <form id="deleteForm{{ $user->id }}" method="POST" action="{{ route('users.destroy', $user->id) }}">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="button" class="btn btn-danger delete-btn btn-sm"
+                                                        data-name="{{ $user->name }}"
+                                                        data-id="{{ $user->id }}" onclick="confirmDelete({{ $user->id }})">
+                                                        <i class="bi bi-trash-fill"></i>
+                                                    </button>
+                                                </form>
 
                                             <button class="btn btn-info btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#modalReset{{ $user->id }}">Reset Password</button>
@@ -420,30 +418,26 @@
 @endsection
 
 @section('script')
-@if (session('success') || session('error'))
 <script>
-    $(document).ready(function() {
-        var successMessage = "{{ session('success') }}";
-        var errorMessage = "{{ session('error') }}";
+    function confirmDelete(userId) {
+        const userName = document.querySelector(`.delete-btn[data-id="${userId}"]`).getAttribute('data-name');
 
-        if (successMessage) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: successMessage,
-            });
-        }
-
-        if (errorMessage) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: errorMessage,
-            });
-        }
-    });
+        Swal.fire({
+            title: 'Konfirmasi Hapus',
+            text: `Apakah Anda yakin ingin menghapus ${userName}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`deleteForm${userId}`).submit();
+            }
+        });
+    }
 </script>
-@endif
 
     <script>
         function previewImage(event) {

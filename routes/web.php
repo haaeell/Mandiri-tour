@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandingpageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\KotaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,9 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('users/{id}/reset-password', [UserController::class, 'resetPassword'])->name('reset-password');
     Route::post('/users/batchDelete', [UserController::class, 'batchDelete'])->name('users.batchDelete');
     Route::get('/export-pdf', [UserController::class, 'exportToPDF']);
+
+    Route::resource('kota', KotaController::class);
+
 
 
 

@@ -95,8 +95,12 @@
 
                                 </li>
 
+                                <li class="submenu-item {{ request()->is('kota') ? 'active' : '' }} ">
+                                    <a href={{ route('kota.index') }} class="submenu-link">Kota</a>
+
+                                </li>
                                 <li class="submenu-item  ">
-                                    <a href="component-alert.html" class="submenu-link">Kota</a>
+                                    <a href="component-alert.html" class="submenu-link">Hotel</a>
 
                                 </li>
 
@@ -162,6 +166,15 @@
                 </form>
             </div>
             <div class="page-content">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 @yield('content')
             </div>
         </div>
@@ -171,106 +184,121 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @yield('script')
     <script>
-        $(document).on('click', '.delete-btn', function() {
-    const id = $(this).data('id');
+        $('button.delete-btn').click(function(event) {
+            event.preventDefault();
 
-    Swal.fire({
-        title: 'Apakah Anda yakin?',
-        text: 'Data akan dihapus permanen!',
-        icon: 'warning',
-        showCancelButton: true,
-        cancelButtonText: 'cancel',
+            const form = $(this).closest('form');
+            const name = $(this).data('name');
+
+            Swal.fire({
+            text: `Apakah Anda yakin ingin menghapus ${name}?`,
+            icon: 'warning',
+            showCancelButton: true,
             confirmButtonColor: '#d33',
-            cancelButtonColor: '#868e96',
-            confirmButtonText: 'Hapus'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                type: 'DELETE',
-                url: '/users/' + id,
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function (data) {
-                    Swal.fire('Sukses!', data.message, 'success');
-                    location.reload();
-                },
-                error: function (data) {
-                    Swal.fire('Error!', 'Gagal menghapus data.', 'error');
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                } else {
+                    form.close();
                 }
             });
-        }
-    });
-});
-
+        });
     </script>
-    <script>
-       $(document).ready(function () {
-    const phoneInput = $("#phone");
-    const phoneError = $("#phone-error");
-    const phoneMax = $("#phone-max")
+    @yield('script')
+    @if (session('success') || session('error'))
+        <script>
+            $(document).ready(function() {
+                var successMessage = "{{ session('success') }}";
+                var errorMessage = "{{ session('error') }}";
 
-    phoneInput.on("input", function () {
-        const inputValue = phoneInput.val();
+                if (successMessage) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: successMessage,
+                    });
+                }
 
-        // Hapus semua karakter selain angka dari nilai input
-        const numericValue = inputValue.replace(/\D/g, '');
-
-        if (numericValue.length > 15) {
-            phoneMax.text("Maksimal panjang 15 karakter.");
-        } else {
-            phoneMax.text(""); // Hapus pesan kesalahan panjang jika valid
-        }
-
-        if (inputValue !== numericValue) {
-            phoneError.text("Input hanya boleh berisi angka.");
-        } else {
-            phoneError.text(""); // Hapus pesan kesalahan karakter jika valid
-        }
-
-        // Mengatur nilai input dengan hanya angka, maksimal 15 karakter
-        phoneInput.val(numericValue.substring(0, 15));
-    });
-});
+                if (errorMessage) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMessage,
+                    });
+                }
+            });
         </script>
+    @endif
+    
+    <script>
+        $(document).ready(function() {
+            const phoneInput = $("#phone");
+            const phoneError = $("#phone-error");
+            const phoneMax = $("#phone-max")
+
+            phoneInput.on("input", function() {
+                const inputValue = phoneInput.val();
+
+                // Hapus semua karakter selain angka dari nilai input
+                const numericValue = inputValue.replace(/\D/g, '');
+
+                if (numericValue.length > 15) {
+                    phoneMax.text("Maksimal panjang 15 karakter.");
+                } else {
+                    phoneMax.text(""); // Hapus pesan kesalahan panjang jika valid
+                }
+
+                if (inputValue !== numericValue) {
+                    phoneError.text("Input hanya boleh berisi angka.");
+                } else {
+                    phoneError.text(""); // Hapus pesan kesalahan karakter jika valid
+                }
+
+                // Mengatur nilai input dengan hanya angka, maksimal 15 karakter
+                phoneInput.val(numericValue.substring(0, 15));
+            });
+        });
+    </script>
     <script>
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-    
-        $('.delete-button').on('click', function (e) {
+
+        $('.delete-button').on('click', function(e) {
             e.preventDefault();
-    
+
             var id = $(this).data('id');
-            
+
             var selectedItems = [];
-            $('input[name="selectedItems[]"]:checked').each(function () {
+            $('input[name="selectedItems[]"]:checked').each(function() {
                 selectedItems.push($(this).val());
             });
-    
+
             if (selectedItems.length > 0) {
                 Swal.fire({
                     title: 'Konfirmasi',
                     text: 'Apakah Anda yakin ingin menghapus data yang dipilih?',
                     icon: 'warning',
                     showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#868e96',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#868e96',
                     confirmButtonText: 'Ya, Hapus!',
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: '{{ route("users.batchDelete") }}',
+                            url: '{{ route('users.batchDelete') }}',
                             method: 'POST',
                             data: {
                                 selectedItems: selectedItems
                             },
-                            success: function (response) {
+                            success: function(response) {
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Success',
@@ -278,7 +306,7 @@
                                 });
                                 location.reload();
                             },
-                            error: function (error) {
+                            error: function(error) {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Validation Error',

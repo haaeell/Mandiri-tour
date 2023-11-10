@@ -129,12 +129,20 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
 {
-    
-    $data = User::findorFail($id);
+    $loggedInUserId = $request->user()->id; // Mendapatkan ID pengguna yang sedang login
+
+    if ($id == $loggedInUserId) {
+        session()->flash('error', 'Anda tidak dapat menghapus pengguna yang sedang login.');
+        return redirect()->route('users.index');
+    }
+
+    $data = User::findOrFail($id);
     $data->delete();
 
-    return response()->json(['message' => 'Data berhasil dihapus']);
+    session()->flash('success', 'Data berhasil dihapus');
+    return redirect()->route('users.index');
 }
+
 
     public function batchDelete(Request $request)
 {
