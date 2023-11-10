@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Barryvdh\DomPDF\Facade as PDF;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-
 class UserController extends Controller
 {
     /**
@@ -100,10 +102,9 @@ class UserController extends Controller
         'address' => 'required',
     ], $messages);
 
-    // Untuk memperbarui data pengguna, pertama kita harus mengambil data pengguna yang akan diperbarui.
     $user = User::findOrFail($id);
+    
 
-    // Jika ada file gambar baru yang diunggah, simpan gambar baru dan hapus gambar lama.
     if ($image = $request->file('image')) {
         $path = 'images';
         $namaGambar = date('YmdHis') . "." . $image->getClientOriginalExtension();
@@ -117,10 +118,10 @@ class UserController extends Controller
         $data['image'] = $namaGambar;
     }
 
-    // Perbarui data pengguna yang ada.
     $user->update($data);
 
-    return response()->json(['message' => 'Data berhasil diperbarui']);
+    session()->flash('success', 'Data berhasil diperbarui');
+    return redirect()->back();
 }
 
     /**
@@ -146,6 +147,52 @@ class UserController extends Controller
         return redirect()->back()->with('error', 'Tidak ada item yang dipilih untuk dihapus.');
     }
 }
+    public function resetPassword(Request $request)
+{
+    $validatedData = $request->validate([
+        'new_password' => 'required|min:8',
+        'confirm_password' => 'required|same:new_password',
+    ], [
+        'new_password.required' => 'Password baru diperlukan',
+        'new_password.min' => 'Password harus memiliki minimal 8 karakter',
+        'confirm_password.required' => 'Konfirmasi Password diperlukan',
+        'confirm_password.same' => 'Konfirmasi Password harus sama dengan Password baru',
+    ]);
+
+    
+
+        $user = User::find($request->user()->id);
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        if ($validatedData['new_password'] !== $validatedData['confirm_password']) {
+            session()->flash('error', 'Konfirmasi Password harus sama dengan Password baru');
+            return redirect()->back();
+        }
+        session()->flash('success', 'Password Berhasil diReset');
+        return redirect()->back();
+}
+
+public function exportToPDF()
+{
+    $users = User::where('role', 'customer')->get();
+
+    $dompdf = new Dompdf();
+    $dompdf->setPaper('A4', 'portrait');
+
+    $html = view('admin.users.pdf', compact('users'))->render();
+
+    $dompdf->loadHtml($html);
+
+    $dompdf->render();
+
+    return $dompdf->stream('customers.pdf');
+}
+
+
+
+
+
 
 
 
