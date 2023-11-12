@@ -2,6 +2,7 @@
 @section('title')
     Daftar hotel
 @endsection
+@section('breadcumb','Hotel')
 @section('content')
     <div class="row d-flex">
         <div class="col-md-12 card p-4">
@@ -31,7 +32,7 @@
                             <td>{{ $item->deskripsi }}</td>
                             <td>{{ $item->fasilitas }}</td>
                             <td><img src="{{ $item->gambar ? asset('/images/' . $item->gambar) : asset('assets/img/profile.png') }}"
-                                    alt="{{ $item->gambar ? 'item Image' : 'Default Image' }}" width="50"></td>
+                                    alt="{{ $item->gambar ? 'item Image' : 'Default Image' }}" width="50" onClick="showImage(this)"></td>
                             <td>
                                 <div class="d-flex gap-1 ">
                                     <a href="{{ route('hotel.edit', $item->id) }}"

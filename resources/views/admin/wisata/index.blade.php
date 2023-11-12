@@ -2,6 +2,8 @@
 @section('title')
     Daftar wisata
 @endsection
+@section('breadcumb','Wisata')
+    
 @section('content')
     <div class="row d-flex">
         <div class="col-md-12 card p-4">
@@ -28,8 +30,10 @@
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->kota->nama }}</td>
                             <td>{{ $item->deskripsi }}</td>
-                            <td><img src="{{ $item->gambar ? asset('/images/' . $item->gambar) : asset('assets/img/profile.png') }}"
-                                    alt="{{ $item->gambar ? 'item Image' : 'Default Image' }}" width="50"></td>
+                            <td>
+                                <img src="{{ $item->gambar ? asset('/images/' . $item->gambar) : asset('assets/img/profile.png') }}"
+                                    alt="{{ $item->gambar ? 'item Image' : 'Default Image' }}" width="50" onClick="showImage(this)">
+                                 </td>
                             <td>
                                 <div class="d-flex gap-1 ">
                                     <a href="{{ route('wisata.edit', $item->id) }}"

@@ -87,7 +87,7 @@
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-item  {{ request()->is('home') ? 'active' : '' }} ">
-                            <a href="index.html" class='sidebar-link'>
+                            <a href="{{ route('home') }}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Dashboard</span>
                             </a>
@@ -150,8 +150,8 @@
                                 <span>Testimoni</span>
                             </a>
                         </li>
-                        <li class="sidebar-item  ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->is('galeri') ? 'active' : '' }} ">
+                            <a href={{ route('galeri.index') }} class='sidebar-link'>
                                 <i class="bi bi-image-fill"></i>
                                 <span>Gallery</span>
                             </a>
@@ -192,8 +192,23 @@
                     </ul>
                 </div>
             </header>
-
+            <div class="page-title">
+                <div class="row mt-3">
+                    <div class="col-12 col-md-6 order-md-1 order-last">
+                        
             <h3 class="mb-3 fw-bold">@yield('title')</h3>
+                    </div>
+                    <div class="col-12 col-md-6 order-md-2 order-first">
+                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">@yield('breadcumb')</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
             <div class="page-content">
                 
                 @yield('content')
@@ -249,6 +264,17 @@
         });
     </script>
     @yield('script')
+    <script>
+        function showImage(imageElement) {
+            const imageUrl = imageElement.src;
+    
+            Swal.fire({
+                imageUrl: imageUrl,
+                imageAlt: 'Custom image',
+                
+            });
+        }
+    </script>
     @if (session('success') || session('error'))
         <script>
             $(document).ready(function() {

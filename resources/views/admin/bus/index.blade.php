@@ -2,6 +2,7 @@
 @section('title')
     Daftar bus
 @endsection
+@section('breadcumb','Bus')
 @section('content')
     <div class="row d-flex">
         <div class="col-md-12 card p-4">

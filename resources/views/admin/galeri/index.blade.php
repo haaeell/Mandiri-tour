@@ -26,8 +26,14 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->deskripsi }}</td>
-                            <td><img src="{{ $item->gambar ? asset('/images/' . $item->gambar) : asset('assets/img/profile.png') }}"
-                                    alt="{{ $item->gambar ? 'item Image' : 'Default Image' }}" width="50"></td>
+                            <td>
+                                <img 
+        src="{{ $item->gambar ? asset('/images/' . $item->gambar) : asset('assets/img/profile.png') }}"
+        alt="{{ $item->gambar ? 'item Image' : 'Default Image' }}"
+        width="50"
+        onClick="showImage(this)"
+    >
+                                </td>
                             <td>
                                 <div class="d-flex gap-1 ">
                                     <a href="{{ route('galeri.edit', $item->id) }}"
@@ -207,6 +213,7 @@
     </div>
 @endsection
 @section('script')
+
     <script>
         $(document).ready(function() {
             $('#form-tambah').submit(function(e) {

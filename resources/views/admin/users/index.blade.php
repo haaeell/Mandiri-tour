@@ -2,6 +2,7 @@
 @section('title')
     Tabel Users
 @endsection
+@section('breadcumb','Users')
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -38,7 +39,7 @@
                                     <td>{{ $user->address }}</td>
                                     <td>
                                         <img src="{{ $user->image ? asset('/images/' . $user->image) : asset('assets/img/profile.png') }}"
-                                            alt="{{ $user->image ? 'User Image' : 'Default Image' }}" width="50">
+                                            alt="{{ $user->image ? 'User Image' : 'Default Image' }}" width="50" onClick="showImage(this)">
                                     </td>
 
                                     <td>

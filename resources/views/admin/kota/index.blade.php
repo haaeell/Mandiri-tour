@@ -2,6 +2,7 @@
 @section('title')
     Daftar Kota
 @endsection
+@section('breadcumb','Kota')
 @section('content')
     <div class="row d-flex">
         <div class="col-md-4">
