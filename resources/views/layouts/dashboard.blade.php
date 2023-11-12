@@ -82,7 +82,7 @@
                             </a>
                         </li>
                         <li class="sidebar-title">Menu</li>
-                        <li class="sidebar-item  has-sub">
+                        <li class="sidebar-item  has-sub {{ request()->is('kota') || request()->is('wisata') ? 'active' : '' }}">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-grid-1x2-fill"></i>
                                 <span>Data Wisata</span>
@@ -90,8 +90,8 @@
 
                             <ul class="submenu ">
 
-                                <li class="submenu-item  ">
-                                    <a href="component-accordion.html" class="submenu-link">Wisata</a>
+                                <li class="submenu-item {{ request()->is('wisata') ? 'active' : '' }} ">
+                                    <a href={{ route('wisata.index') }} class="submenu-link">Wisata</a>
 
                                 </li>
 
@@ -101,6 +101,10 @@
                                 </li>
                                 <li class="submenu-item  ">
                                     <a href="component-alert.html" class="submenu-link">Hotel</a>
+
+                                </li>
+                                <li class="submenu-item  ">
+                                    <a href="component-alert.html" class="submenu-link">Bus</a>
 
                                 </li>
 
@@ -149,32 +153,35 @@
             </div>
         </div>
         <div id="main">
-            <header class="mb-3">
-                <a href="#" class="burger-btn d-block d-xl-none">
-                    <i class="bi bi-justify fs-3"></i>
-                </a>
+            <header class="mb-3 d-flex justify-content-between align-items-center ">
+                <div>
+                    <a href="#" class="burger-btn d-block d-xl-none">
+                        <i class="bi bi-justify fs-3"></i>
+                    </a>
+                </div>
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="mx-3 fw-bold">Welcome, {{Auth::user()->name}}</span>
+                        <img src="../assets/img/profile.png" alt="Profile" style="width: 40px; height: 40px; border-radius: 50%;">
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button class="dropdown-item" type="submit">
+                                    <i class="bi bi-power"></i>
+                                    <span>Logout</span>
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </header>
 
-            <div class="page-heading  d-flex justify-content-between align-items-center">
-                <h3>@yield('title')</h3>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button class="btn btn-secondary rounded-2" type="submit">
-                        <i class="bi bi-power"></i>
-                        <span>Logout</span>
-                    </button>
-                </form>
-            </div>
+            <h3 class="mb-3 fw-bold">@yield('title')</h3>
             <div class="page-content">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                
                 @yield('content')
             </div>
         </div>
@@ -184,6 +191,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if ($errors->any())
+    <script>
+        let errorMessages = '';
+        @foreach ($errors->all() as $error)
+            errorMessages += "{{ $error }}\n";
+        @endforeach
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: errorMessages,
+        });
+    </script>
+@endif
     <script>
         $('button.delete-btn').click(function(event) {
             event.preventDefault();
@@ -263,69 +284,7 @@
             });
         });
     </script>
-    <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $('.delete-button').on('click', function(e) {
-            e.preventDefault();
-
-            var id = $(this).data('id');
-
-            var selectedItems = [];
-            $('input[name="selectedItems[]"]:checked').each(function() {
-                selectedItems.push($(this).val());
-            });
-
-            if (selectedItems.length > 0) {
-                Swal.fire({
-                    title: 'Konfirmasi',
-                    text: 'Apakah Anda yakin ingin menghapus data yang dipilih?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#868e96',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '{{ route('users.batchDelete') }}',
-                            method: 'POST',
-                            data: {
-                                selectedItems: selectedItems
-                            },
-                            success: function(response) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Success',
-                                    text: 'Data Berhasil Dihapus',
-                                });
-                                location.reload();
-                            },
-                            error: function(error) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Validation Error',
-                                    html: 'Data Gagal Dihapus',
-                                });
-                            }
-                        });
-                    }
-                });
-            } else {
-                // Tidak ada data yang dipilih, jadi tidak perlu menampilkan SweetAlert konfirmasi
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'Tidak ada data yang dipilih untuk dihapus.',
-                });
-            }
-        });
-    </script>
+    
     <script src="./assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js"></script>
     <script src="assets/compiled/js/app.js"></script>
 

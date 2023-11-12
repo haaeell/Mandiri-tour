@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandingpageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KotaController;
+use App\Http\Controllers\WisataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/export-pdf', [UserController::class, 'exportToPDF']);
 
     Route::resource('kota', KotaController::class);
+    Route::resource('wisata', WisataController::class);
 
 
 

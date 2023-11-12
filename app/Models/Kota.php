@@ -10,4 +10,9 @@ class Kota extends Model
     use HasFactory;
     protected $table = 'kota';
     protected $fillable = ['nama'];
+
+    public function wisata()
+    {
+        return $this->hasMany(Wisata::class);
+    }
 }

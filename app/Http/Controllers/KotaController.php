@@ -40,7 +40,7 @@ class KotaController extends Controller
         ], $messages);
         Kota::create($data);
 
-        return redirect()->back()->with('success', 'Kota berhasil ditambahkan!');
+        return response()->json(['message' => 'Data berhasil disimpan']);
     }
 
     /**
@@ -81,10 +81,18 @@ class KotaController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        $data = Kota::findorFail($id);
-         $data->delete();
-         session()->flash('success', 'Data berhasil dihapus');
-         return redirect()->back();
+{
+    $data = Kota::with('wisata')->find($id);
+
+    if ($data->wisata->isNotEmpty()) {
+        // Ada data terhubung dengan tabel Wisata
+        session()->flash('warning', 'Terdapat data terhubung di tabel Wisata. Anda tidak bisa menghapus data ini.');
+    } else {
+        $data->forceDelete(); // Penghapusan permanen jika tidak ada keterkaitan
+        session()->flash('success', 'Data berhasil dihapus secara permanen');
     }
+
+    return redirect()->back();
+}
+
 }

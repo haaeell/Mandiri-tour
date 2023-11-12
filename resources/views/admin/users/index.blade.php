@@ -1,15 +1,11 @@
 @extends('layouts.dashboard')
 @section('title')
-    Users
+    Tabel Users
 @endsection
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="card p-5">
-                <!-- Form HTML di dalam view Anda -->
-
-                
-
+            <div class="card p-3">
                 <div class="col-md-2">
                     <button type="button" class="btn btn-primary mb-3 " data-bs-toggle="modal" data-bs-target="#modalCenter">
                         Tambah
@@ -418,6 +414,69 @@
 @endsection
 
 @section('script')
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('.delete-button').on('click', function(e) {
+        e.preventDefault();
+
+        var id = $(this).data('id');
+
+        var selectedItems = [];
+        $('input[name="selectedItems[]"]:checked').each(function() {
+            selectedItems.push($(this).val());
+        });
+
+        if (selectedItems.length > 0) {
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus data yang dipilih?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#868e96',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '{{ route('users.batchDelete') }}',
+                        method: 'POST',
+                        data: {
+                            selectedItems: selectedItems
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Data Berhasil Dihapus',
+                            });
+                            location.reload();
+                        },
+                        error: function(error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Validation Error',
+                                html: 'Data Gagal Dihapus',
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            // Tidak ada data yang dipilih, jadi tidak perlu menampilkan SweetAlert konfirmasi
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Tidak ada data yang dipilih untuk dihapus.',
+            });
+        }
+    });
+</script>
 <script>
     function confirmDelete(userId) {
         const userName = document.querySelector(`.delete-btn[data-id="${userId}"]`).getAttribute('data-name');

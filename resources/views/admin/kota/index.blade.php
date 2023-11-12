@@ -6,7 +6,7 @@
     <div class="row d-flex">
         <div class="col-md-4">
             <div class="card p-4">
-                <form method="POST" action="{{ route('kota.store') }}">
+                <form method="POST" action="{{ route('kota.store') }}" id="form-tambah">
                     @csrf
 
                     <div class="mb-3">
@@ -104,4 +104,74 @@
         </div>
 
     </div>
+@endsection
+
+@section('script')
+
+<script>
+    $(document).ready(function() {
+        $('#form-tambah').submit(function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.message,
+                    });
+
+                    $('#form-tambah')[0].reset();
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        // Handle validation errors
+                        var errors = xhr.responseJSON.errors;
+                        var errorMessage = '';
+
+                        for (var key in errors) {
+                            errorMessage += errors[key][0] + '<br>';
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Validation Error',
+                            html: errorMessage,
+                        });
+                    } else {
+                        // Handle other errors
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred while processing your request.',
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>
+@if(session('warning'))
+<script>
+    $(document).ready(function() {
+        let errorMessage = "{{ session('warning') }}";
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: errorMessage,
+            });
+        }
+    });
+</script>
+@endif
 @endsection
