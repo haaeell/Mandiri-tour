@@ -28,7 +28,7 @@
     }
 </style>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light nav-parent fixed-top border-bottom border-danger border-2" >
+    <nav class="navbar navbar-expand-lg navbar-light nav-parent fixed-top border-bottom border-info border-2" >
         <div class="container">
             <img src="../assets/img/logo2.png" class="pt-3" style="max-width: 100px; height: auto;" alt="">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

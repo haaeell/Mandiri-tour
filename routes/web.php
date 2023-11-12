@@ -32,6 +32,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('users/{id}/reset-password', [UserController::class, 'resetPassword'])->name('reset-password');
     Route::post('/users/batchDelete', [UserController::class, 'batchDelete'])->name('users.batchDelete');
     Route::get('/export-pdf', [UserController::class, 'exportToPDF']);
+    Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 
     Route::resource('kota', KotaController::class);
     Route::resource('wisata', WisataController::class);
