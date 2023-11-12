@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BusController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::resource('kota', KotaController::class);
     Route::resource('wisata', WisataController::class);
     Route::resource('hotel', HotelController::class);
+    Route::resource('bus', BusController::class);
 
 
 
