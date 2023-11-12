@@ -24,7 +24,18 @@
 
     <link rel="stylesheet" href="./assets/compiled/css/app.css">
     <link rel="stylesheet" href="./assets/compiled/css/app-dark.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
+
+<style>
+    .select2-container {
+    z-index: 9999999 !important; /* Atur nilai z-index yang sangat tinggi */
+}
+
+.modal-open .select2-container {
+    z-index: 1050; /* Sesuaikan dengan z-index modal */
+}
+</style>
 
 <body>
     <script src="assets/static/js/initTheme.js"></script>
@@ -189,7 +200,12 @@
     <script src="assets/static/js/components/dark.js"></script>
     <script src="assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+    $('.select2').select2();
+});
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @if ($errors->any())
     <script>
