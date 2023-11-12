@@ -6,9 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
+<style>
+     .whatsapp-btn {
+        position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #25d366; /* Warna hijau WhatsApp */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff; /* Warna teks putih */
+      text-decoration: none;
+      font-size: 24px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
 <body>
-    <nav class="bg-blur navbar navbar-expand-lg navbar-light nav-parent fixed-top border-bottom border-danger border-2" >
+    <nav class="navbar navbar-expand-lg navbar-light nav-parent fixed-top border-bottom border-danger border-2" >
         <div class="container">
             <img src="../assets/img/logo2.png" class="pt-3" style="max-width: 100px; height: auto;" alt="">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,6 +92,8 @@
             </div>
         </div>
     </nav>
+    
+    <a href="https://api.whatsapp.com/send?phone=6285321726312&text=Halo,%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20Mandiri%20Tour%20&%20Travel" target="_blank" class="whatsapp-btn"><i class="bi bi-whatsapp"></i></a>
     @yield('content')
     
 

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HotelController;
 use App\Http\Controllers\LandingpageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KotaController;
@@ -32,6 +33,7 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::resource('kota', KotaController::class);
     Route::resource('wisata', WisataController::class);
+    Route::resource('hotel', HotelController::class);
 
 
 
