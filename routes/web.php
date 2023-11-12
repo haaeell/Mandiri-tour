@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BusController;
+use App\Http\Controllers\GaleriController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::resource('wisata', WisataController::class);
     Route::resource('hotel', HotelController::class);
     Route::resource('bus', BusController::class);
+    Route::resource('galeri', GaleriController::class);
 
 
 

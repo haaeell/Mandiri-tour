@@ -93,7 +93,10 @@
                             </a>
                         </li>
                         <li class="sidebar-title">Menu</li>
-                        <li class="sidebar-item  has-sub {{ request()->is('kota') || request()->is('wisata') ? 'active' : '' }}">
+                        <li class="sidebar-item has-sub {{ 
+                            (request()->is('kota') || request()->is('wisata') || request()->is('hotel')) || request()->is('bus') ? 'active' : '' 
+                        }}">
+                        
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-grid-1x2-fill"></i>
                                 <span>Data Wisata</span>
@@ -110,12 +113,12 @@
                                     <a href={{ route('kota.index') }} class="submenu-link">Kota</a>
 
                                 </li>
-                                <li class="submenu-item  ">
-                                    <a href="component-alert.html" class="submenu-link">Hotel</a>
+                                <li class="submenu-item {{ request()->is('hotel') ? 'active' : '' }} ">
+                                    <a href={{ route('hotel.index') }} class="submenu-link">Hotel</a>
 
                                 </li>
-                                <li class="submenu-item  ">
-                                    <a href="component-alert.html" class="submenu-link">Bus</a>
+                                <li class="submenu-item {{ request()->is('bus') ? 'active' : '' }} ">
+                                    <a href={{ route('bus.index') }} class="submenu-link">Bus</a>
 
                                 </li>
 
