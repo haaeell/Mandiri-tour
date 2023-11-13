@@ -7,37 +7,42 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="{{asset('./css/landingpage.css')}}">
+   
 </head>
-<style>
-     .whatsapp-btn {
-        position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: #25d366; /* Warna hijau WhatsApp */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff; /* Warna teks putih */
-      text-decoration: none;
-      font-size: 24px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light nav-parent fixed-top border-bottom border-info border-2" >
+    <nav class="navbar navbar-expand-lg  bg-body-tertiary shadow-md" style="background: rgb(25,185,227);
+    background: linear-gradient(90deg, rgba(25,185,227,1) 24%, #3f86ed 100%);!important;">
+        <div class="container">
+            <div class="d-flex gap-3 ">
+                <span class="text-white fw-bold">Find your favorite travel destination!</span>
+                <div class="search-container">
+                    <input type="text" name="search" placeholder="Search..." class="search-input">
+                    <a href="#" class="search-btn">
+                        <i class="fas fa-search"></i>      
+                    </a>
+                </div>
+                
+            </div>
+          <div class="navbar-nav ">
+              
+            <a class="nav-link active  text-white fw-bold" aria-current="page" href="#"><i class="bi bi-telephone-forward-fill"></i> Contact Us</a>
+          
+        </div>
+        </div>
+      </nav>
+    <nav class="navbar navbar-expand-lg navbar-light nav-parent sticky-top border-bottom border-info border-2" style="background-color: white" >
         <div class="container">
             <img src="../assets/img/logo2.png" class="pt-3" style="max-width: 100px; height: auto;" alt="">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto ">
+                <ul class="navbar-nav mx-auto fw-semibold ">
                     <li class="nav-item">
-                        <a class="nav-link nav-menu  {{ request()->is('/') ? 'menu-active' : ''}}" href="{{route('welcome')}}">Home</a>
+                        <a class="nav-link nav-menu menu-active {{ request()->is('/') ? 'menu-active' : ''}}" href="{{route('welcome')}}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-menu {{ request()->is('diskusi') ? 'menu-active' : ''}}" href="">Wisata</a>
@@ -58,7 +63,7 @@
                         <a class="nav-link nav-menu {{ request()->is('about') ? 'menu-active' : ''}}" href="">About Us</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav gap-3">
+                <ul class="navbar-nav">
                     @if (Route::has('login'))
                     @auth
                         @if (Auth::user()->role == "admin")
@@ -67,9 +72,9 @@
                             </li>
                         @else
                             <li class="nav-item">
-                                <a class="fw-bold nav-link  btn-login px-4" href="{{ route('logout') }}"
+                                <a class="fw-bold nav-link text-dark" href="{{ route('logout') }}"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Logout
+                                   <button class="btn-login bn26">Logout</button>
                                 </a>
                             </li>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -78,11 +83,12 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <a class="fw-bold nav-link btn-login px-4 " href="{{ route('login') }}">Log In</a>
+                            <a class="fw-bold nav-link " href="{{ route('login') }}"><button class="btn-login bn26">Login</button></a>
                         </li>
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="fw-bold nav-link btn-register nav-menu " href="{{ route('register') }}">Register</a>
+                                <a class="fw-bold nav-link" href="{{ route('register') }}"><button class="btn">Register</button>
+                                </a>
                             </li>
                         @endif
                     @endauth
@@ -100,6 +106,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script>
+        Swal.fire({
+    title: "Good job!",
+    text: "You clicked the button!",
+    icon: "success",
+    confirmButtonColor: '#25aae1'
+});
+
+    </script> --}}
     
 </body>
 </html>

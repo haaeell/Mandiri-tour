@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;800&display=swap');
+
+body{
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* BANNER */
+.banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)),
+        url("https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+    background-size: cover;
+    height: 100vh;
+    background-attachment: fixed;
+}
+
+/* NAVBAR */
+
+.nav-menu {
+    position: relative;
+    display: inline-block;
+      }
+.nav-menu:after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -2px;
+    left: 25%;
+    background-color: #25aae1;
+    transition:  0.2s ease-in-out, left 0.2s ease-in-out;
+    transform: translateX(-50%);
+  }
+.nav-menu:hover:after {
+        width: 50%;
+        left: 50%;
+      }
+.nav-menu:hover{
+    color: #25aae1;
+}
+
+.menu-active{
+    color: #25aae1;
+}
+
+.whatsapp-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #25d366; /* Warna hijau WhatsApp */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff; /* Warna teks putih */
+    text-decoration: none;
+    font-size: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.btn-login {
+    width: 140px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    height: 45px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+
+.btn-login:hover {
+    background-position: 100% 0;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+
+.btn-login:focus {
+    outline: none;
+}
+
+.btn-login.bn26 {
+    background-image: linear-gradient(
+        to right,
+        #25aae1,
+        #4481eb,
+        #04befe,
+        #3f86ed
+    );
+    box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+}
+.search-container {
+    background: #fff;
+    height: 30px;
+    border-radius: 30px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.8s;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+        inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1),
+        7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+    text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.3),
+        -4px -4px 6px rgba(116, 125, 136, 0.2);
+    text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5);
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.3),
+        -4px -4px 6px 0 rgba(116, 125, 136, 0.2),
+        inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2),
+        inset 4px 4px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.search-container:hover > .search-input {
+    width: 200px;
+}
+
+.search-container .search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 0px;
+    font-weight: 500;
+    font-size: 16px;
+    transition: 0.8s;
+}
+
+.search-container .search-btn .fas {
+    color: #5cbdbb;
+}
