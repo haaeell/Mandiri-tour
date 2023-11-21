@@ -15,4 +15,5 @@ class Kota extends Model
     {
         return $this->hasMany(Wisata::class);
     }
+    
 }

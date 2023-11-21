@@ -11,6 +11,7 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\LandingpageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KotaController;
+use App\Http\Controllers\PaketWisataController;
 use App\Http\Controllers\WisataController;
 
 /*
@@ -39,6 +40,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::resource('hotel', HotelController::class);
     Route::resource('bus', BusController::class);
     Route::resource('galeri', GaleriController::class);
+    Route::resource('paket-wisata', PaketWisataController::class);
 
 
 
