@@ -94,7 +94,7 @@
                         </li>
                         <li class="sidebar-title">Menu</li>
                         <li class="sidebar-item has-sub {{ 
-                            (request()->is('kota') || request()->is('wisata') || request()->is('hotel')) || request()->is('bus') ? 'active' : '' 
+                            (request()->is('kota') || request()->is('wisata') || request()->is('hotel')) || request()->is('bus') || request()->is('paket-wisata') ? 'active' : '' 
                         }}">
                         
                             <a href="#" class='sidebar-link'>
@@ -122,8 +122,8 @@
 
                                 </li>
 
-                                <li class="submenu-item  ">
-                                    <a href="component-badge.html" class="submenu-link">Paket Wisata</a>
+                                <li class="submenu-item {{ request()->is('paket-wisata') ? 'active' : '' }} ">
+                                    <a href={{ route('paket-wisata.index') }} class="submenu-link">Paket Wisata</a>
 
                                 </li>
 

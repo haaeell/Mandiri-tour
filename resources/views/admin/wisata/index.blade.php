@@ -97,13 +97,14 @@
                                                             <div class="col-md-10">
                                                                 <div class="form-group has-icon-left">
                                                                     <div class="position-relative">
-                                                                        <select name="{{asset("assets")}}" id="{{asset("assets")}}"
+                                                                        <select name="kota_id" id="kota_id"
                                                                             class="form-select" required>
                                                                             @foreach ($kota as $singleKota)
-                                                                                <option value="{{ $singleKota->id }}"
-                                                                                    {{ $singleKota->id == $item->{{asset("assets")}} ? 'selected' : '' }}>
-                                                                                    {{ $singleKota->nama }}</option>
-                                                                            @endforeach
+                                                                            <option value="{{ $singleKota->id }}" {{ $singleKota->id == $item->kota_id ? 'selected' : '' }}>
+                                                                                {{ $singleKota->nama }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                        
                                                                         </select>
                                                                     </div>
                                                                 </div>
