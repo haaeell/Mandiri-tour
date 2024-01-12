@@ -6,6 +6,7 @@ use App\Models\Kota;
 use App\Models\PaketWisata;
 use App\Models\Wisata;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PaketWisataController extends Controller
 {
@@ -33,6 +34,7 @@ class PaketWisataController extends Controller
      */
     public function store(Request $request)
 {
+    
     $request->validate([
         'nama' => 'required',
         'kotas' => 'required|array',
@@ -51,6 +53,7 @@ class PaketWisataController extends Controller
         'array' => 'Kolom :attribute harus berupa array.',
     ]);
 
+    
     $harga =  str_replace('.', '', $request->harga);
     // Simpan gambar
     $namaGambar = null;
@@ -59,7 +62,7 @@ class PaketWisataController extends Controller
         $namaGambar = date('YmdHis') . "." . $image->getClientOriginalExtension();
         $image->move($path, $namaGambar);
     }
-
+    $slug = Str::slug($request->nama);
     // Simpan data ke dalam tabel wisata
     $wisata = PaketWisata::create([
         'nama' => $request->nama,
@@ -69,6 +72,7 @@ class PaketWisataController extends Controller
         'harga' => $harga,
         'kategori' => $request->kategori,
         'durasi' => $request->durasi,
+        'slug' => $slug,
     ]);
 
     // Attach relasi kotas dan wisatas
@@ -110,6 +114,7 @@ class PaketWisataController extends Controller
      */
     public function update(Request $request, $id)
 {
+    
     $request->validate([
         'nama' => 'required',
         'kotas' => 'required|array',
@@ -126,6 +131,7 @@ class PaketWisataController extends Controller
         'mimes' => 'File :attribute harus memiliki format PNG, JPG, atau JPEG.',
         'max' => 'File :attribute tidak boleh lebih dari 2MB (2048 KB).',
         'array' => 'Kolom :attribute harus berupa array.',
+        'numeric' => 'Kolom :attribute harus berupa angka.',
     ]);
 
     $paketWisata = PaketWisata::findOrFail($id);
@@ -141,7 +147,9 @@ class PaketWisataController extends Controller
     $paketWisata->nama = $request->nama;
     $paketWisata->deskripsi = $request->deskripsi;
     $paketWisata->fasilitas = $request->fasilitas;
-    $paketWisata->harga = $request->harga;
+    $paketWisata->harga = floatval(str_replace(',', '.', str_replace('.', '', $request->harga)));
+
+
     $paketWisata->kategori = $request->kategori;
     $paketWisata->durasi = $request->durasi;
 
@@ -165,4 +173,6 @@ class PaketWisataController extends Controller
          session()->flash('success', 'Data berhasil dihapus');
          return redirect()->back();
     }
+
+    
 }

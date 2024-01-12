@@ -13,6 +13,7 @@ use App\Http\Controllers\LandingpageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KotaController;
 use App\Http\Controllers\PaketWisataController;
+use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\WisataController;
 
 /*
@@ -29,6 +30,8 @@ use App\Http\Controllers\WisataController;
 Route::get('/', [LandingpageController::class, 'index'])->name('welcome');
 Route::get('/keluhan', [LandingpageController::class, 'keluhan'])->name('keluhan');
 Route::post('/keluhan', [KeluhanController::class, 'store'])->name('keluhan.store');
+Route::get('/paket', [LandingpageController::class, 'paketWisata'])->name('paketWisata');
+Route::get('/paket-wisata/{slug}', [LandingpageController::class, 'show']);
 
 
 
@@ -46,9 +49,10 @@ Route::group(['middleware' => 'admin'], function () {
     Route::resource('bus', BusController::class);
     Route::resource('galeri', GaleriController::class);
     Route::resource('paket-wisata', PaketWisataController::class);
+    Route::resource('pemesanan', PemesananController::class);
 
     Route::get('/admin/keluhan', [KeluhanController::class, 'index'])->name('keluhan.index-admin');
-    // routes/web.php
+    
 
 Route::get('/keluhan/{id}/tanggapi', [KeluhanController::class, 'tanggapi'])->name('keluhan.tanggapi');
 Route::post('/keluhan/{id}/tanggapi', [KeluhanController::class, 'prosesTanggapi'])->name('keluhan.proses-tanggapi');

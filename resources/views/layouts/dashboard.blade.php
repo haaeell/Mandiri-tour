@@ -132,8 +132,8 @@
 
 
                         </li>
-                        <li class="sidebar-item  ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item  {{ request()->is('pemesanan') ? 'active' : '' }} ">
+                            <a href="{{ route('pemesanan.index') }}"  class='sidebar-link'>
                                 <i class="bi bi-basket3-fill"></i>
                                 <span>Pemesanan</span>
                             </a>

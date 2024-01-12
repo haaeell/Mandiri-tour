@@ -22,4 +22,17 @@ class LandingPageController extends Controller
         return view('landingpage.keluhan', compact('riwayatKeluhan'));
 
     }
+
+    public function paketWisata()
+    {
+        $paketWisata = PaketWisata::all();
+        
+        return view('landingpage.paketwisata', compact('paketWisata'));
+
+    }
+    public function show($slug)
+    {
+        $paketWisata = PaketWisata::where('slug', $slug)->firstOrFail();
+        return view('landingpage.detailPaket', compact('paketWisata'));
+    }
 }
