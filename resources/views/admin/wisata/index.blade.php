@@ -200,7 +200,7 @@
                                     <div class="col-md-10">
                                         <div class="form-group has-icon-left">
                                             <div class="position-relative">
-                                                <select name="{{asset("assets")}}" id="{{asset("assets")}}" class="form-select" required>
+                                                <select name="kota_id" id="kota_id" class="form-select" required>
                                                     <option value="">Pilih Kota</option>
                                                     @foreach ($kota as $kota)
                                                         <option value="{{ $kota->id }}">{{ $kota->nama }}</option>

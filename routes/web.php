@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\KeluhanController;
 use App\Http\Controllers\LandingpageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KotaController;
@@ -26,6 +27,10 @@ use App\Http\Controllers\WisataController;
 */
 
 Route::get('/', [LandingpageController::class, 'index'])->name('welcome');
+Route::get('/keluhan', [LandingpageController::class, 'keluhan'])->name('keluhan');
+Route::post('/keluhan', [KeluhanController::class, 'store'])->name('keluhan.store');
+
+
 
 Auth::routes();
 Route::group(['middleware' => 'admin'], function () {
@@ -42,7 +47,11 @@ Route::group(['middleware' => 'admin'], function () {
     Route::resource('galeri', GaleriController::class);
     Route::resource('paket-wisata', PaketWisataController::class);
 
+    Route::get('/admin/keluhan', [KeluhanController::class, 'index'])->name('keluhan.index-admin');
+    // routes/web.php
 
+Route::get('/keluhan/{id}/tanggapi', [KeluhanController::class, 'tanggapi'])->name('keluhan.tanggapi');
+Route::post('/keluhan/{id}/tanggapi', [KeluhanController::class, 'prosesTanggapi'])->name('keluhan.proses-tanggapi');
 
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');

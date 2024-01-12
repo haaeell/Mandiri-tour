@@ -138,8 +138,8 @@
                                 <span>Pemesanan</span>
                             </a>
                         </li>
-                        <li class="sidebar-item  ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->is('admin/keluhan') ? 'active' : '' }} ">
+                            <a href={{ route('keluhan.index-admin') }} class='sidebar-link'>
                                 <i class="bi bi-chat-square-text-fill"></i>
                                 <span>Keluhan</span>
                             </a>
