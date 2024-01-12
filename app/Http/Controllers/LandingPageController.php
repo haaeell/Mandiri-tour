@@ -30,7 +30,7 @@ class LandingPageController extends Controller
         return view('landingpage.paketwisata', compact('paketWisata'));
 
     }
-    public function show($slug)
+    public function detailPaket($slug)
     {
         $paketWisata = PaketWisata::where('slug', $slug)->firstOrFail();
         return view('landingpage.detailPaket', compact('paketWisata'));

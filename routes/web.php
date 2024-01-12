@@ -31,7 +31,7 @@ Route::get('/', [LandingpageController::class, 'index'])->name('welcome');
 Route::get('/keluhan', [LandingpageController::class, 'keluhan'])->name('keluhan');
 Route::post('/keluhan', [KeluhanController::class, 'store'])->name('keluhan.store');
 Route::get('/paket', [LandingpageController::class, 'paketWisata'])->name('paketWisata');
-Route::get('/paket-wisata/{slug}', [LandingpageController::class, 'show']);
+Route::get('/paket/{slug}', [LandingpageController::class, 'detailPaket'])->name('detailPaket');
 
 
 

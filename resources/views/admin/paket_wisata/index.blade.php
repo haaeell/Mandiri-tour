@@ -8,7 +8,7 @@
     <div class="row d-flex">
         <div class="col-md-12 card p-4">
             <div class="col-md-2">
-                <a href="{{ route('paket-wisata.create') }}" class="btn btn-primary mb-3 " >
+                <a href="{{ route('paket-wisata.create')}}" class="btn btn-primary mb-3 " >
                     Tambah
                 </a>
             </div>

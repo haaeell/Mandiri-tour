@@ -52,7 +52,7 @@
                         <a class="nav-link nav-menu {{ request()->is('diskusi') ? 'menu-active' : ''}}" href="">Wisata</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('paket') ? 'menu-active' : ''}}" href="">Paket Wisata</a>
+                        <a class="nav-link nav-menu {{ request()->is('paket') ? 'menu-active' : ''}}" href="{{route('paketWisata')}}">Paket Wisata</a>
                     </li>
                     @if (Auth::check())
                         
