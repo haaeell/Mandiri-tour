@@ -27,6 +27,22 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                    function getStatusBadgeClass($status) {
+                        switch ($status) {
+                            case 'Menunggu Konfirmasi Admin':
+                                return 'bg-warning text-dark';
+                            case 'Pembayaran Diterima':
+                                return 'bg-success';
+                            case 'Pembayaran Ditolak':
+                                return 'bg-danger';
+                            case 'Pemesanan Dibatalkan':
+                                return 'bg-secondary';
+                            default:
+                                return '';
+                        }
+                    }
+                @endphp
                     @foreach ($pemesanan as $item)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
@@ -35,13 +51,41 @@
                             <td>{{ $item->jumlah_peserta }}</td>
                             <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
                             <td>
-                                <span class="badge bg-danger">
+                                
+                                @if($item->status_pembayaran == 'Pemesanan Dibatalkan')
+                                    <span class="badge bg-secondary">
+                                        {{$item->status_pembayaran}}
+                                    </span>
+                                @elseif($item->status_pembayaran == 'Menunggu Konfirmasi Admin' && !$item->bukti_pembayaran)
+                                    <span class="badge bg-danger">
+                                        Menunggu Pembayaran
+                                    </span>
+                                @else
+                                <span class="badge {{ getStatusBadgeClass($item->status_pembayaran) }}">
                                     {{ $item->status_pembayaran }}
                                 </span>
+                                @endif
                             </td>
                             <td>{{ $item->tanggal_pemesanan }}</td>
                             <td>
-                                {!! $item->bukti_pembayaran ? '<img src="' . asset('storage/' . $item->bukti_pembayaran) . '" width="50" onClick="showImage(this)">' : '<span class="fw-bold text-danger">Belum Dibayar</span>' !!}
+                                <div class="d-flex gap-2">
+                                    <div>
+                                        {!! $item->bukti_pembayaran ? '<img src="' . asset('storage/' . $item->bukti_pembayaran) . '" width="50" style="cursor: pointer;" onClick="showImage(this)">' : '<span class="fw-bold text-danger">Belum Dibayar</span>' !!}
+                                    </div>
+                                    <div>
+                                        @if ($item->status_pembayaran == 'Menunggu Konfirmasi Admin' && $item->bukti_pembayaran)
+                                        <form action="{{ route('admin.pemesanan.konfirmasi', $item->id) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="btn btn-info btn-sm">Konfirmasi Pembayaran</button>
+                                        </form>
+                                    @endif
+                                    @if ($item->status_pembayaran == 'Pembayaran Diterima')
+                                        <span class="fw-bold text-success">Pembayaran Sukses</span>
+                                    @endif
+                                    </div>
+
+                                </div>
+                                
                             </td>
                             
                             

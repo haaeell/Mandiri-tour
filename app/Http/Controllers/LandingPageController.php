@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Keluhan;
 use App\Models\PaketWisata;
+use App\Models\Pemesanan;
 use Illuminate\Http\Request;
 
 class LandingPageController extends Controller
@@ -35,4 +36,12 @@ class LandingPageController extends Controller
         $paketWisata = PaketWisata::where('slug', $slug)->firstOrFail();
         return view('landingpage.detailPaket', compact('paketWisata'));
     }
+    public function riwayatPesanan()
+    {
+        $riwayatPesanan = Pemesanan::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+        
+        return view('landingpage.pemesanan.riwayatPesanan', compact('riwayatPesanan'));
+
+    }
+    
 }

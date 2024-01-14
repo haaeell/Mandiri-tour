@@ -10,6 +10,7 @@ class Pemesanan extends Model
     use HasFactory;
     protected $table = 'pemesanan';
     protected $fillable = [
+        'id',
         'user_id',
         'paket_id',
         'jumlah_peserta',
@@ -29,5 +30,13 @@ class Pemesanan extends Model
     public function paket()
     {
         return $this->belongsTo(PaketWisata::class);
+    }
+    public function getIncrementing()
+    {
+        return false;
+    }
+    function getKeyType()
+    {
+        return 'string';
     }
 }

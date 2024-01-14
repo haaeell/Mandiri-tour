@@ -10,7 +10,7 @@
             <div class="col-md-3">
                 <div class="card border-0 card-paket p-3">
                     <img src="{{ asset('/images/' . $p->gambar) }}"
-                        style="width: 100%; height:250px; border-radius:24px" alt="">
+                        style="width: 100%; height:250px; border-radius:24px; object-fit:cover;" alt="">
                     <div class="px-2">
                         <h5 class="fw-semibold my-3">{{ $p->nama }}</h5>
                         <p>Rp {{ number_format($p->harga, 0, ',', '.') }}</p>

@@ -29,9 +29,14 @@ use App\Http\Controllers\WisataController;
 
 Route::get('/', [LandingpageController::class, 'index'])->name('welcome');
 Route::get('/keluhan', [LandingpageController::class, 'keluhan'])->name('keluhan');
+Route::get('/riwayat-pesanan', [LandingpageController::class, 'riwayatPesanan'])->name('riwayatPesanan');
 Route::post('/keluhan', [KeluhanController::class, 'store'])->name('keluhan.store');
 Route::get('/paket', [LandingpageController::class, 'paketWisata'])->name('paketWisata');
 Route::get('/paket/{slug}', [LandingpageController::class, 'detailPaket'])->name('detailPaket');
+Route::post('/pesan-paket', [PemesananController::class, 'pesanPaket'])->name('pesanPaket');
+Route::get('/pemesanan/invoice/{id}', [PemesananController::class, 'invoice'])->name('pemesanan.invoice');
+Route::post('/pemesanan/upload/{id}', [PemesananController::class, 'uploadBukti'])->name('pemesanan.upload');
+Route::post('/pemesanan/{id}/cancel', [PemesananController::class, 'cancel'])->name('pemesanan.cancel');
 
 
 
@@ -57,6 +62,7 @@ Route::group(['middleware' => 'admin'], function () {
 Route::get('/keluhan/{id}/tanggapi', [KeluhanController::class, 'tanggapi'])->name('keluhan.tanggapi');
 Route::post('/keluhan/{id}/tanggapi', [KeluhanController::class, 'prosesTanggapi'])->name('keluhan.proses-tanggapi');
 
+Route::post('/admin/pemesanan/{id}/konfirmasi', [PemesananController::class, 'konfirmasiPembayaran'])->name('admin.pemesanan.konfirmasi');
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
