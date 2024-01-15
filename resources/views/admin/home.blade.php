@@ -77,10 +77,17 @@
 <div class="row">
     <div class="col-md-12 card p-3">
         <div class="card-body">
-            <form method="post" action="{{ route('kirim-email') }}">
+            <form action="/kirim-pesan-whatsapp" method="post">
                 @csrf
-                <button class="btn btn-primary" type="submit">Kirim Email Promosi</button>
+                <label for="nomor_penerima">Nomor Penerima:</label>
+                <input type="text" name="nomor_penerima" required>
+            
+                <label for="pesan">Pesan:</label>
+                <textarea name="pesan" required></textarea>
+            
+                <button type="submit">Kirim Pesan WhatsApp</button>
             </form>
+            
             <table class="table table-striped" id="table1">
                 <thead>
                     <tr>
