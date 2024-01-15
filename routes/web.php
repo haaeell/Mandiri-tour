@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BusController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\GaleriController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -55,14 +56,17 @@ Route::group(['middleware' => 'admin'], function () {
     Route::resource('galeri', GaleriController::class);
     Route::resource('paket-wisata', PaketWisataController::class);
     Route::resource('pemesanan', PemesananController::class);
+    Route::resource('emails', EmailController::class);
 
     Route::get('/admin/keluhan', [KeluhanController::class, 'index'])->name('keluhan.index-admin');
     
 
-Route::get('/keluhan/{id}/tanggapi', [KeluhanController::class, 'tanggapi'])->name('keluhan.tanggapi');
-Route::post('/keluhan/{id}/tanggapi', [KeluhanController::class, 'prosesTanggapi'])->name('keluhan.proses-tanggapi');
+    Route::get('/keluhan/{id}/tanggapi', [KeluhanController::class, 'tanggapi'])->name('keluhan.tanggapi');
+    Route::post('/keluhan/{id}/tanggapi', [KeluhanController::class, 'prosesTanggapi'])->name('keluhan.proses-tanggapi');
 
-Route::post('/admin/pemesanan/{id}/konfirmasi', [PemesananController::class, 'konfirmasiPembayaran'])->name('admin.pemesanan.konfirmasi');
-
+    Route::post('/admin/pemesanan/{id}/konfirmasi', [PemesananController::class, 'konfirmasiPembayaran'])->name('admin.pemesanan.konfirmasi');
+    Route::get('/email', [EmailController::class, 'index'])->name('email.index');
+    Route::get('/email/send/{id}', [EmailController::class, 'sendEmail'])->name('email.send');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    
 });

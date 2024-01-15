@@ -168,6 +168,12 @@
                                 <span>Gallery</span>
                             </a>
                         </li>
+                        <li class="sidebar-item  {{ request()->is('email') ? 'active' : '' }} ">
+                            <a href={{ route('email.index') }} class='sidebar-link'>
+                                <i class="bi bi-envelope-check-fill"></i>
+                                <span>Email Marketing</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item  {{ request()->is('users') ? 'active' : '' }} ">
                             <a href={{ route('users.index') }} class='sidebar-link'>
                                 <i class="bi bi-people-fill"></i>

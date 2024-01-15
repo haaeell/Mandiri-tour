@@ -77,6 +77,10 @@
 <div class="row">
     <div class="col-md-12 card p-3">
         <div class="card-body">
+            <form method="post" action="{{ route('kirim-email') }}">
+                @csrf
+                <button class="btn btn-primary" type="submit">Kirim Email Promosi</button>
+            </form>
             <table class="table table-striped" id="table1">
                 <thead>
                     <tr>

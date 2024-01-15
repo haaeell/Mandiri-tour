@@ -26,7 +26,8 @@
                                     @foreach($keluhan as $item)
                                         <tr>
                                             <td>{{ $item->user->name }}</td>
-                                            <td>{{ $item->created_at->format('Y-m-d H:i:s') }}</td>
+                                            <td>{{ $item->created_at->isoFormat('D MMMM YYYY , HH:mm') }}</td>
+
                                             <td>{{ $item->subject }}</td>
                                             <td>{{ $item->description }}</td>
                                             <td>
@@ -37,9 +38,14 @@
                                             
                                             <td>{{ $item->admin_response ?? '-' }}</td>
                                             <td>
+                                                @if ($item->status != 'resolved')
+                                                    
                                                 <button class="btn btn-primary"data-bs-toggle="modal" data-bs-target="#tanggapiModal{{ $item->id }}">
                                                     Tanggapi
                                                 </button>
+                                                @else
+                                                <span class="text-success">Sudah ditanggapi</span>
+                                                @endif
 
                                                 <div class="modal fade" id="tanggapiModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
