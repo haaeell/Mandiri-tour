@@ -27,22 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                    function getStatusBadgeClass($status) {
-                        switch ($status) {
-                            case 'Menunggu Konfirmasi Admin':
-                                return 'bg-warning text-dark';
-                            case 'Pembayaran Diterima':
-                                return 'bg-success';
-                            case 'Pembayaran Ditolak':
-                                return 'bg-danger';
-                            case 'Pemesanan Dibatalkan':
-                                return 'bg-secondary';
-                            default:
-                                return '';
-                        }
-                    }
-                @endphp
+                    
                     @foreach ($pemesanan as $item)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
@@ -60,13 +45,19 @@
                                     <span class="badge bg-danger">
                                         Menunggu Pembayaran
                                     </span>
+                                @elseif($item->status_pembayaran == 'Pembayaran Diterima' && $item->bukti_pembayaran > 0 )
+                                <span class="badge bg-success">
+                                    Pembayaran Diterima
+                                </span>
                                 @else
-                                <span class="badge {{ getStatusBadgeClass($item->status_pembayaran) }}">
-                                    {{ $item->status_pembayaran }}
+                                <span class="badge bg-warning">
+                                    Menunggu Konfirmasi Admin
                                 </span>
                                 @endif
                             </td>
-                            <td>{{ $item->tanggal_pemesanan }}</td>
+                            <td>
+                                {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->isoFormat('D MMMM YYYY') }}
+                            </td>
                             <td>
                                 <div class="d-flex gap-2">
                                     <div>

@@ -57,10 +57,22 @@
                     @if (Auth::check())
                         
                     <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('keluhan') ? 'menu-active' : ''}}" href="{{route('keluhan')}}">Keluhan</a>
+                        <a class="nav-link nav-menu {{ request()->is('keluhan') ? 'menu-active' : ''}}" href="{{route('keluhan')}}">
+                            Keluhan
+                            @php
+                            $unreadKeluhanCount = Auth::user()->unreadNotifications->pluck('data.keluhan_id')->unique()->count();
+                        @endphp
+                
+                        @if($unreadKeluhanCount > 0)
+                            <span class="position-absolute top-20 start-70 translate-middle badge rounded-pill bg-danger">
+                                {{ $unreadKeluhanCount }}
+                            </span>
+                        @endif
+                        </a>
+                        
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('test') ? 'menu-active' : ''}}" href="">Pesanan</a>
+                        <a class="nav-link nav-menu {{ request()->is('riwayat-pesanan') ? 'menu-active' : ''}}" href="{{route('riwayatPesanan')}}">Pesanan</a>
                     </li>
                     @endif
                     <li class="nav-item">

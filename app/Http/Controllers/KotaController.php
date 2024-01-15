@@ -13,7 +13,7 @@ class KotaController extends Controller
     public function index()
     {
         $kota = Kota::all();
-        return view('admin.kota.index',compact('kota'));
+    return view('admin.kota.index',compact('kota'));
     }
 
     /**

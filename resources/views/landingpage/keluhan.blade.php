@@ -76,7 +76,7 @@
     </div>
 @endsection
 @section('script')
-<script>
+{{-- <script>
     $(document).ready(function() {
         $('#form-tambah').submit(function(e) {
             e.preventDefault();
@@ -126,6 +126,6 @@
             });
         });
     });
-</script>
+</script> --}}
 
 @endsection

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Keluhan;
+use App\Models\User;
+use App\Notifications\KeluhanBaruNotification;
+use App\Notifications\KeluhanDitanggapiNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KeluhanController extends Controller
 {
@@ -24,14 +28,17 @@ class KeluhanController extends Controller
     ], $messages);
 
     // Simpan keluhan ke database
-    Keluhan::create([
+    $keluhan = Keluhan::create([
         'subject' => $request->subject,
         'description' => $request->description,
         'user_id' => auth()->user()->id,
         'status' => 'pending',
     ]);
 
-    return response()->json(['message' => 'Keluhan berhasil dikirim']);
+    $admin = User::where('role', 'admin')->first(); // Sesuaikan dengan model User dan kolom yang sesuai
+    $admin->notify(new KeluhanBaruNotification($keluhan));
+    return redirect()->back()->with('success', 'Keluhan berhasil dikirim.');
+
 }
 public function prosesTanggapi(Request $request, $id)
 {
@@ -44,7 +51,19 @@ public function prosesTanggapi(Request $request, $id)
     $keluhan->status = 'resolved';
     $keluhan->save();
 
+    $user = $keluhan->user;
+
+    // Kirim notifikasi ke pengguna
+    $user->notify(new KeluhanDitanggapiNotification($keluhan));
+
+    // Dapatkan keluhan_id yang terkait dengan keluhan yang baru saja direspon
+    $keluhanId = $keluhan->id;
+
+    // Tandai notifikasi terkait sebagai sudah dibaca
+    Auth::user()->unreadNotifications->where('data.keluhan_id', $keluhanId)->markAsRead();
+
     return redirect()->route('keluhan.index-admin')->with('success', 'Keluhan berhasil ditanggapi.');
 }
+
 
 }

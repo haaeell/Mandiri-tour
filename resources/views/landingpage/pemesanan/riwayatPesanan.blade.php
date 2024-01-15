@@ -22,22 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        function getStatusBadgeClass($status) {
-                            switch ($status) {
-                                case 'Menunggu Konfirmasi Admin':
-                                    return 'bg-warning text-dark';
-                                case 'Pembayaran Diterima':
-                                    return 'bg-success';
-                                case 'Pembayaran Ditolak':
-                                    return 'bg-danger';
-                                case 'Pemesanan Dibatalkan':
-                                    return 'bg-secondary';
-                                default:
-                                    return '';
-                            }
-                        }
-                    @endphp
+                    
 
                     @foreach ($riwayatPesanan as $item)
                         <tr>
@@ -55,25 +40,40 @@
                                     <span class="badge bg-danger">
                                         Menunggu Pembayaran
                                     </span>
-                                @else
-                                    <span class="badge {{ getStatusBadgeClass($item->status_pembayaran) }}">
-                                        {{ $item->status_pembayaran }}
+                                    @elseif($item->status_pembayaran == 'Pembayaran Diterima' && $item->bukti_pembayaran > 0 )
+                                    <span class="badge bg-success">
+                                        Pembayaran Diterima
                                     </span>
+
+                                @else
+                                <span class="badge bg-warning">
+                                    Menunggu Konfirmasi Admin
+                                </span>
                                 @endif
                         </td>
                             
-                            <td>{{ $item->tanggal_pemesanan }}</td>
+                        <td>
+                            {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->isoFormat('D MMMM YYYY') }}
+                        </td>
                             <td>
                                 {!! $item->bukti_pembayaran ? '<img src="' . asset('storage/' . $item->bukti_pembayaran) . '" width="50" onClick="showImage(this)">' : '<span class="fw-bold text-danger">Belum Dibayar</span>' !!}
                             </td>
                             <td>
-                                @if ($item->status_pembayaran != 'Pemesanan Dibatalkan')
-                                <form action="{{ route('pemesanan.cancel', $item->id) }}" method="post">
-                                    @csrf
-                                    @method('post')
-                                    <button type="submit" class="btn btn-danger">Batalkan Pemesanan</button>
-                                </form>
-                                @endif
+                                <div class="d-flex gap-2">
+                                    @if ($item->status_pembayaran != 'Pemesanan Dibatalkan' && $item->status_pembayaran != 'Pembayaran Diterima')
+                                        <form action="{{ route('pemesanan.cancel', $item->id) }}" method="post">
+                                            @csrf
+                                            @method('post')
+                                            <button type="submit" class="btn btn-danger btn-sm">Batalkan Pemesanan</button>
+                                        </form>
+                                    @endif
+                                    @if ($item->status_pembayaran != 'Pemesanan Dibatalkan')
+                                    <a href="{{ route('pemesanan.invoice', $item->id) }}" class="btn btn-primary btn-sm">Lihat Invoice</a>
+                                        
+                                    @endif
+                                </div>
+                                
+                                
                             </td>
                             
                         </tr>

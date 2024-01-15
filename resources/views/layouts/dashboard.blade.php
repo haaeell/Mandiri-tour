@@ -138,12 +138,24 @@
                                 <span>Pemesanan</span>
                             </a>
                         </li>
-                        <li class="sidebar-item {{ request()->is('admin/keluhan') ? 'active' : '' }} ">
-                            <a href={{ route('keluhan.index-admin') }} class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->is('admin/keluhan') ? 'active' : '' }}">
+                            <a href="{{ route('keluhan.index-admin') }}" class='sidebar-link'>
                                 <i class="bi bi-chat-square-text-fill"></i>
                                 <span>Keluhan</span>
+                                
+                                @php
+                                    $unreadKeluhanCount = Auth::user()->unreadNotifications->pluck('data.keluhan_id')->unique()->count();
+                                @endphp
+                        
+                                @if($unreadKeluhanCount > 0)
+                                    <span class="position-absolute top-40 start-50 translate-middle badge rounded-pill bg-danger">
+                                        {{ $unreadKeluhanCount }}
+                                    </span>
+                                @endif
                             </a>
                         </li>
+                        
+                        
                         <li class="sidebar-item  ">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-chat-heart-fill"></i>
