@@ -32,7 +32,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $email->subject }}</td>
                                     <td>{{ $email->status }}</td>
-                                    <td>{{ $email->created_at->format('Y-m-d H:i:s') }}</td>
+                                    <td>{{ $email->content}}</td>
                                     <td>
                                         <div class="d-flex">
 

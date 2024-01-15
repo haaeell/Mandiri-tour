@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\GaleriController;
@@ -38,6 +39,11 @@ Route::post('/pesan-paket', [PemesananController::class, 'pesanPaket'])->name('p
 Route::get('/pemesanan/invoice/{id}', [PemesananController::class, 'invoice'])->name('pemesanan.invoice');
 Route::post('/pemesanan/upload/{id}', [PemesananController::class, 'uploadBukti'])->name('pemesanan.upload');
 Route::post('/pemesanan/{id}/cancel', [PemesananController::class, 'cancel'])->name('pemesanan.cancel');
+
+Route::get('/login/google',[LoginController::class, 'redirectToGoogle']);
+Route::get('/login/google/callback',[LoginController::class, 'handleGoogleCallback']);
+
+
 
 
 
