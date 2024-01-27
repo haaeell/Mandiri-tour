@@ -29,6 +29,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{$users->count()}}
                             @foreach ($users as $user)
                                 <tr>
                                     <td><input type="checkbox" name="selectedItems[]" value="{{ $user->id }}"></td>
