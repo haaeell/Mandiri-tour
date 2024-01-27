@@ -83,7 +83,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="paket_id" class="form-label">Nama Paket </label>
-                    <input type="text" class="form-control" id="paket_id" name="paket_id" value="{{ $paketWisata->id }}" readonly>
+                    <input type="hidden" class="form-control" id="paket_id" name="paket_id" value="{{ $paketWisata->id }}" readonly>
+                    <input type="text" class="form-control"  value="{{ $paketWisata->nama }}" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="jumlah_peserta" class="form-label">Jumlah Peserta:</label>
@@ -93,6 +94,10 @@
                     <label for="tanggal_pemesanan" class="form-label">Tanggal Pemesanan:</label>
                     <input type="date" class="form-control" id="tanggal_pemesanan" name="tanggal_pemesanan" value="{{ old('tanggal_pemesanan') }}" required>
                 </div>
+                <div class="mb-3">
+                  <label for="alamat" class="form-label">Alamat:</label>
+                  <input type="text" class="form-control" id="alamat" name="alamat" value="{{ old('alamat') }}" required>
+              </div>
                 <button type="submit" class="btn btn-login bn26">Submit</button>
             </form>
             

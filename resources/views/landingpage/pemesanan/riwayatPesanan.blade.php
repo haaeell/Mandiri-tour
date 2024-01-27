@@ -55,12 +55,12 @@
                         <td>
                             {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->isoFormat('D MMMM YYYY') }}
                         </td>
-                            <td>
+                            <td style="cursor: pointer">
                                 {!! $item->bukti_pembayaran ? '<img src="' . asset('storage/' . $item->bukti_pembayaran) . '" width="50" onClick="showImage(this)">' : '<span class="fw-bold text-danger">Belum Dibayar</span>' !!}
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    @if ($item->status_pembayaran != 'Pemesanan Dibatalkan' && $item->status_pembayaran != 'Pembayaran Diterima')
+                                    @if (!$item->bukti_pembayaran > 0 && $item->status_pembayaran != 'Pemesanan Dibatalkan' && $item->status_pembayaran != 'Pembayaran Diterima')
                                         <form action="{{ route('pemesanan.cancel', $item->id) }}" method="post">
                                             @csrf
                                             @method('post')
@@ -68,9 +68,13 @@
                                         </form>
                                     @endif
                                     @if ($item->status_pembayaran != 'Pemesanan Dibatalkan')
-                                    <a href="{{ route('pemesanan.invoice', $item->id) }}" class="btn btn-primary btn-sm">Lihat Invoice</a>
-                                        
+                                        @if ($item->status_pembayaran != 'Pembayaran Diterima')
+                                            <a href="{{ route('pemesanan.invoice', $item->id) }}" class="btn btn-primary btn-sm">Lihat Invoice</a>
+                                        @else
+                                            <a href="{{ route('pemesanan.invoice', $item->id) }}" class="btn btn-outline-primary btn-sm">Detail</a>
+                                        @endif
                                     @endif
+
                                 </div>
                                 
                                 

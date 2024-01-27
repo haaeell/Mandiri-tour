@@ -19,6 +19,7 @@
                         <th>Nama</th>
                         <th>Paket</th>
                         <th>Jumlah Peserta</th>
+                        <th>Alamat</th>
                         <th>Total Pembayaran</th>
                         <th>Status Pembayaran</th>
                         <th>Tanggal Pemesanan</th>
@@ -34,6 +35,7 @@
                             <td>{{ $item->user->name }}</td>
                             <td>{{ $item->paket->nama }}</td>
                             <td>{{ $item->jumlah_peserta }}</td>
+                            <td>{{ $item->alamat }}</td>
                             <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
                             <td>
                                 
@@ -82,9 +84,19 @@
                             
 
                             <td>
-                                <button type="button" class="btn btn-success delete-btn btn-lg" onclick="openWhatsApp('{{ $item->user->phone }}')">
-                                    <i class="bi bi-whatsapp"></i>
-                                </button>
+                                <div class="d-flex">
+
+                                    <button type="button" class="btn btn-success delete-btn btn-lg"
+                                    data-phone="{{ $item->user->phone }}"
+                                    data-nama="{{ $item->user->name }}"
+                                    data-paket="{{ $item->paket->nama }}"
+                                    data-jumlah-peserta="{{ $item->jumlah_peserta }}"
+                                    data-alamat="{{ $item->alamat }}"
+                                    onclick="openWhatsApp(this)">
+                                <i class="bi bi-whatsapp"></i>
+                            </button>
+                            
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -96,35 +108,41 @@
 @endsection
 @section('script')
 <script>
-   function openWhatsApp(phoneNumber) {
-        var paket = '{{ $item->paket->nama }}';
-        var tanggalPemesanan = '{{ $item->tanggal_pemesanan }}';
-        var jumlahPeserta = '{{ $item->jumlah_peserta }}';
-        var totalPembayaran = '{{ $item->total_pembayaran }}';
+   function openWhatsApp(button) {
+    let phoneNumber = button.getAttribute('data-phone');
+    let nama = button.getAttribute('data-nama');
+    let paket = button.getAttribute('data-paket');
+    let jumlahPeserta = button.getAttribute('data-jumlah-peserta');
+    let alamat = button.getAttribute('data-alamat');
 
-        var message = encodeURIComponent(`
-            Halo ${'{{ $item->user->name }}'},
-            
-            Informasi Pemesanan:
-            Paket: ${paket}
-            Tanggal Pemesanan: ${tanggalPemesanan}
-            Jumlah Peserta: ${jumlahPeserta}
-            Total Pembayaran: ${totalPembayaran} .
-
-            Kami mengingatkan bahwa pembayaran Anda belum diterima. Jika ada pertanyaan, silakan tanyakan.
-
-        `);
-
-        var whatsappUrl = 'https://api.whatsapp.com/send?phone=' + phoneNumber + '&text=' + message;
-        window.open(whatsappUrl, '_blank');
+    // Pemeriksaan validitas nomor telepon
+    if (!phoneNumber || isNaN(phoneNumber)) {
+        alert('Nomor telepon tidak valid.');
+        return;
     }
+
+    let message = encodeURIComponent(`
+        Halo ${nama},
+        
+        Informasi Pemesanan:
+        Paket: ${paket}
+        Jumlah Peserta: ${jumlahPeserta}
+        Alamat: ${alamat}
+
+        Kami mengingatkan bahwa pembayaran Anda belum diterima. Jika ada pertanyaan, silakan tanyakan.
+    `);
+
+    let whatsappUrl = 'https://api.whatsapp.com/send?phone=' + phoneNumber + '&text=' + message;
+    window.open(whatsappUrl, '_blank');
+}
+
 </script>
     <script>
         $(document).ready(function() {
             $('#form-tambah').submit(function(e) {
                 e.preventDefault();
 
-                var formData = new FormData(this);
+                let formData = new FormData(this);
 
                 $.ajax({
                     type: 'POST',
@@ -145,10 +163,10 @@
                     error: function(xhr) {
                         if (xhr.status === 422) {
                             // Handle validation errors
-                            var errors = xhr.responseJSON.errors;
-                            var errorMessage = '';
+                            let errors = xhr.responseJSON.errors;
+                            let errorMessage = '';
 
-                            for (var key in errors) {
+                            for (let key in errors) {
                                 errorMessage += errors[key][0] + '<br>';
                             }
 

@@ -15,7 +15,12 @@
                         <h5 class="fw-semibold my-3">{{ $p->nama }}</h5>
                         <p>Rp {{ number_format($p->harga, 0, ',', '.') }}</p>
                     </div>
+                    @if (Auth::user() != null)
                     <a href="{{ route('detailPaket', $p->slug) }}" class="btn  btn-primary">Pesan Sekarang</a>
+                    @else
+                    <button onclick="cekLogin()" class="btn  btn-primary">Pesan Sekarang</button>
+                        
+                    @endif
                 </div>
             </div>
             @endforeach
@@ -23,4 +28,25 @@
 
         
     </div>
+@endsection
+@section('script')
+    <script>
+
+        function cekLogin(){
+            Swal.fire({
+                title: "Silakan login terlebih dahulu!",
+                text: "Untuk dapat melakukan pemesanan",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Login",
+                cancelButtonText: "Kembali",
+                confirmButtonColor: "#4481eb", 
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect ke halaman login
+                    window.location.href = "/login";
+                } 
+            });
+        }
+    </script>
 @endsection

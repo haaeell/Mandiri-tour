@@ -32,7 +32,7 @@ class SendEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Promooo!!!',
+            subject: 'Promo Bulanan!',
         );
     }
 

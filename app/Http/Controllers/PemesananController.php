@@ -103,6 +103,7 @@ class PemesananController extends Controller
             'jumlah_peserta' => 'required|integer|min:1',
             'tanggal_pemesanan' => 'required|date',
             'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+            'alamat' => 'required|string',
         ], [
             'required' => 'Kolom :attribute harus diisi.',
             'image' => 'File :attribute harus berupa gambar.',
@@ -121,6 +122,7 @@ class PemesananController extends Controller
             'bukti_pembayaran' => $request->file('bukti_pembayaran') ? $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public') : null,
             'status_pembayaran' => 'Menunggu Konfirmasi Admin',
             'total_pembayaran' => $totalPembayaran,
+            'alamat' => $request->alamat,
         ]);
     
     
@@ -130,7 +132,6 @@ class PemesananController extends Controller
         public function invoice($id)
     {
         $pemesanan = Pemesanan::findorFail($id);
-        // dd($pemesanan);
 
         return view('landingpage.pemesanan.invoice', compact('pemesanan'));
     }
@@ -181,7 +182,7 @@ public function konfirmasiPembayaran($id)
         'status_pembayaran' => 'Pembayaran Diterima',
     ]);
 
-    return redirect()->route('pemesanan.index')->with('error', 'Konfirmasi pembayaran berhasil.');
+    return redirect()->route('pemesanan.index')->with('success', 'Konfirmasi pembayaran berhasil.');
 }
 
     

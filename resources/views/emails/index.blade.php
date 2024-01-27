@@ -82,12 +82,16 @@
                                                 class="btn btn-success btn-sm">Send</a>
 
 
-                                            <form method="POST" action="{{ route('emails.destroy', $email->id) }}">
+                                            
+                                            <form id="deleteForm{{ $email->id }}" method="POST"
+                                                action="{{ route('emails.destroy', $email->id) }}">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" class="btn btn-danger delete-btn btn-sm"
-                                                    data-name="{{ $email->nama }}"
-                                                    data-id="{{ $email->id }}">Hapus</button>
+                                                <button type="button" class="btn btn-danger delete-btn btn-sm"
+                                                    data-name="{{ $email->subject }}" data-id="{{ $email->id }}"
+                                                    onclick="confirmDelete({{ $email->id }})">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </button>
                                             </form>
                                         </div>
                                     </td>
@@ -161,5 +165,25 @@
                 });
             });
         });
+    </script>
+    <script>
+        function confirmDelete(userId) {
+            const userName = document.querySelector(`.delete-btn[data-id="${userId}"]`).getAttribute('data-name');
+
+            Swal.fire({
+                title: 'Konfirmasi Hapus',
+                text: `Apakah Anda yakin ingin menghapus ${userName}?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`deleteForm${userId}`).submit();
+                }
+            });
+        }
     </script>
 @endsection

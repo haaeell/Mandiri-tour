@@ -18,6 +18,7 @@ class Pemesanan extends Model
         'total_pembayaran',
         'bukti_pembayaran',
         'status_pembayaran',
+        'alamat',
     ];
 
     // Relasi dengan model User
