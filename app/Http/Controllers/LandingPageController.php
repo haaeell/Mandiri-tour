@@ -13,6 +13,7 @@ class LandingPageController extends Controller
     public function index()
     {
         $paketwisata = PaketWisata::all();
+        // dd($paketwisata);
         
         return view('landingpage.welcome', compact('paketwisata'));
 

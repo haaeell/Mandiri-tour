@@ -61,36 +61,38 @@ class LoginController extends Controller
 {
     try {
         $googleUser = Socialite::driver('google')->user();
-        
+
         if (!$googleUser) {
             return redirect('/login')->with('error', 'Tidak dapat mengambil detail pengguna dari Google.');
         }
 
-        // Periksa apakah email ada dalam data pengguna Google
         if (!isset($googleUser->email)) {
             return redirect('/login')->with('error', 'Email tidak disediakan oleh Google.');
         }
 
-        $user = User::firstOrCreate([
-            'email' => $googleUser->email,
-        ], [
-            'name' => $googleUser->name ?? 'Tanpa Nama',
-            'password' => bcrypt(Str::random(16)),
-        ]);
+        // Tambahkan pengecekan apakah email sudah terdaftar di tabel users
+        $existingUser = User::where('email', $googleUser->email)->first();
 
-        auth()->login($user, true);
+        if ($existingUser) {
+            // Jika email sudah terdaftar, langsung login
+            Auth::login($existingUser, true);
 
-        if ($user->role == 'admin') {
-            return redirect('/home');
-        } else {
-            return redirect('/');
+            if ($existingUser->role == 'admin') {
+                return redirect('/home');
+            } else {
+                return redirect('/');
+            }
         }
 
+        // Jika email belum terdaftar, berikan pesan error khusus
+        return redirect('/login')->with('error', 'Email belum terdaftar. Silakan register terlebih dahulu!');
+
     } catch (\Exception $e) {
-        // Log atau tangani exception sesuai kebutuhan
-        return redirect('/login')->with('error', 'Email belum terdaftar, Silakan register terlebih dahulu!');
+       
+        return redirect('/login')->with('error', 'Terjadi kesalahan. Silakan coba lagi atau hubungi administrator.');
     }
 }
+
 
     
 

@@ -197,7 +197,7 @@
             loop: true, // Menampilkan 1 kartu pada tampilan awal
             breakpoints: {
                 768: {
-                    slidesPerView: 3 // Menampilkan 3 kartu ketika lebar layar >= 768px
+                    slidesPerView: 4 // Menampilkan 3 kartu ketika lebar layar >= 768px
                 }
             },
             autoplay: {
