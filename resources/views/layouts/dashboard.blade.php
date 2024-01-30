@@ -375,6 +375,8 @@
     <script src="{{asset("../assets")}}/extensions/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js"></script>
     <script src="{{asset("../assets")}}/extensions/filepond/filepond.js"></script>
     <script src="{{asset("../assets")}}/extensions/toastify-js/src/toastify.js"></script>
+    <script src="{{asset("../assets")}}/extensions/apexcharts/apexcharts.min.js"></script>
+    <script src="{{asset("../assets")}}/static/js/pages/dashboard.js"></script>
     <script src="{{asset("../assets")}}/static/js/pages/filepond.js"></script>
 
 

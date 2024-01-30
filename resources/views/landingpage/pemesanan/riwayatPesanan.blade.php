@@ -6,7 +6,7 @@
     <div class="row d-flex">
         <h2 class="fw-semibold text-center my-3">Riwayat Pesanan</h2>
         <div class="col-md-12 card p-4">
-            
+            @if(count($riwayatPesanan) > 0)
             <table class="table table-hovered" id="table1">
                 <thead>
                     <tr>
@@ -85,6 +85,9 @@
 
                 </tbody>
             </table>
+            @else
+                <p class="text-center fw-semibold">- Belum ada riwayat pesanan -</p>
+            @endif
         </div>
     </div>
 </div>
