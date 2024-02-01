@@ -378,6 +378,7 @@
     <script src="{{asset("../assets")}}/extensions/apexcharts/apexcharts.min.js"></script>
     <script src="{{asset("../assets")}}/static/js/pages/dashboard.js"></script>
     <script src="{{asset("../assets")}}/static/js/pages/filepond.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 
 </body>

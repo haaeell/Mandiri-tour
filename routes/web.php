@@ -16,6 +16,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\KotaController;
 use App\Http\Controllers\PaketWisataController;
 use App\Http\Controllers\PemesananController;
+use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WisataController;
 
 /*
@@ -42,6 +43,8 @@ Route::post('/pemesanan/{id}/cancel', [PemesananController::class, 'cancel'])->n
 
 Route::get('/login/google',[LoginController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback',[LoginController::class, 'handleGoogleCallback']);
+
+// Route::get('/testing', [TestingController::class,'index']);
 
 
 

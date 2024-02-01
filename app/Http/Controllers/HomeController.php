@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\MonthlyOrdersChart;
+use App\Charts\MonthlyUsersChart;
 use App\Models\Keluhan;
 use App\Models\PaketWisata;
 use App\Models\Pemesanan;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -26,29 +29,43 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        // Total keseluruhan pengguna
-        $totalUsers = User::count();
-        $totalPesananPembayaranDiterima = Pemesanan::where('status_pembayaran', 'Pembayaran Diterima')->count();
+        public function index(MonthlyUsersChart $monthlyUsersChart, MonthlyOrdersChart $monthlyOrdersChart)
+        {
+            $topUsers = User::select('users.*', DB::raw('COUNT(pemesanan.id) as total_orders'))
+            ->leftJoin('pemesanan', 'users.id', '=', 'pemesanan.user_id')
+            ->groupBy('users.id')
+            ->orderByDesc('total_orders')
+            ->get();
         $totalPaketWisata = PaketWisata::count();
-        $totalKeluhan = Keluhan::all();
+        $totalKeluhan = Keluhan::count();
+        $totalCustomer = User::where('role', 'customer')->count();
+        $totalPemesanan = Pemesanan::count();
+        $usersWithOrders = User::has('pemesanan')->get();
+        $usersWithoutOrders = User::doesntHave('pemesanan')->get();
+        $usersWithCancelledOrders = User::whereHas('pemesanan', function ($query) {
+        $query->where('status_pembayaran', 'pemesanan dibatalkan');
+    })->get();
+        
+        return view('admin.home', [
+            'monthlyUsersChart' => $monthlyUsersChart->build(),
+            'monthlyOrdersChart' => $monthlyOrdersChart->build(),
+            'totalPaketWisata' => $totalPaketWisata,
+            'totalKeluhan' => $totalKeluhan,
+            'totalCustomer' => $totalCustomer,
+            'totalPemesanan' => $totalPemesanan,
+            'usersWithOrders' => $usersWithOrders,
+            'usersWithoutOrders' => $usersWithoutOrders,
+            'usersWithCancelledOrders' => $usersWithCancelledOrders,
+            'topUsers' => $topUsers,
 
-        // Total pengguna yang mendaftar bulan ini
-        $usersRegisteredThisMonth = User::whereYear('created_at', '=', Carbon::now()->year)
-            ->whereMonth('created_at', '=', Carbon::now()->month)
-            ->count();
 
-        // Total pengguna yang pernah memesan
-        $usersWithOrders = User::has('pemesanan')->count();
 
-        // Total pengguna yang belum pernah memesan
-        $usersWithoutOrders = User::doesntHave('pemesanan')->count();
-
-        return view('admin.home', compact('totalUsers', 'usersRegisteredThisMonth', 'usersWithOrders', 'usersWithoutOrders','totalPesananPembayaranDiterima','totalPaketWisata', 'totalKeluhan'));
-    }
+        ]);
+        } 
     public function profile()
     {
         return view('admin.users.profile');
     }
+
+    
 }

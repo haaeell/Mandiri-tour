@@ -1,117 +1,125 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <section class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Profile Visit</h4>
-                </div>
-                <div class="card-body">
-                    <div id="chart-profile-visit"></div>
+<div class="container">
+
+    <div class="row">
+        <div class="col-6 col-lg-3 col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body px-4 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                            <div class="stats-icon red mb-2">
+                                <i class="iconly-boldBookmark"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                            <h6 class="text-muted font-semibold">Total Keluhan</h6>
+                            <h6 class="font-extrabold mb-0">{{ $totalKeluhan }}</h6>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-lg-10">
-            <div class="row">
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-4 py-4-5">
-                            <div class="row mb-2">
-                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
-                                    <div class="stats-icon purple mb-2">
-                                        <i class="iconly-boldShow"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Total Users</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $totalUsers }}</h6>
-                                </div>
-                            </div>
-
-                            <div class="d-flex">
-                                <h6 class="text-muted font-semibold">Users This Month :<h6
-                                        class="font-extrabold fw-bold mx-2"> {{ $usersRegisteredThisMonth }}</h6>
-                                </h6>
-
-                            </div>
-
-
-                            <!-- Users With Orders -->
-                            @if ($usersWithOrders > 0)
-                                <div class="d-flex">
-                                    <h6 class="text-muted font-semibold">Users With Order :<h6
-                                            class="font-extrabold fw-bold mx-2"> {{ $usersWithOrders }}</h6>
-                                    </h6>
-
-                                </div>
-                            @endif
-
-                            <!-- Users Without Orders -->
-                            @if ($usersWithoutOrders > 0)
-                                <div class="d-flex">
-                                    <h6 class="text-muted font-semibold">Users Without Orders :<h6
-                                            class="font-extrabold fw-bold mx-2"> {{ $usersWithoutOrders }}</h6>
-                                    </h6>
-                                </div>
-                            @endif
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-4 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                    <div class="stats-icon blue mb-2">
-                                        <i class="iconly-boldProfile"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Total Pesanan Berhasil</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $totalPesananPembayaranDiterima }}</h6>
-                                </div>
+        <div class="col-6 col-lg-3 col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body px-4 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                            <div class="stats-icon green mb-2">
+                                <i class="iconly-boldAdd-User"></i>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-4 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                    <div class="stats-icon green mb-2">
-                                        <i class="iconly-boldAdd-User"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Total Paket Wisata</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $totalPaketWisata }}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-4 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                    <div class="stats-icon red mb-2">
-                                        <i class="iconly-boldBookmark"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Total Keluhan</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $totalKeluhan->count() }}</h6>
-                                </div>
-                            </div>
+                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                            <h6 class="text-muted font-semibold">Total Paket Wisata</h6>
+                            <h6 class="font-extrabold mb-0">{{ $totalPaketWisata }}</h6>
                         </div>
                     </div>
                 </div>
             </div>
-    </section>
-    >
+        </div>
+        <div class="col-6 col-lg-3 col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body px-4 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                            <div class="stats-icon yellow mb-2">
+                                <i class="iconly-boldUser"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                            <h6 class="text-muted font-semibold">Total Customer</h6>
+                            <h6 class="font-extrabold mb-0">{{ $totalCustomer }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3 col-md-6">
+            <div class="card  shadow-lg">
+                <div class="card-body px-4 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                            <div class="stats-icon blue mb-2">
+                                <i class="iconly-boldCredit-Card"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                            <h6 class="text-muted font-semibold">Total Pemesanan</h6>
+                            <h6 class="font-extrabold mb-0">{{ $totalPemesanan }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                
+        <div class="col-md-6">
+            <div class="p-4  card shadow">
+                <h6 class="font-extrabold mb-0 text-center">Total Customer : {{ $totalCustomer }}</h6>
+                {{-- <h6 class="font-extrabold mb-0 text-center">Users With Orders : {{ $usersWithOrders->count() }}</h6>
+                <h6 class="font-extrabold mb-0 text-center">Users Without Orders : {{ $usersWithoutOrders->count() }}</h6>
+                <h6 class="font-extrabold mb-0 text-center">Users Cancel Orders : {{ $usersWithCancelledOrders->count() }}</h6> --}}
+                {!! $monthlyUsersChart->container() !!}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-4  card shadow">
+                
+                {!! $monthlyOrdersChart->container() !!}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="container">
+                <h2 class="fw-semibold text-center mb-4">Top Users with Most Orders</h2>
+        <div class="card p-4 shadow rounded">
+
+            <table class="table-bordered table ">
+                <thead class="">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Total Orders</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($topUsers as $user)
+                        <tr>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->total_orders }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+            </div>
+        </div>
     </div>
+</div>
+
+<script src="{{ $monthlyOrdersChart->cdn() }}"></script>
+<script src="{{ $monthlyUsersChart->cdn() }}"></script>
+
+{{ $monthlyUsersChart->script() }}
+{{ $monthlyOrdersChart->script() }}
 @endsection
