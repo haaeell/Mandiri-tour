@@ -10,42 +10,45 @@
 
 
 
-    <link rel="shortcut icon" href="{{asset("../assets")}}/img/logo2.png" type="image/x-icon">
-    <link rel="shortcut icon" href="{{asset("../assets")}}/img/logo.png" type="image/png">
-    <link rel="stylesheet" href="{{asset("../assets")}}/compiled/css/app.css">
-    <link rel="stylesheet" href="{{asset("../assets")}}/compiled/css/app-dark.css">
-    <link rel="stylesheet" href="{{asset("../assets")}}/compiled/css/iconly.css">
-    <link rel="stylesheet" href="{{asset("../assets")}}/extensions/simple-datatables/style.css">
-    <link rel="stylesheet" href="{{asset("../assets")}}/compiled/css/table-datatable.css">
+    <link rel="shortcut icon" href="{{ asset('../assets') }}/img/logo2.png" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('../assets') }}/img/logo.png" type="image/png">
+    <link rel="stylesheet" href="{{ asset('../assets') }}/compiled/css/app.css">
+    <link rel="stylesheet" href="{{ asset('../assets') }}/compiled/css/app-dark.css">
+    <link rel="stylesheet" href="{{ asset('../assets') }}/compiled/css/iconly.css">
+    <link rel="stylesheet" href="{{ asset('../assets') }}/extensions/simple-datatables/style.css">
+    <link rel="stylesheet" href="{{ asset('../assets') }}/compiled/css/table-datatable.css">
 
-    <link rel="stylesheet" href="{{asset("../assets")}}/extensions/filepond/filepond.css">
-    <link rel="stylesheet" href="{{asset("../assets")}}/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
-    <link rel="stylesheet" href="{{asset("../assets")}}/extensions/toastify-js/src/toastify.css">
+    <link rel="stylesheet" href="{{ asset('../assets') }}/extensions/filepond/filepond.css">
+    <link rel="stylesheet"
+        href="{{ asset('../assets') }}/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
+    <link rel="stylesheet" href="{{ asset('../assets') }}/extensions/toastify-js/src/toastify.css">
 
-    <link rel="stylesheet" href="{{asset("../assets")}}/compiled/css/app.css">
-    <link rel="stylesheet" href="{{asset("../assets")}}/compiled/css/app-dark.css">
+    <link rel="stylesheet" href="{{ asset('../assets') }}/compiled/css/app.css">
+    <link rel="stylesheet" href="{{ asset('../assets') }}/compiled/css/app-dark.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <style>
     .select2-container {
-    z-index: 9999999 !important; /* Atur nilai z-index yang sangat tinggi */
-}
+        z-index: 9999999 !important;
+        /* Atur nilai z-index yang sangat tinggi */
+    }
 
-.modal-open .select2-container {
-    z-index: 1050; /* Sesuaikan dengan z-index modal */
-}
+    .modal-open .select2-container {
+        z-index: 1050;
+        /* Sesuaikan dengan z-index modal */
+    }
 </style>
 
 <body>
-    <script src="{{asset("../assets")}}/static/js/initTheme.js"></script>
+    <script src="{{ asset('../assets') }}/static/js/initTheme.js"></script>
     <div id="app">
         <div id="sidebar">
             <div class="sidebar-wrapper active">
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <a href="index.html"><img src="{{asset("../assets")}}/img/logo2.png" class="pt-3"
+                            <a href="index.html"><img src="{{ asset('../assets') }}/img/logo2.png" class="pt-3"
                                     style="max-width: 100px; height: auto;" alt=""></a>
                         </div>
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
@@ -93,10 +96,9 @@
                             </a>
                         </li>
                         <li class="sidebar-title">Menu</li>
-                        <li class="sidebar-item has-sub {{ 
-                            (request()->is('kota') || request()->is('wisata') || request()->is('hotel')) || request()->is('bus') || request()->is('paket-wisata') ? 'active' : '' 
-                        }}">
-                        
+                        <li
+                            class="sidebar-item has-sub {{ request()->is('kota') || request()->is('wisata') || request()->is('hotel') || request()->is('bus') || request()->is('paket-wisata') ? 'active' : '' }}">
+
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-grid-1x2-fill"></i>
                                 <span>Data Wisata</span>
@@ -132,30 +134,96 @@
 
 
                         </li>
-                        <li class="sidebar-item  {{ request()->is('pemesanan') ? 'active' : '' }} ">
-                            <a href="{{ route('pemesanan.index') }}"  class='sidebar-link'>
+                        <li class="sidebar-item has-sub {{ request()->is('pemesanan') || request()->is('pemesanan/pemesanan-baru') || request()->is('pemesanan/pesanan-diterima') || request()->is('pemesanan/pesanan-dibatalkan') || request()->is('pemesanan/menunggu-konfirmasi') ? 'active' : '' }}">
+                            <a href="#" class='sidebar-link'>
                                 <i class="bi bi-basket3-fill"></i>
-                                <span>Pemesanan</span>
+                                <span>Pemesanan
+                                    @php
+                        // Hitung notifikasi untuk submenu ini
+                        $unreadPemesananCount = Auth::user()->unreadNotifications->pluck('data.pemesanan_id')->unique()->count();
+                    @endphp
+
+                    <!-- Tampilkan badge jika ada notifikasi yang belum dibaca -->
+                    @if($unreadPemesananCount > 0)
+                        <span class="position-absolute top-40 start-50 translate-middle badge rounded-pill bg-danger">
+                            {{ $unreadPemesananCount }}
+                        </span>
+                    @endif
+                                </span>
+                                
                             </a>
+                            <ul class="submenu">
+                               
+                                <li class="submenu-item {{ request()->is('pemesanan/pemesanan-baru') ? 'active' : '' }} ">
+                                    <a href="{{ route('pemesanan.pemesanan-baru') }}" class="submenu-link">Pesanan Baru
+                                     @php
+                                        $unreadPemesananCount = Auth::user()->unreadNotifications->pluck('data.pemesanan_id')->unique()->count();
+                                    @endphp
+
+                    <!-- Tampilkan badge jika ada notifikasi yang belum dibaca -->
+                    @if($unreadPemesananCount > 0)
+                        <span class="position-absolute top-40 start-80 translate-middle badge rounded-pill bg-primary">
+                            {{ $unreadPemesananCount }}
+                        </span>
+                    @endif
+                </a>
+                                </li>
+                                <li class="submenu-item {{ request()->is('pemesanan/menunggu-konfirmasi') ? 'active' : '' }}">
+                                
+                                    <a href="{{ route('pemesanan.menunggu-konfirmasi') }}" class="submenu-link">Menunggu Konfirmasi
+                                        {{-- <span class="position-absolute top-40 start-80 translate-middle badge rounded-pill bg-warning">
+                                            {{
+                                                \App\Models\Pemesanan::where('status_pembayaran', 'Menunggu Konfirmasi Admin')->count()
+                                            }}
+                                        </span>    --}}
+                                    </a>
+                                </li>
+                                <li class="submenu-item {{ request()->is('pemesanan/pesanan-dibatalkan') ? 'active' : '' }} ">
+                                    <a href="{{ route('pemesanan.pesanan-dibatalkan') }}" class="submenu-link">Pesanan Dibatalkan
+                                        {{-- <span class="position-absolute top-40 start-80 translate-middle badge rounded-pill bg-danger">
+                                            {{
+                                                \App\Models\Pemesanan::where('status_pembayaran', 'Pemesanan Dibatalkan')->count()
+                                            }}
+                                        </span> --}}
+                                    </a>
+                                </li>
+                                <li class="submenu-item {{ request()->is('pemesanan/pesanan-diterima') ? 'active' : '' }}">
+                                    <a href="{{ route('pemesanan.pesanan-diterima') }}" class="submenu-link">Pesanan Diterima
+                                        {{-- <span class="position-absolute top-40 start-80 translate-middle badge rounded-pill bg-success">
+                                            {{
+                                                \App\Models\Pemesanan::where('status_pembayaran', 'Pembayaran Diterima')->count()
+                                            }}
+                                        </span> --}}
+                                    </a>
+                                </li>
+                                <li class="submenu-item {{ request()->is('pemesanan') ? 'active' : '' }} ">
+                                    <a href="{{ route('pemesanan.index') }}" class="submenu-link">Seluruh data pesanan  </a>
+                                </li>
+                            </ul>
+                        </li>
                         </li>
                         <li class="sidebar-item {{ request()->is('admin/keluhan') ? 'active' : '' }}">
                             <a href="{{ route('keluhan.index-admin') }}" class='sidebar-link'>
                                 <i class="bi bi-chat-square-text-fill"></i>
                                 <span>Keluhan</span>
-                                
+
                                 @php
-                                    $unreadKeluhanCount = Auth::user()->unreadNotifications->pluck('data.keluhan_id')->unique()->count();
+                                    $unreadKeluhanCount = Auth::user()
+                                        ->unreadNotifications->pluck('data.keluhan_id')
+                                        ->unique()
+                                        ->count();
                                 @endphp
-                        
-                                @if($unreadKeluhanCount > 0)
-                                    <span class="position-absolute top-40 start-50 translate-middle badge rounded-pill bg-danger">
+
+                                @if ($unreadKeluhanCount > 0)
+                                    <span
+                                        class="position-absolute top-40 start-50 translate-middle badge rounded-pill bg-danger">
                                         {{ $unreadKeluhanCount }}
                                     </span>
                                 @endif
                             </a>
                         </li>
-                        
-                        
+
+
                         <li class="sidebar-item  ">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-chat-heart-fill"></i>
@@ -192,9 +260,11 @@
                     </a>
                 </div>
                 <div class="dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="mx-3 fw-bold">Welcome, {{Auth::user()->name}}</span>
-                        <img src="{{asset("../assets")}}/img/profile.png" alt="Profile" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" id="profileDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="mx-3 fw-bold">Welcome, {{ Auth::user()->name }}</span>
+                        <img src="{{ asset('../assets') }}/img/profile.png" alt="Profile"
+                            style="width: 40px; height: 40px; border-radius: 50%;">
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                         <li><a class="dropdown-item" href="#">Settings</a></li>
@@ -213,8 +283,8 @@
             <div class="page-title">
                 <div class="row mt-3">
                     <div class="col-12 col-md-6 order-md-1 order-last">
-                        
-            <h3 class="mb-3 fw-bold">@yield('title')</h3>
+
+                        <h3 class="mb-3 fw-bold">@yield('title')</h3>
                     </div>
                     <div class="col-12 col-md-6 order-md-2 order-first">
                         <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -228,47 +298,47 @@
             </div>
 
             <div class="page-content">
-                
+
                 @yield('content')
             </div>
         </div>
     </div>
-    <script src="{{asset("../assets")}}/static/js/components/dark.js"></script>
-    <script src="{{asset("../assets")}}/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="{{ asset('../assets') }}/static/js/components/dark.js"></script>
+    <script src="{{ asset('../assets') }}/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-   
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-    $('.select2').select2();
-});
-    </script>
-    <script>
-        $(document).ready(function () {
-           $('.rupiah').mask("#.##0", {
-               reverse: true
-           });
-       });
-   </script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @if ($errors->any())
-    <script>
-        let errorMessages = '';
-        @foreach ($errors->all() as $error)
-            errorMessages += "{{ $error }}\n";
-        @endforeach
-
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: errorMessages,
+            $('.select2').select2();
         });
     </script>
-@endif
+    <script>
+        $(document).ready(function() {
+            $('.rupiah').mask("#.##0", {
+                reverse: true
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if ($errors->any())
+        <script>
+            let errorMessages = '';
+            @foreach ($errors->all() as $error)
+                errorMessages += "{{ $error }}\n";
+            @endforeach
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: errorMessages,
+            });
+        </script>
+    @endif
     <script>
         $('button.delete-btn').click(function(event) {
             event.preventDefault();
@@ -277,13 +347,13 @@
             const name = $(this).data('name');
 
             Swal.fire({
-            text: `Apakah Anda yakin ingin menghapus ${name}?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
+                text: `Apakah Anda yakin ingin menghapus ${name}?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
                     form.submit();
@@ -297,11 +367,11 @@
     <script>
         function showImage(imageElement) {
             const imageUrl = imageElement.src;
-    
+
             Swal.fire({
                 imageUrl: imageUrl,
                 imageAlt: 'Custom image',
-                
+
             });
         }
     </script>
@@ -329,7 +399,7 @@
             });
         </script>
     @endif
-    
+
     <script>
         $(document).ready(function() {
             const phoneInput = $("#phone");
@@ -359,25 +429,35 @@
             });
         });
     </script>
-    
-    <script src="{{asset("../assets")}}/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js"></script>
-    <script src="{{asset("../assets")}}/compiled/js/app.js"></script>
 
-    <script src="{{asset("../assets")}}/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>
-    <script src="{{asset("../assets")}}/extensions/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js"></script>
-    <script src="{{asset("../assets")}}/extensions/simple-datatables/umd/simple-datatables.js"></script>
-    <script src="{{asset("../assets")}}/static/js/pages/simple-datatables.js"></script>
-    <script src="{{asset("../assets")}}/extensions/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js"></script>
-    <script src="{{asset("../assets")}}/extensions/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js">
+    <script src="{{ asset('../assets') }}/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js">
     </script>
-    <script src="{{asset("../assets")}}/extensions/filepond-plugin-image-filter/filepond-plugin-image-filter.min.js"></script>
-    <script src="{{asset("../assets")}}/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js"></script>
-    <script src="{{asset("../assets")}}/extensions/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js"></script>
-    <script src="{{asset("../assets")}}/extensions/filepond/filepond.js"></script>
-    <script src="{{asset("../assets")}}/extensions/toastify-js/src/toastify.js"></script>
-    <script src="{{asset("../assets")}}/extensions/apexcharts/apexcharts.min.js"></script>
-    <script src="{{asset("../assets")}}/static/js/pages/dashboard.js"></script>
-    <script src="{{asset("../assets")}}/static/js/pages/filepond.js"></script>
+    <script src="{{ asset('../assets') }}/compiled/js/app.js"></script>
+
+    <script
+        src="{{ asset('../assets') }}/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js">
+    </script>
+    <script
+        src="{{ asset('../assets') }}/extensions/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js">
+    </script>
+    <script src="{{ asset('../assets') }}/extensions/simple-datatables/umd/simple-datatables.js"></script>
+    <script src="{{ asset('../assets') }}/static/js/pages/simple-datatables.js"></script>
+    <script src="{{ asset('../assets') }}/extensions/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js">
+    </script>
+    <script
+        src="{{ asset('../assets') }}/extensions/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js">
+    </script>
+    <script src="{{ asset('../assets') }}/extensions/filepond-plugin-image-filter/filepond-plugin-image-filter.min.js">
+    </script>
+    <script src="{{ asset('../assets') }}/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js">
+    </script>
+    <script src="{{ asset('../assets') }}/extensions/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js">
+    </script>
+    <script src="{{ asset('../assets') }}/extensions/filepond/filepond.js"></script>
+    <script src="{{ asset('../assets') }}/extensions/toastify-js/src/toastify.js"></script>
+    <script src="{{ asset('../assets') }}/extensions/apexcharts/apexcharts.min.js"></script>
+    <script src="{{ asset('../assets') }}/static/js/pages/dashboard.js"></script>
+    <script src="{{ asset('../assets') }}/static/js/pages/filepond.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 

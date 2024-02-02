@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 @section('title')
-    Daftar Seluruh Data Pemesanan
+    Menunggu Konfirmasi Bukti Pembayaran
 @endsection
 @section('breadcumb', 'Pemesanan')
 

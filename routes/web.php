@@ -41,10 +41,19 @@ Route::get('/pemesanan/invoice/{id}', [PemesananController::class, 'invoice'])->
 Route::post('/pemesanan/upload/{id}', [PemesananController::class, 'uploadBukti'])->name('pemesanan.upload');
 Route::post('/pemesanan/{id}/cancel', [PemesananController::class, 'cancel'])->name('pemesanan.cancel');
 
+Route::get('/pemesanan/pemesanan-baru', [PemesananController::class, 'pemesananBaru'])->name('pemesanan.pemesanan-baru');
+
+Route::get('/pemesanan/menunggu-konfirmasi', [PemesananController::class, 'menungguKonfirmasi'])->name('pemesanan.menunggu-konfirmasi');
+
+Route::get('/pemesanan/pesanan-dibatalkan', [PemesananController::class, 'pesananDibatalkan'])->name('pemesanan.pesanan-dibatalkan');
+
+Route::get('/pemesanan/pesanan-diterima', [PemesananController::class, 'pesananDiterima'])->name('pemesanan.pesanan-diterima');
+
 Route::get('/login/google',[LoginController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback',[LoginController::class, 'handleGoogleCallback']);
 
-// Route::get('/testing', [TestingController::class,'index']);
+Route::get('/testing', [TestingController::class,'index']);
+Route::post('/seo-check', [TestingController::class, 'checkSEO'])->name('seo.check');
 
 
 

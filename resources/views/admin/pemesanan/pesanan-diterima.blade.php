@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 @section('title')
-    Daftar Seluruh Data Pemesanan
+    Pesanan Diterima
 @endsection
 @section('breadcumb', 'Pemesanan')
 

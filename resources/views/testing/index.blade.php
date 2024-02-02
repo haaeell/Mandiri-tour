@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('content')
+{{-- @section('content')
     <div class="container">
         <div class="container px-4 mx-auto">
 
@@ -14,5 +14,14 @@
         
         {{ $chart->script() }}
     </div>
+@endsection --}}
+
+@section('content')
+    <form method="post" action="{{ route('seo.check') }}">
+        @csrf
+        <label for="website_url">Website URL:</label>
+        <input type="url" name="website_url" required>
+        <button type="submit">Check SEO</button>
+    </form>
 @endsection
 

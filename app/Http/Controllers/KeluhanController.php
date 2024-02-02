@@ -35,7 +35,7 @@ class KeluhanController extends Controller
         'status' => 'pending',
     ]);
 
-    $admin = User::where('role', 'admin')->first(); // Sesuaikan dengan model User dan kolom yang sesuai
+    $admin = User::where('role', 'admin')->first();
     $admin->notify(new KeluhanBaruNotification($keluhan));
     return redirect()->back()->with('success', 'Keluhan berhasil dikirim.');
 

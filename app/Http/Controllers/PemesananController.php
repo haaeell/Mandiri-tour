@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\PaketWisata;
 use App\Models\Pemesanan;
+use App\Models\User;
+use App\Notifications\PemesananBaru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -124,7 +126,8 @@ class PemesananController extends Controller
             'total_pembayaran' => $totalPembayaran,
             'alamat' => $request->alamat,
         ]);
-    
+        $admin = User::where('role', 'admin')->first();
+        $admin->notify(new PemesananBaru($pemesanan));
     
         session()->flash('success', 'Pesanan berhasil dibuat');
         return redirect()->route('pemesanan.invoice', $pemesanan->id);
@@ -185,5 +188,40 @@ public function konfirmasiPembayaran($id)
     return redirect()->route('pemesanan.index')->with('success', 'Konfirmasi pembayaran berhasil.');
 }
 
+public function pemesananBaru()
+{
+    $pemesanan = Pemesanan::where('status_pembayaran', 'Menunggu Konfirmasi Admin')
+        ->whereNull('bukti_pembayaran') // Hanya ambil yang bukti pembayarannya kosong
+        ->latest() // Mengurutkan berdasarkan tanggal pembuatan terbaru
+        ->get();
+
+    return view('admin.pemesanan.pemesanan-baru', ['pemesanan' => $pemesanan]);
+}
+
+public function menungguKonfirmasi()
+{
+    $pemesanan = Pemesanan::where('status_pembayaran', 'Menunggu Konfirmasi Admin')
+        ->whereNotNull('bukti_pembayaran') // Hanya ambil yang bukti pembayarannya sudah ada
+        ->latest() // Mengurutkan berdasarkan tanggal pembuatan terbaru
+        ->get();
+
+    return view('admin.pemesanan.menunggu-konfirmasi', ['pemesanan' => $pemesanan]);
+}
+public function pesananDibatalkan()
+{
+    $pemesanan = Pemesanan::where('status_pembayaran', 'Pemesanan Dibatalkan')
+        ->latest()
+        ->get();
+
+    return view('admin.pemesanan.pesanan-dibatalkan', ['pemesanan' => $pemesanan]);
+}
+public function pesananDiterima()
+{
+    $pemesanan = Pemesanan::where('status_pembayaran', 'Pembayaran Diterima')
+        ->latest()
+        ->get();
+
+    return view('admin.pemesanan.pesanan-diterima', ['pemesanan' => $pemesanan]);
+}
     
 }

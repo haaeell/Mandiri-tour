@@ -88,7 +88,6 @@ class LoginController extends Controller
         return redirect('/login')->with('error', 'Email belum terdaftar. Silakan register terlebih dahulu!');
 
     } catch (\Exception $e) {
-        dd($e->getMessage());
         return redirect('/login')->with('error', 'Terjadi kesalahan. Silakan coba lagi atau hubungi administrator.');
     }
 }
