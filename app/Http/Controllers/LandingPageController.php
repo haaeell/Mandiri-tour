@@ -23,15 +23,13 @@ class LandingPageController extends Controller
     // Dapatkan keluhan yang belum dibaca oleh pengguna
     $unreadNotifications = Auth::user()->unreadNotifications;
 
-    // Tandai notifikasi terkait dengan keluhan sebagai sudah dibaca
     foreach ($unreadNotifications as $notification) {
-        $keluhanId = $notification->data['keluhan_id'];
-        // Lakukan sesuai kebutuhan, misalnya tandai sebagai sudah dibaca atau hapus notifikasi
-        // Sesuaikan dengan logika aplikasi Anda
-        // ...
+        // Cek apakah notifikasi terkait dengan keluhan yang sudah ditanggapi
+        if ($notification->type === 'App\Notifications\KeluhanDitanggapiNotification') {
+            $notificationData = $notification->data;
 
-        // Contoh tandai sebagai sudah dibaca
-        $notification->markAsRead();
+            $notification->markAsRead();
+        }
     }
 
     // Dapatkan riwayat keluhan untuk ditampilkan di halaman
@@ -55,6 +53,17 @@ class LandingPageController extends Controller
     }
     public function riwayatPesanan()
     {
+        $unreadNotifications = Auth::user()->unreadNotifications;
+
+        foreach ($unreadNotifications as $notification) {
+            // Cek apakah notifikasi terkait dengan keluhan yang sudah ditanggapi
+            if ($notification->type === 'App\Notifications\KonfirmasiPembayaran') {
+                $notificationData = $notification->data;
+    
+                $notification->markAsRead();
+            }
+        }
+        
         $riwayatPesanan = Pemesanan::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
         
         return view('landingpage.pemesanan.riwayatPesanan', compact('riwayatPesanan'));

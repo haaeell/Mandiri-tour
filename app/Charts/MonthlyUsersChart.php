@@ -39,9 +39,6 @@ class MonthlyUsersChart
 
             $totalSudahPesan[$bulanIndex] = User::has('pemesanan')->whereYear('created_at', $item->tahun)->whereMonth('created_at', $item->bulan)->count();
             $totalBelumPesan[$bulanIndex] = User::doesntHave('pemesanan')->whereYear('created_at', $item->tahun)->whereMonth('created_at', $item->bulan)->count();
-            $totalPesanDibatalkan[$bulanIndex] = User::whereHas('pemesanan', function ($query) use ($item) {
-                $query->where('status_pembayaran', 'pemesanan dibatalkan')->whereYear('created_at', $item->tahun)->whereMonth('created_at', $item->bulan);
-            })->count();
         }
 
         // Membangun chart dengan data dinamis
@@ -49,7 +46,6 @@ class MonthlyUsersChart
             ->setTitle('Status Customer Berdasarkan Pemesanan per Bulan')
             ->addData('Sudah Pernah Memesan', $totalSudahPesan)
             ->addData('Belum Pernah Memesan', $totalBelumPesan)
-            ->addData('Pemesanan Dibatalkan', $totalPesanDibatalkan)
             ->setXAxis($bulanLabels)
             ->setGrid('#3F51B5', 0.1);
     }

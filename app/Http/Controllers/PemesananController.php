@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\PaketWisata;
 use App\Models\Pemesanan;
 use App\Models\User;
+use App\Notifications\KonfirmasiPembayaran;
+use App\Notifications\KonfirmasiPembayaranNotification;
 use App\Notifications\PemesananBaru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +19,7 @@ class PemesananController extends Controller
      */
     public function index()
     {
+       
         $pemesanan = Pemesanan::orderBy('created_at', 'desc')->get();
         return view('admin.pemesanan.index',compact('pemesanan'));
     }
@@ -156,6 +159,9 @@ public function uploadBukti(Request $request, $id)
     $pemesanan->status_pembayaran = 'Menunggu Konfirmasi Admin';
     $pemesanan->save();
 
+    $admin = User::where('role', 'admin')->first();
+    $admin->notify(new KonfirmasiPembayaranNotification($pemesanan));
+
     return redirect()->route('riwayatPesanan')->with('success', 'Bukti Pembayaran berhasil diunggah!');
 }
 public function cancel($id)
@@ -178,6 +184,7 @@ public function cancel($id)
 
 public function konfirmasiPembayaran($id)
 {
+    
     $pemesanan = Pemesanan::findOrFail($id);
 
     
@@ -185,11 +192,26 @@ public function konfirmasiPembayaran($id)
         'status_pembayaran' => 'Pembayaran Diterima',
     ]);
 
+    $user = $pemesanan->user;
+    $user->notify(new KonfirmasiPembayaran($pemesanan));
+    $pemesananId = $pemesanan->id;
+    Auth::user()->unreadNotifications->where('data.pemesanan_id', $pemesananId)->markAsRead();
+
     return redirect()->route('pemesanan.index')->with('success', 'Konfirmasi pembayaran berhasil.');
 }
 
 public function pemesananBaru()
 {
+    $unreadNotifications = Auth::user()->unreadNotifications;
+
+    foreach ($unreadNotifications as $notification) {
+        // Cek apakah notifikasi terkait dengan pemesanan yang sudah ditanggapi
+        if ($notification->type === 'App\Notifications\PemesananBaru') {
+            $notificationData = $notification->data;
+
+            $notification->markAsRead();
+        }
+    }
     $pemesanan = Pemesanan::where('status_pembayaran', 'Menunggu Konfirmasi Admin')
         ->whereNull('bukti_pembayaran') // Hanya ambil yang bukti pembayarannya kosong
         ->latest() // Mengurutkan berdasarkan tanggal pembuatan terbaru

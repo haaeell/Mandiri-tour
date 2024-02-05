@@ -52,14 +52,9 @@ public function prosesTanggapi(Request $request, $id)
     $keluhan->save();
 
     $user = $keluhan->user;
-
-    // Kirim notifikasi ke pengguna
     $user->notify(new KeluhanDitanggapiNotification($keluhan));
-
-    // Dapatkan keluhan_id yang terkait dengan keluhan yang baru saja direspon
     $keluhanId = $keluhan->id;
 
-    // Tandai notifikasi terkait sebagai sudah dibaca
     Auth::user()->unreadNotifications->where('data.keluhan_id', $keluhanId)->markAsRead();
 
     return redirect()->route('keluhan.index-admin')->with('success', 'Keluhan berhasil ditanggapi.');

@@ -139,43 +139,51 @@
                                 <i class="bi bi-basket3-fill"></i>
                                 <span>Pemesanan
                                     @php
-                        // Hitung notifikasi untuk submenu ini
-                        $unreadPemesananCount = Auth::user()->unreadNotifications->pluck('data.pemesanan_id')->unique()->count();
-                    @endphp
+                                        $unreadKeluhanCount = Auth::user()->unreadNotifications
+                                            ->where('type', 'App\Notifications\PemesananBaru')
+                                            ->count();
+                                    @endphp
+                            
+                                    @if($unreadKeluhanCount > 0)
+                                        <span class="position-absolute top-20 start-70 translate-middle badge rounded-pill bg-danger">
+                                            {{ $unreadKeluhanCount }}
+                                        </span>
+                                    @endif
 
-                    <!-- Tampilkan badge jika ada notifikasi yang belum dibaca -->
-                    @if($unreadPemesananCount > 0)
-                        <span class="position-absolute top-40 start-50 translate-middle badge rounded-pill bg-danger">
-                            {{ $unreadPemesananCount }}
-                        </span>
-                    @endif
+                                    
                                 </span>
-                                
                             </a>
                             <ul class="submenu">
                                
                                 <li class="submenu-item {{ request()->is('pemesanan/pemesanan-baru') ? 'active' : '' }} ">
                                     <a href="{{ route('pemesanan.pemesanan-baru') }}" class="submenu-link">Pesanan Baru
-                                     @php
-                                        $unreadPemesananCount = Auth::user()->unreadNotifications->pluck('data.pemesanan_id')->unique()->count();
+                                        @php
+                                        $unreadKeluhanCount = Auth::user()->unreadNotifications
+                                            ->where('type', 'App\Notifications\PemesananBaru')
+                                            ->count();
                                     @endphp
-
-                    <!-- Tampilkan badge jika ada notifikasi yang belum dibaca -->
-                    @if($unreadPemesananCount > 0)
-                        <span class="position-absolute top-40 start-80 translate-middle badge rounded-pill bg-primary">
-                            {{ $unreadPemesananCount }}
-                        </span>
-                    @endif
-                </a>
+                            
+                                    @if($unreadKeluhanCount > 0)
+                                        <span class="position-absolute top-20 start-70 translate-middle badge rounded-pill bg-danger">
+                                            {{ $unreadKeluhanCount }}
+                                        </span>
+                                    @endif
+                                    </a>
                                 </li>
                                 <li class="submenu-item {{ request()->is('pemesanan/menunggu-konfirmasi') ? 'active' : '' }}">
                                 
                                     <a href="{{ route('pemesanan.menunggu-konfirmasi') }}" class="submenu-link">Menunggu Konfirmasi
-                                        {{-- <span class="position-absolute top-40 start-80 translate-middle badge rounded-pill bg-warning">
-                                            {{
-                                                \App\Models\Pemesanan::where('status_pembayaran', 'Menunggu Konfirmasi Admin')->count()
-                                            }}
-                                        </span>    --}}
+                                        @php
+                                    $unreadKeluhanCount = Auth::user()->unreadNotifications
+                                    ->where('type', 'App\Notifications\KonfirmasiPembayaranNotification')
+                                    ->count();
+                            @endphp
+                    
+                            @if($unreadKeluhanCount > 0)
+                                <span class="position-absolute top-40 start-50 translate-middle badge rounded-pill bg-danger">
+                                    {{ $unreadKeluhanCount }}
+                                </span>
+                            @endif
                                     </a>
                                 </li>
                                 <li class="submenu-item {{ request()->is('pemesanan/pesanan-dibatalkan') ? 'active' : '' }} ">
@@ -208,18 +216,16 @@
                                 <span>Keluhan</span>
 
                                 @php
-                                    $unreadKeluhanCount = Auth::user()
-                                        ->unreadNotifications->pluck('data.keluhan_id')
-                                        ->unique()
-                                        ->count();
-                                @endphp
-
-                                @if ($unreadKeluhanCount > 0)
-                                    <span
-                                        class="position-absolute top-40 start-50 translate-middle badge rounded-pill bg-danger">
-                                        {{ $unreadKeluhanCount }}
-                                    </span>
-                                @endif
+                                $unreadKeluhanCount = Auth::user()->unreadNotifications
+                                    ->where('type', 'App\Notifications\KeluhanDitanggapiNotification')
+                                    ->count();
+                            @endphp
+                    
+                            @if($unreadKeluhanCount > 0)
+                                <span class="position-absolute top-40 start-50 translate-middle badge rounded-pill bg-danger">
+                                    {{ $unreadKeluhanCount }}
+                                </span>
+                            @endif
                             </a>
                         </li>
 
