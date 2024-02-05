@@ -11,11 +11,24 @@ use Illuminate\Support\Facades\Mail;
 
 class EmailController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $emails = EmailMarketing::orderBy('created_at', 'desc')->get();
+        // Mendapatkan status dari parameter request, default ke 'sent' jika tidak disediakan
+        $status = $request->input('status', 'sent');
 
-    return view('emails.index', compact('emails'));
+        // Mengambil data email berdasarkan status
+        $emails = $this->getEmailsByStatus($status);
+
+        return view('emails.index', [
+            'emails' => $emails,
+            'status' => $status,
+        ]);
+    }
+
+    private function getEmailsByStatus($status)
+    {
+        return EmailMarketing::where('status', $status)->get();
+        // Sesuaikan dengan struktur dan kondisi database Anda
     }
 
     public function store(Request $request)

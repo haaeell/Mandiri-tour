@@ -5,25 +5,37 @@
 @section('breadcumb','Email Marketing')
 @section('content')
     <div class="container">
-        <div class="card p-3">
+        <div class="card p-3 shadow">
+            <ul class="nav nav-tabs mb-4">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->has('status') && request('status') == 'draft' ? 'active' : '' }}" href="{{ route('emails.index', ['status' => 'draft']) }}">Draft</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->has('status') && request('status') == 'sent' ? 'active' : '' }}" href="{{ route('emails.index', ['status' => 'sent']) }}">Sent</a>
+                </li>
+            </ul>
             <div class="row">
 
                 <div class="col-ms-12">
 
-                    <!-- Tombol untuk menampilkan modal -->
+                    @if ($status !== 'sent')
+                        
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createEmailModal">
                         Create Email Marketing
                     </button>
+                    @endif
 
-                    <!-- Tabel untuk menampilkan data email marketing -->
                     <table class="table" id="table1">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Subject</th>
                                 <th>Status</th>
-                                <th>Created At</th>
+                                <th>Deskripsi</th>
+                                <th>Tanggal</th>
+                                @if ($status !== 'sent')
                                 <th>Action</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -33,7 +45,10 @@
                                     <td>{{ $email->subject }}</td>
                                     <td>{{ $email->status }}</td>
                                     <td>{{ $email->content}}</td>
+                                    <td>{{ $email->created_at}}</td>
                                     <td>
+                                        @if ($email->status != 'sent')
+                                            
                                         <div class="d-flex">
 
                                             <!-- Tombol untuk menampilkan modal edit -->
@@ -94,6 +109,7 @@
                                                 </button>
                                             </form>
                                         </div>
+                                        @endif
                                     </td>
                                 </tr>
 
