@@ -158,14 +158,14 @@
                                 <li class="submenu-item {{ request()->is('pemesanan/pemesanan-baru') ? 'active' : '' }} ">
                                     <a href="{{ route('pemesanan.pemesanan-baru') }}" class="submenu-link">Pesanan Baru
                                         @php
-                                        $unreadKeluhanCount = Auth::user()->unreadNotifications
+                                        $unread = Auth::user()->unreadNotifications
                                             ->where('type', 'App\Notifications\PemesananBaru')
                                             ->count();
                                     @endphp
                             
-                                    @if($unreadKeluhanCount > 0)
+                                    @if($unread > 0)
                                         <span class="position-absolute top-20 start-70 translate-middle badge rounded-pill bg-danger">
-                                            {{ $unreadKeluhanCount }}
+                                            {{ $unread }}
                                         </span>
                                     @endif
                                     </a>
@@ -174,14 +174,14 @@
                                 
                                     <a href="{{ route('pemesanan.menunggu-konfirmasi') }}" class="submenu-link">Menunggu Konfirmasi
                                         @php
-                                    $unreadKeluhanCount = Auth::user()->unreadNotifications
+                                    $unread = Auth::user()->unreadNotifications
                                     ->where('type', 'App\Notifications\KonfirmasiPembayaranNotification')
                                     ->count();
                             @endphp
                     
-                            @if($unreadKeluhanCount > 0)
+                            @if($unread > 0)
                                 <span class="position-absolute top-40 start-50 translate-middle badge rounded-pill bg-danger">
-                                    {{ $unreadKeluhanCount }}
+                                    {{ $unread }}
                                 </span>
                             @endif
                                     </a>
@@ -217,7 +217,7 @@
 
                                 @php
                                 $unreadKeluhanCount = Auth::user()->unreadNotifications
-                                    ->where('type', 'App\Notifications\KeluhanDitanggapiNotification')
+                                    ->where('type', 'App\Notifications\KeluhanBaruNotification')
                                     ->count();
                             @endphp
                     
