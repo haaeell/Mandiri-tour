@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
 @section('title')
-    Menunggu Konfirmasi Bukti Pembayaran
+    Konfirmasi Bukti Pembayaran
 @endsection
 @section('breadcumb', 'Pemesanan')
 
 @section('content')
     <div class="row d-flex">
-        <div class="col-md-12 card p-4">
+        <div class="col-md-12 card p-4 shadow">
             <div class="col-md-2">
                 <a href="{{ route('pemesanan.create') }}" class="btn btn-primary mb-3 ">
                     Tambah

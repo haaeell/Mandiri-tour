@@ -53,7 +53,8 @@ Route::get('/login/google',[LoginController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback',[LoginController::class, 'handleGoogleCallback']);
 
 Route::get('/testing', [TestingController::class,'index']);
-Route::post('/seo-check', [TestingController::class, 'checkSEO'])->name('seo.check');
+Route::post('/kabisat', [TestingController::class, 'checkTahunKabisat'])->name('kabisat');
+
 
 
 

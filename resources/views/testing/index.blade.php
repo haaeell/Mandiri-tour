@@ -17,11 +17,11 @@
 @endsection --}}
 
 @section('content')
-    <form method="post" action="{{ route('seo.check') }}">
+    <form method="post" action="{{ route('kabisat') }}">
         @csrf
-        <label for="website_url">Website URL:</label>
-        <input type="url" name="website_url" required>
-        <button type="submit">Check SEO</button>
+        <label for="website_url">Masukan Tahun: </label>
+        <input type="number" name="tahun" required>
+        <button type="submit">Cek tahun kabisat</button>
     </form>
 @endsection
 

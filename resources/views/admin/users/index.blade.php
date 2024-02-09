@@ -6,7 +6,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="card p-3">
+            <div class="card p-3 shadow">
                 <div class="col-md-2">
                     <button type="button" class="btn btn-primary mb-3 " data-bs-toggle="modal" data-bs-target="#modalCenter">
                         Tambah
@@ -29,7 +29,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{$users->count()}}
                             @foreach ($users as $user)
                                 <tr>
                                     <td><input type="checkbox" name="selectedItems[]" value="{{ $user->id }}"></td>
@@ -254,10 +253,7 @@
                     <button class="btn btn-danger btn-sm delete-button" data-id="{{ $user->id }}">
                         Hapus data yang dipilih
                     </button>
-                    <button class="btn btn-success btn-sm ">
-                        Kirim Email
-                    </button>
-                    <a href="{{ url('/export-pdf') }}" class="btn btn-outline-secondary">PDF</a>
+                    <a href="{{ url('/export-pdf') }}" class="btn btn-outline-secondary">Cetak Data Customers</a>
                 </div>
                 </tbody>
                 </table>

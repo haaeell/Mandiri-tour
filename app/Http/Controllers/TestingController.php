@@ -42,23 +42,40 @@ public function checkSEO(Request $request)
 }
 
 // Metode ini dapat diisi dengan logika pengukuran SEO sesuai kebutuhan Anda
-private function performSEOCheck($websiteUrl)
-{
-    // Contoh menggunakan HTTP Client Laravel untuk mendapatkan informasi halaman
-    $response = Http::get($websiteUrl);
-    $title = $response->title(); // Mendapatkan judul HTML
-$content = $response->body(); // Mendapatkan konten HTML
+// private function performSEOCheck($websiteUrl)
+// {
+//     // Contoh menggunakan HTTP Client Laravel untuk mendapatkan informasi halaman
+//     $response = Http::get($websiteUrl);
+//     $title = $response->title(); // Mendapatkan judul HTML
+// $content = $response->body(); // Mendapatkan konten HTML
 
-// Tampilkan hasilnya
-dd($title, $content);
+// // Tampilkan hasilnya
+// dd($title, $content);
 
-    // Contoh hasil pengukuran SEO, sesuaikan dengan kebutuhan Anda
-    $seoResults = [
-        'title' => $response->title(),
-        'meta_description' => $response->meta('description'),
-        // ... informasi SEO lainnya ...
-    ];
+//     // Contoh hasil pengukuran SEO, sesuaikan dengan kebutuhan Anda
+//     $seoResults = [
+//         'title' => $response->title(),
+//         'meta_description' => $response->meta('description'),
+//         // ... informasi SEO lainnya ...
+//     ];
 
-    return $seoResults;
-}
+//     return $seoResults;
+// }
+
+public function checkTahunKabisat(Request $request)
+    {
+       
+        $tahun = $request->input('tahun'); // Gantilah sesuai dengan cara Anda mendapatkan tahun
+
+        if ($this->isKabisat($tahun)) {
+            return "Tahun " . $tahun . " adalah tahun kabisat.";
+        } else {
+            return "Tahun " . $tahun . " bukan tahun kabisat.";
+        }
+    }
+
+    protected function isKabisat($tahun)
+    {
+        return (($tahun % 4 == 0 && $tahun % 100 != 0) || ($tahun % 400 == 0));
+    }
 }

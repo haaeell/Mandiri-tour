@@ -1,12 +1,15 @@
 
 @extends('layouts.dashboard')
+@section('title')
+    Tabel Keluhan
+@endsection
+@section('breadcumb','Keluhan')
 
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">Seluruh Data Keluhan</div>
+                <div class="card shadow">
 
                     <div class="card-body">
                         @if($keluhan->count() > 0)

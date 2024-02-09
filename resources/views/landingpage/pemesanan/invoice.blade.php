@@ -27,8 +27,8 @@
         
         @if ($pemesanan->status_pembayaran != 'Pembayaran Diterima')
             
-        <button class="btn btn-success mb-3">Cetak Invoice </button>
-        <div class="card p-3">
+        <button class="btn btn-success btn-lg mb-3">Cetak Invoice </button>
+        <div class="card p-3 shadow mb-5">
             <div class="card-header">
                 <h2 class="fw-semibold text-center">Invoice Pembayaran</h2>
             </div>
@@ -102,7 +102,7 @@
                         <form action="{{ route('pemesanan.cancel', $pemesanan->id) }}" method="post">
                             @csrf
                             @method('post')
-                            <button type="submit" class="btn btn-danger">Batalkan Pemesanan</button>
+                            <button type="submit" class="btn btn-danger btn-lg">Batalkan Pemesanan</button>
                         </form>
                     @endif
             </div>
