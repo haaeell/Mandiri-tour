@@ -119,8 +119,8 @@
                                     <a href={{ route('hotel.index') }} class="submenu-link">Hotel</a>
 
                                 </li>
-                                <li class="submenu-item {{ request()->is('bus') ? 'active' : '' }} ">
-                                    <a href={{ route('bus.index') }} class="submenu-link">Bus</a>
+                                <li class="submenu-item {{ request()->is('kendaraan') ? 'active' : '' }} ">
+                                    <a href={{ route('kendaraan.index') }} class="submenu-link">Kendaraan</a>
 
                                 </li>
 

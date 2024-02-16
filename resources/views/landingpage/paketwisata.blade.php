@@ -10,7 +10,7 @@
                 <form action="" class="d-flex" method="get">
                     <label for="search"></label>
                     <input type="text" name="keyword" id="search" class="form-control">
-                    <button type="submit" class="btn btn-primary">serch</button>
+                    <button type="submit" class="btn btn-primary">search</button>
                 </form>
             </div>
             <h2 class="fw-bold text-center mb-5">Paket Wisata</h2>

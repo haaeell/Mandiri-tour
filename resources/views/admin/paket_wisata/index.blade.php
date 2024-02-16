@@ -25,6 +25,7 @@
                         <th>Durasi</th>
                         <th>Kategori</th>
                         <th>Wisata</th>
+                        <th>Kendaraan</th>
 
                         <th>Aksi</th>
                     </tr>
@@ -60,6 +61,7 @@
                                 </span>
                                 @endforeach
                             </td>
+                            <td>{{$item->kendaraan->nama}}</td>
                             <td>
                                 <div class="d-flex gap-1 ">
                                     <a href="{{ route('paket-wisata.edit', $item->id) }}"

@@ -11,8 +11,9 @@ class PaketWisata extends Model
     use HasFactory, Searchable;
     
     protected $table = 'paket_wisata';
-    protected $fillable = ['nama', 'gambar', 'deskripsi', 'fasilitas', 'harga',  'kategori', 'durasi','slug'];
-
+    protected $fillable = [
+        'nama', 'gambar', 'durasi', 'deskripsi', 'fasilitas', 'harga', 'kategori', 'kendaraan_id', 'slug'
+    ];
     public function kotas()
     {
         return $this->belongsToMany(Kota::class, 'paket_wisata_kota', 'paket_wisata_id', 'kota_id');
@@ -22,6 +23,10 @@ class PaketWisata extends Model
     {
         return $this->belongsToMany(Wisata::class, 'paket_wisata_wisata', 'paket_wisata_id', 'wisata_id');
     } 
+    public function kendaraan()
+    {
+        return $this->belongsTo(Kendaraan::class);
+    }
 
     public function toSearchableArray(): array
 {

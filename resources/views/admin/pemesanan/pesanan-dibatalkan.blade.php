@@ -38,24 +38,27 @@
                             <td>{{ $item->alamat }}</td>
                             <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
                             <td>
-                                
-                                @if($item->status_pembayaran == 'Pemesanan Dibatalkan')
-                                    <span class="badge bg-secondary">
-                                        {{$item->status_pembayaran}}
-                                    </span>
-                                @elseif($item->status_pembayaran == 'Menunggu Konfirmasi Admin' && !$item->bukti_pembayaran)
-                                    <span class="badge bg-danger">
-                                        Menunggu Pembayaran
-                                    </span>
-                                @elseif($item->status_pembayaran == 'Pembayaran Diterima' && $item->bukti_pembayaran > 0 )
-                                <span class="badge bg-success">
-                                    Pembayaran Diterima
+                                @if($item->status_pembayaran == 'Belum Dibayar')
+                                <span class="badge bg-danger">
+                                    {{$item->status_pembayaran}}
                                 </span>
-                                @else
+                            @elseif($item->status_pembayaran == 'Menunggu Konfirmasi Admin')
                                 <span class="badge bg-warning">
-                                    Menunggu Konfirmasi Admin
+                                    {{$item->status_pembayaran}}
                                 </span>
-                                @endif
+                            @elseif($item->status_pembayaran == 'Pembayaran Diterima')
+                                <span class="badge bg-success">
+                                    {{$item->status_pembayaran}}
+                                </span>
+                            @elseif($item->status_pembayaran == 'Pembayaran Ditolak')
+                                <span class="badge bg-danger">
+                                    {{$item->status_pembayaran}}
+                                </span>
+                            @elseif($item->status_pembayaran == 'Pemesanan Dibatalkan')
+                                <span class="badge bg-secondary">
+                                    {{$item->status_pembayaran}}
+                                </span>
+                            @endif
                             </td>
                             <td>
                                 {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->isoFormat('D MMMM YYYY') }}

@@ -1,8 +1,8 @@
 @extends('layouts.dashboard')
 @section('title')
-    Daftar bus
+    Daftar kendaraan
 @endsection
-@section('breadcumb','Bus')
+@section('breadcumb','kendaraan')
 @section('content')
     <div class="row d-flex">
         <div class="col-md-12 card p-4">
@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($bus as $item)
+                    @foreach ($kendaraan as $item)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $item->nama }}</td>
@@ -35,13 +35,13 @@
                                     alt="{{ $item->gambar ? 'item Image' : 'Default Image' }}" width="50"></td>
                             <td>
                                 <div class="d-flex gap-1 ">
-                                    <a href="{{ route('bus.edit', $item->id) }}"
+                                    <a href="{{ route('kendaraan.edit', $item->id) }}"
                                         class="btn btn-warning btn-sm  text-center" data-bs-toggle="modal"
                                         data-bs-target="#modalEdit{{ $item->id }}">
                                         <i class="bi bi-pencil-fill"></i></a>
 
                                     <form id="deleteForm{{ $item->id }}" method="POST"
-                                        action="{{ route('bus.destroy', $item->id) }}">
+                                        action="{{ route('kendaraan.destroy', $item->id) }}">
                                         @csrf
                                         @method('delete')
                                         <button type="button" class="btn btn-danger delete-btn btn-sm"
@@ -58,11 +58,11 @@
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="modalCenterTitle">Update bus<h5>
+                                                <h5 class="modal-title" id="modalCenterTitle">Update kendaraan<h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                             </div>
-                                            <form action="{{ route('bus.update', $item->id) }}" method="POST"
+                                            <form action="{{ route('kendaraan.update', $item->id) }}" method="POST"
                                                 id="form-update" data-id="{{ $item->id }}"
                                                 enctype="multipart/form-data">
                                                 @csrf
@@ -78,7 +78,7 @@
                                                                 <div class="form-group has-icon-left">
                                                                     <div class="position-relative">
                                                                         <input type="text" class="form-control"
-                                                                            placeholder="Nama bus" name="nama"
+                                                                            placeholder="Nama kendaraan" name="nama"
                                                                             id="first-name-horizontal-icon"
                                                                             value="{{ $item->nama }}">
                                                                         <div class="form-control-icon">
@@ -184,10 +184,10 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalCenterTitle">Tambah bus</h5>
+                        <h5 class="modal-title" id="modalCenterTitle">Tambah kendaraan</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('bus.store') }}" id="form-tambah" method="POST"
+                    <form action="{{ route('kendaraan.store') }}" id="form-tambah" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
@@ -200,7 +200,7 @@
                                     <div class="col-md-10">
                                         <div class="form-group has-icon-left">
                                             <div class="position-relative">
-                                                <input type="text" class="form-control" placeholder="Nama bus"
+                                                <input type="text" class="form-control" placeholder="Nama kendaraan"
                                                     name="nama" id="first-name-horizontal-icon" required>
                                                 <div class="form-control-icon">
                                                     <i class="bi bi-person"></i>

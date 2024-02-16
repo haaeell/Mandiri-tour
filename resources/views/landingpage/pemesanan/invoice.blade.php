@@ -57,7 +57,7 @@
                                 <div class="d-flex">
 
                                     <dt class="col-sm-4">Tanggal </dt>
-                                    <dt class="col-sm-8">:  {{ $pemesanan->tanggal_pemesanan }}</dt>
+                                    <dt class="col-sm-8">:  {{ $pemesanan->tanggal_keberangkatan }}</dt>
                                 </div>
                             </div>
                             
@@ -70,7 +70,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>Nama Paket</th>
-                                    <th>Jumlah Peserta</th>
+                                    <th>Jumlah Paket</th>
                                     <th>Harga per Paket</th>
                                     <th>Total</th>
                                     <th>Terbilang</th>
@@ -79,7 +79,7 @@
                             <tbody class="table-group-divider">
                                 <tr>
                                     <td>{{ $pemesanan->paket->nama }}</td>
-                                    <td>{{ $pemesanan->jumlah_peserta }}</td>
+                                    <td>{{ $pemesanan->jumlah_paket }}</td>
                                     <td>{{ 'Rp '.number_format($pemesanan->paket->harga, 0, ',', '.') }}</td>
                                 <td class="fw-bold text-danger">{{ 'Rp '.number_format($pemesanan->total_pembayaran, 0, ',', '.') }}</td>
                                 <td class="fw-bold ">{{ ucwords(\App\Helpers\TerbilangHelper::terbilang($pemesanan->total_pembayaran)) }} Rupiah</td>
@@ -134,7 +134,7 @@
                      <thead class="table-light">
                          <tr>
                              <th>Nama Paket</th>
-                             <th>Jumlah Peserta</th>
+                             <th>Jumlah Paket</th>
                              <th>Alamat</th>
                              <th>Tanggal Keberangkatan</th>
                              <th>Status</th>
@@ -144,9 +144,9 @@
                      <tbody class="table-group-divider">
                          <tr>
                              <td>{{ $pemesanan->paket->nama }}</td>
-                             <td>{{ $pemesanan->jumlah_peserta }}</td>
+                             <td>{{ $pemesanan->jumlah_paket }}</td>
                              <td>{{ $pemesanan->alamat }}</td>
-                             <td>{{ \Carbon\Carbon::parse($pemesanan->tanggal_pemesanan)->format('d F Y ') }}</td>
+                             <td>{{ \Carbon\Carbon::parse($pemesanan->tanggal_keberangkatan)->format('d F Y ') }}</td>
                              <td><span class="badge bg-success">{{ $pemesanan->status_pembayaran }}</span></td>
      
                          </tr>
@@ -168,6 +168,8 @@
                                      @endforeach
                                  </div>
                                  <p>{{ $pemesanan->paket->deskripsi }}</p>
+                                 <p>{{ $pemesanan->paket->kendaraan->nama }}</p>
+                                 <p>{{ $pemesanan->paket->kendaraan->kapasitas }}</p>
                              </div>
                          </div>
                      </div>

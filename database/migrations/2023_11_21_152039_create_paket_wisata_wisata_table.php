@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('wisata_id');
             $table->timestamps();
 
-            // Definisi kunci asing
+           
             $table->foreign('paket_wisata_id')->references('id')->on('paket_wisata')->onDelete('cascade');
             $table->foreign('wisata_id')->references('id')->on('wisata')->onDelete('cascade');
         });

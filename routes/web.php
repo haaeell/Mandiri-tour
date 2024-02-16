@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\BusController;
+use App\Http\Controllers\KendaraanController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\GaleriController;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +71,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::resource('kota', KotaController::class);
     Route::resource('wisata', WisataController::class);
     Route::resource('hotel', HotelController::class);
-    Route::resource('bus', BusController::class);
+    Route::resource('kendaraan', KendaraanController::class);
     Route::resource('galeri', GaleriController::class);
     Route::resource('paket-wisata', PaketWisataController::class);
     Route::resource('pemesanan', PemesananController::class);

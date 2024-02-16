@@ -41,8 +41,8 @@ class PemesananController extends Controller
         $request->validate([
             'user_id' => 'required',
             'paket_id' => 'required',
-            'jumlah_peserta' => 'required|integer|min:1',
-            'tanggal_pemesanan' => 'required|date',
+            'jumlah_paket' => 'required|integer|min:1',
+            'tanggal_keberangkatan' => 'required|date',
             'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
         ], [
             'required' => 'Kolom :attribute harus diisi.',
@@ -50,13 +50,13 @@ class PemesananController extends Controller
         ]);
     
         $hargaPaket = PaketWisata::find($request->paket_id)->harga;
-        $totalPembayaran = $hargaPaket * $request->jumlah_peserta;
+        $totalPembayaran = $hargaPaket * $request->jumlah_paket;
         // Simpan data ke dalam tabel wisata
         $pemesanan = Pemesanan::create([
             'user_id' => $request->user_id,
             'paket_id' => $request->paket_id,
-            'jumlah_peserta' => $request->jumlah_peserta,
-            'tanggal_pemesanan' => $request->tanggal_pemesanan,
+            'jumlah_paket' => $request->jumlah_paket,
+            'tanggal_keberangkatan' => $request->tanggal_keberangkatan,
             'bukti_pembayaran' => $request->file('bukti_pembayaran') ? $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public') : null,
             'status_pembayaran' => 'Menunggu Konfirmasi Admin',
             'total_pembayaran' => $totalPembayaran,
@@ -101,12 +101,12 @@ class PemesananController extends Controller
     }
     public function pesanPaket(Request $request)
     {
-        
+       
         $request->validate([
             'user_id' => 'required',
             'paket_id' => 'required',
-            'jumlah_peserta' => 'required|integer|min:1',
-            'tanggal_pemesanan' => 'required|date',
+            'jumlah_paket' => 'required|integer|min:1',
+            'tanggal_keberangkatan' => 'required|date',
             'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
             'alamat' => 'required|string',
         ], [
@@ -115,17 +115,16 @@ class PemesananController extends Controller
         ]);
     
         $hargaPaket = PaketWisata::find($request->paket_id)->harga;
-        $totalPembayaran = $hargaPaket * $request->jumlah_peserta;
+        $totalPembayaran = $hargaPaket * $request->jumlah_paket;
         $uuid = Str::uuid();
         // Simpan data ke dalam tabel wisata
         $pemesanan = Pemesanan::create([
             'id' => $uuid,
             'user_id' => $request->user_id,
             'paket_id' => $request->paket_id,
-            'jumlah_peserta' => $request->jumlah_peserta,
-            'tanggal_pemesanan' => $request->tanggal_pemesanan,
+            'jumlah_paket' => $request->jumlah_paket,
+            'tanggal_keberangkatan' => $request->tanggal_keberangkatan,
             'bukti_pembayaran' => $request->file('bukti_pembayaran') ? $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public') : null,
-            'status_pembayaran' => 'Menunggu Konfirmasi Admin',
             'total_pembayaran' => $totalPembayaran,
             'alamat' => $request->alamat,
         ]);
@@ -212,8 +211,7 @@ public function pemesananBaru()
             $notification->markAsRead();
         }
     }
-    $pemesanan = Pemesanan::where('status_pembayaran', 'Menunggu Konfirmasi Admin')
-        ->whereNull('bukti_pembayaran') // Hanya ambil yang bukti pembayarannya kosong
+    $pemesanan = Pemesanan::where('status_pembayaran', 'Belum Dibayar')
         ->latest() // Mengurutkan berdasarkan tanggal pembuatan terbaru
         ->get();
 

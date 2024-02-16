@@ -10,6 +10,8 @@
                             <div>
 
                                 <h2 class="fw-semibold">{{$paketWisata->nama}}</h2>
+                                <h2 class="fw-semibold">{{$paketWisata->kendaraan->nama}}</h2>
+                                <h2 class="fw-semibold">{{$paketWisata->kendaraan->kapasitas}}</h2>
                                 <div class="mb-3 d-flex gap-2">
                                     @foreach ($paketWisata->kotas as $kota)
                                         <span class="badge text-bg-success">{{ $kota->nama }}</span>
@@ -87,12 +89,12 @@
                     <input type="text" class="form-control"  value="{{ $paketWisata->nama }}" readonly>
                 </div>
                 <div class="mb-3">
-                    <label for="jumlah_peserta" class="form-label">Jumlah Peserta:</label>
-                    <input type="number" class="form-control" id="jumlah_peserta" name="jumlah_peserta" value="{{ old('jumlah_peserta') }}" required>
+                    <label for="jumlah_paket" class="form-label">Jumlah Paket:</label>
+                    <input type="number" class="form-control" id="jumlah_paket" name="jumlah_paket" value="{{ old('jumlah_paket') }}" required>
                 </div>
                 <div class="mb-3">
-                    <label for="tanggal_pemesanan" class="form-label">Tanggal Pemesanan:</label>
-                    <input type="date" class="form-control" id="tanggal_pemesanan" name="tanggal_pemesanan" value="{{ old('tanggal_pemesanan') }}" required>
+                    <label for="tanggal_keberangkatan" class="form-label">Tanggal Keberangkatan:</label>
+                    <input type="date" class="form-control" id="tanggal_keberangkatan" name="tanggal_keberangkatan" value="{{ old('tanggal_keberangkatan') }}" required>
                 </div>
                 <div class="mb-3">
                   <label for="alamat" class="form-label">Alamat:</label>

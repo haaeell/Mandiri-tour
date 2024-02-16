@@ -20,6 +20,9 @@ return new class extends Migration
             $table->text('fasilitas');
             $table->decimal('harga', 10, 2);
             $table->string('kategori');
+            $table->unsignedBigInteger('kendaraan_id')->nullable();
+            $table->foreign('kendaraan_id')->references('id')->on('kendaraan')->onDelete('set null');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

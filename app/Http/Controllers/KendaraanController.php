@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bus;
+use App\Models\Kendaraan;
 use Illuminate\Http\Request;
 
-class BusController extends Controller
+class KendaraanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $bus = Bus::all();
-        return view('admin.bus.index',compact('bus'));
+        $kendaraan = Kendaraan::all();
+        return view('admin.kendaraan.index',compact('kendaraan'));
     }
 
     /**
@@ -52,7 +52,7 @@ class BusController extends Controller
             $data['gambar'] = $namaGambar;
         }
 
-        Bus::create($data);
+        Kendaraan::create($data);
 
         return response()->json(['message' => 'Data berhasil disimpan']);
     }
@@ -93,7 +93,7 @@ class BusController extends Controller
         'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
     ], $messages);
 
-    $wisata = Bus::findOrFail($id);
+    $wisata = Kendaraan::findOrFail($id);
 
     if ($request->hasFile('gambar')) {
         $image = $request->file('gambar');
@@ -113,7 +113,7 @@ class BusController extends Controller
      */
     public function destroy(string $id)
     {
-        $data = Bus::findorFail($id);
+        $data = Kendaraan::findorFail($id);
          $data->delete();
          session()->flash('success', 'Data berhasil dihapus');
          return redirect()->back();
