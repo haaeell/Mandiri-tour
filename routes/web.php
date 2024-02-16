@@ -54,7 +54,7 @@ Route::get('/login/google/callback',[LoginController::class, 'handleGoogleCallba
 
 Route::get('/testing', [TestingController::class,'index']);
 Route::post('/kabisat', [TestingController::class, 'checkTahunKabisat'])->name('kabisat');
-
+Route::get('/home/{status}', [HomeController::class, 'getUsersByStatus']);
 
 
 

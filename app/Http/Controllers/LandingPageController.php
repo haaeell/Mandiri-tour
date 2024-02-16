@@ -39,9 +39,15 @@ class LandingPageController extends Controller
 }
 
 
-    public function paketWisata()
+    public function paketWisata(Request $request)
     {
-        $paketWisata = PaketWisata::all();
+        $search = $request->keyword;
+        if($search){
+            $paketWisata = PaketWisata::search($search)->get();
+        }
+        else{
+            $paketWisata = PaketWisata::all();
+        }
         
         return view('landingpage.paketwisata', compact('paketWisata'));
 

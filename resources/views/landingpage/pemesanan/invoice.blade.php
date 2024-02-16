@@ -73,6 +73,7 @@
                                     <th>Jumlah Peserta</th>
                                     <th>Harga per Paket</th>
                                     <th>Total</th>
+                                    <th>Terbilang</th>
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider">
@@ -81,6 +82,7 @@
                                     <td>{{ $pemesanan->jumlah_peserta }}</td>
                                     <td>{{ 'Rp '.number_format($pemesanan->paket->harga, 0, ',', '.') }}</td>
                                 <td class="fw-bold text-danger">{{ 'Rp '.number_format($pemesanan->total_pembayaran, 0, ',', '.') }}</td>
+                                <td class="fw-bold ">{{ ucwords(\App\Helpers\TerbilangHelper::terbilang($pemesanan->total_pembayaran)) }} Rupiah</td>
                                 </tr>
                             </tbody>
                         </table>

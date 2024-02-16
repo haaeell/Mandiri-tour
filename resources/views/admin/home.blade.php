@@ -80,9 +80,62 @@
                 <h6 class="font-extrabold mb-0 text-center">Users Without Orders : {{ $usersWithoutOrders->count() }}</h6>
                 <h6 class="font-extrabold mb-0 text-center">Users Cancel Orders : {{ $usersWithCancelledOrders->count() }}</h6> --}}
                 {!! $monthlyUsersChart->container() !!}
+                <button class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#sudahPesanModal">Tampilkan User yang Sudah Memesan</button>
+                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#belumPesanModal">Tampilkan User yang Belum Memesan</button>
+<!-- Modal untuk pengguna yang sudah pesan -->
+<div class="modal fade" id="sudahPesanModal" tabindex="-1" aria-labelledby="sudahPesanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sudahPesanModalLabel">Pengguna yang Sudah Memesan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Pengguna</th>
+                            <th>No Telepon</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sudahPesanTableBody">
+                        <!-- Data pengguna yang sudah pesan akan dimuat di sini -->
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="col-md-6">
+    </div>
+</div>
+
+<!-- Modal untuk pengguna yang belum pesan -->
+<div class="modal fade" id="belumPesanModal" tabindex="-1" aria-labelledby="belumPesanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="belumPesanModalLabel">Pengguna yang Belum Memesan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Pengguna</th>
+                            <th>No Telepon</th>
+                        </tr>
+                    </thead>
+                    <tbody id="belumPesanTableBody">
+                        <!-- Data pengguna yang belum pesan akan dimuat di sini -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+        <div class="col-md-6 ">
             <div class="p-4  card shadow">
                 
                 {!! $monthlyOrdersChart->container() !!}
@@ -122,4 +175,41 @@
 
 {{ $monthlyUsersChart->script() }}
 {{ $monthlyOrdersChart->script() }}
+
+
+@endsection
+
+@section('script')
+<script>
+     $(document).ready(function() {
+        // Fungsi untuk memuat data pengguna menggunakan AJAX
+        function loadUsers(status, container) {
+            $.get(`/home/${status}`, function(data) {
+               
+                $(container).html('');
+                data.forEach(function(user, index) {
+                    $(container).append(`
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${user.name}</td>
+                            <td>${user.phone}</td>
+                        </tr>
+                        
+                    
+                        `);
+                });
+            });
+        }
+
+        // Memuat data pengguna yang sudah pesan saat modal ditampilkan
+        $('#sudahPesanModal').on('shown.bs.modal', function () {
+            loadUsers('sudah-pesan', '#sudahPesanTableBody');
+        });
+
+        // Memuat data pengguna yang belum pesan saat modal ditampilkan
+        $('#belumPesanModal').on('shown.bs.modal', function () {
+            loadUsers('belum-pesan', '#belumPesanTableBody');
+        });
+    });
+</script>
 @endsection

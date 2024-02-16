@@ -15,38 +15,20 @@ class MonthlyUsersChart
         $this->chart = $chart;
     }
 
-    public function build(): \ArielMejiaDev\LarapexCharts\BarChart
+    public function build(): \ArielMejiaDev\LarapexCharts\PieChart
     {
-        // Ambil data pengguna berdasarkan status pemesanan per bulan
-        $data = User::select(DB::raw('YEAR(created_at) as tahun'), DB::raw('MONTH(created_at) as bulan'), DB::raw('COUNT(*) as total'))
-            ->groupBy('tahun', 'bulan')
-            ->get();
-
-        // Inisialisasi array bulan dan total pengguna untuk setiap bulan
-        // Inisialisasi array bulan, total pemesanan, total penjualan, dan total pemesanan dibatalkan
-        $bulanLabels = [
-            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-            'Juli', 'Agustus', 'September', 'October', 'November', 'Desember'
-        ];
-
-        $totalSudahPesan = array_fill(0, 12, 0);
-        $totalBelumPesan = array_fill(0, 12, 0);
-        $totalPesanDibatalkan = array_fill(0, 12, 0);
-
-        // Mengisi array total pengguna berdasarkan status pemesanan per bulan
-        foreach ($data as $item) {
-            $bulanIndex = $item->bulan - 1;
-
-            $totalSudahPesan[$bulanIndex] = User::has('pemesanan')->whereYear('created_at', $item->tahun)->whereMonth('created_at', $item->bulan)->count();
-            $totalBelumPesan[$bulanIndex] = User::doesntHave('pemesanan')->whereYear('created_at', $item->tahun)->whereMonth('created_at', $item->bulan)->count();
-        }
+        // Ambil data pengguna berdasarkan status pemesanan
+        $totalSudahPesan = User::whereHas('pemesanan')->where('role', 'customer')->count();
+        $totalBelumPesan = User::whereDoesntHave('pemesanan')->where('role', 'customer')->count();
+       
 
         // Membangun chart dengan data dinamis
-        return $this->chart->barChart()
-            ->setTitle('Status Customer Berdasarkan Pemesanan per Bulan')
-            ->addData('Sudah Pernah Memesan', $totalSudahPesan)
-            ->addData('Belum Pernah Memesan', $totalBelumPesan)
-            ->setXAxis($bulanLabels)
-            ->setGrid('#3F51B5', 0.1);
+        return $this->chart->pieChart()
+            ->addData([$totalSudahPesan, $totalBelumPesan])
+            ->setLabels([
+                'Sudah Pernah Memesan: ',
+                'Belum Pernah Memesan: ',
+            ])
+            ->setColors(['#4CAF50', '#FFC107']); // warna yang Anda inginkan untuk masing-masing bagian
     }
 }

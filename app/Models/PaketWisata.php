@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class PaketWisata extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     
     protected $table = 'paket_wisata';
     protected $fillable = ['nama', 'gambar', 'deskripsi', 'fasilitas', 'harga',  'kategori', 'durasi','slug'];
@@ -21,4 +22,12 @@ class PaketWisata extends Model
     {
         return $this->belongsToMany(Wisata::class, 'paket_wisata_wisata', 'paket_wisata_id', 'wisata_id');
     } 
+
+    public function toSearchableArray(): array
+{
+    return [
+        'nama' => $this->nama,
+        'harga' => $this->harga,
+    ];
+}
 }

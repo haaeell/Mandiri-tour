@@ -62,6 +62,17 @@ class HomeController extends Controller
 
         ]);
         } 
+
+        public function getUsersByStatus($status)
+    {
+        if ($status === 'sudah-pesan') {
+            $users = User::has('pemesanan')->where('role', 'customer')->get();
+        } else {
+            $users = User::doesntHave('pemesanan')->where('role', 'customer')->get();
+        }
+
+        return $users;
+    }
     public function profile()
     {
         return view('admin.users.profile');
