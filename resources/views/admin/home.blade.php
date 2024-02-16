@@ -76,10 +76,10 @@
         <div class="col-md-6">
             <div class="p-4  card shadow">
                 <h6 class="font-extrabold mb-0 text-center">Total Customer : {{ $totalCustomer }}</h6>
-                {{-- <h6 class="font-extrabold mb-0 text-center">Users With Orders : {{ $usersWithOrders->count() }}</h6>
-                <h6 class="font-extrabold mb-0 text-center">Users Without Orders : {{ $usersWithoutOrders->count() }}</h6>
-                <h6 class="font-extrabold mb-0 text-center">Users Cancel Orders : {{ $usersWithCancelledOrders->count() }}</h6> --}}
-                {!! $monthlyUsersChart->container() !!}
+               
+                <div style="margin-top: 60px; margin-bottom:60px;">
+                    {!! $monthlyUsersChart->container() !!}
+                </div>
                 <button class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#sudahPesanModal">Tampilkan User yang Sudah Memesan</button>
                 <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#belumPesanModal">Tampilkan User yang Belum Memesan</button>
 <!-- Modal untuk pengguna yang sudah pesan -->
