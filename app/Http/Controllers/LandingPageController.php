@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Keluhan;
+use App\Models\Kota;
 use App\Models\PaketWisata;
 use App\Models\Pemesanan;
 use Illuminate\Http\Request;
@@ -39,19 +40,48 @@ class LandingPageController extends Controller
 }
 
 
-    public function paketWisata(Request $request)
-    {
-        $search = $request->keyword;
-        if($search){
-            $paketWisata = PaketWisata::search($search)->get();
-        }
-        else{
-            $paketWisata = PaketWisata::all();
-        }
-        
-        return view('landingpage.paketwisata', compact('paketWisata'));
+public function paketWisata(Request $request)
+{
+    $search = $request->keyword;
+    $min_price = $request->min_price;
+    $max_price = $request->max_price;
+    $city_id = $request->city;
+    $capacity = $request->capacity;
 
+    $query = PaketWisata::query();
+
+    if (!empty($search)) {
+        $query->where('nama', 'LIKE', '%' . $search . '%');
     }
+
+    if (!empty($min_price)) {
+        $query->where('harga', '>=', $min_price);
+    }
+
+    if (!empty($max_price)) {
+        $query->where('harga', '<=', $max_price);
+    }
+
+    if (!empty($city_id)) {
+        $query->whereHas('kotas', function ($q) use ($city_id) {
+            $q->where('kota_id', $city_id);
+        });
+    }
+
+    if (!empty($capacity)) {
+        // Menambahkan kondisi where untuk kapasitas kendaraan
+        $query->whereHas('kendaraan', function ($q) use ($capacity) {
+            $q->where('kapasitas', '=', $capacity);
+        });
+    }
+
+    $paketWisata = $query->get();
+    
+    $kotas = Kota::all(); // Mengambil data kota
+
+    return view('landingpage.paketwisata', compact('paketWisata', 'kotas'));
+}
+
     public function detailPaket($slug)
     {
         $paketWisata = PaketWisata::where('slug', $slug)->firstOrFail();

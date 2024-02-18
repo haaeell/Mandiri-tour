@@ -22,46 +22,122 @@
         <div class="container">
             <div class="d-flex gap-3 ">
                 <span class="text-white fw-bold">Find your favorite travel destination!</span>
-                <div class="search-container">
-                    <input type="text" name="search" placeholder="Search..." class="search-input">
-                    <a href="#" class="search-btn">
-                        <i class="fas fa-search"></i>      
-                    </a>
-                </div>
-                
             </div>
           <div class="navbar-nav ">
               
             <a class="nav-link active  text-white fw-bold" aria-current="page" href="#"><i class="bi bi-telephone-forward-fill"></i> Contact Us</a>
           
         </div>
-        </div>
       </nav>
-    <nav class="navbar navbar-expand-lg navbar-light nav-parent sticky-top border-bottom border-info border-2" style="background-color: white" >
-        <div class="container">
-            <img src="../assets/img/logo2.png" class="pt-3" style="max-width: 100px; height: auto;" alt="">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto fw-semibold ">
-                    <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('/') ? 'menu-active' : ''}}" href="{{route('welcome')}}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('diskusi') ? 'menu-active' : ''}}" href="">Wisata</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('paket') ? 'menu-active' : ''}}" href="{{route('paketWisata')}}">Paket Wisata</a>
-                    </li>
-                    @if (Auth::check())
+    
+      <div class="sticky-top">
+
+          <nav class="navbar navbar-expand-lg navbar-light nav-parent  border-bottom border-2" style="background-color: white" >
+            <div class="container">
+                <img src="../assets/img/logo2.png" class="pt-3" style="max-width: 100px; height: auto;" alt="">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="navbar-nav mx-auto col-md-8 fw-semibold">
+                        <div class="input-group">
+                            <form action="" class="w-100 position-relative">
+                                <input type="search" style="border-radius: 32px; padding-right: 40px;" name="" id="" placeholder="Cari paket wisata favoritmu!" class="form-control px-3 py-2 my-4">
+                                <div class="position-absolute top-50 end-0 translate-middle-y">
+                                    <span class="input-group-text" style="background-color: transparent; border: none;"><i class="bi bi-search"></i></span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    <ul class="navbar-nav">
+                        @if (Route::has('login'))
+                        @auth
+                            @if (Auth::user()->role == "admin")
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('/home') }}">Dashboard</a>
+                                </li>
+                            @else
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ Auth::user()->image ? asset('/images/' . Auth::user()->image) : asset('assets/img/profile.png') }}"
+                                    alt="{{ Auth::user()->image ? 'User Image' : 'Default Image' }}" width="50" style="margin-right: 10px;">
+                                    {{Auth::user()->name}}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="#">Edit Profil</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                           Logout
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                            
+                            
+                            @endif
+                        @else
+                            <li class="nav-item">
+                                <a class="fw-bold nav-link " href="{{ route('login') }}"><button class="btn-login bn26">Login</button></a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="fw-bold nav-link nav-menu" href="{{ route('register') }}"><button class="btn">Register</button>
+                                    </a>
+                                </li>
+                            @endif
+                        @endauth
+                    @endif
+                    
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    
+        <nav class="navbar navbar-expand-lg navbar-light nav-parent  border-bottom border-info border-2 py-2 shadow" style="background-color: white" >
+            <div class="container">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto gap-4 fw-semibold ">
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('/') ? 'menu-active' : ''}}" href="{{route('welcome')}}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('diskusi') ? 'menu-active' : ''}}" href="">Wisata</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('paket') ? 'menu-active' : ''}}" href="{{route('paketWisata')}}">Paket Wisata</a>
+                        </li>
+                        @if (Auth::check())
+                            
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('keluhan') ? 'menu-active' : ''}}" href="{{ route('keluhan') }}">
+                                Keluhan
+                                @php
+                                    $unreadKeluhanCount = Auth::user()->unreadNotifications
+                                        ->where('type', 'App\Notifications\KeluhanDitanggapiNotification')
+                                        ->count();
+                                @endphp
                         
-                    <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('keluhan') ? 'menu-active' : ''}}" href="{{ route('keluhan') }}">
-                            Keluhan
-                            @php
+                                @if($unreadKeluhanCount > 0)
+                                    <span class="position-absolute top-20 start-70 translate-middle badge rounded-pill bg-danger">
+                                        {{ $unreadKeluhanCount }}
+                                    </span>
+                                @endif
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('riwayat-pesanan') ? 'menu-active' : ''}}" href="{{route('riwayatPesanan')}}">Pesanan
+                                @php
                                 $unreadKeluhanCount = Auth::user()->unreadNotifications
-                                    ->where('type', 'App\Notifications\KeluhanDitanggapiNotification')
+                                    ->where('type', 'App\Notifications\KonfirmasiPembayaran')
                                     ->count();
                             @endphp
                     
@@ -70,64 +146,18 @@
                                     {{ $unreadKeluhanCount }}
                                 </span>
                             @endif
-                        </a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('riwayat-pesanan') ? 'menu-active' : ''}}" href="{{route('riwayatPesanan')}}">Pesanan
-                            @php
-                            $unreadKeluhanCount = Auth::user()->unreadNotifications
-                                ->where('type', 'App\Notifications\KonfirmasiPembayaran')
-                                ->count();
-                        @endphp
-                
-                        @if($unreadKeluhanCount > 0)
-                            <span class="position-absolute top-20 start-70 translate-middle badge rounded-pill bg-danger">
-                                {{ $unreadKeluhanCount }}
-                            </span>
-                        @endif
-                        </a>
-                    </li>
-                    @endif
-                    <li class="nav-item">
-                        <a class="nav-link nav-menu {{ request()->is('about') ? 'menu-active' : ''}}" href="">About Us</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    @if (Route::has('login'))
-                    @auth
-                        @if (Auth::user()->role == "admin")
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/home') }}">Dashboard</a>
-                            </li>
-                        @else
-                            <li class="nav-item">
-                                <a class="fw-bold nav-link text-dark" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                   <button class="btn-login bn26">Logout</button>
-                                </a>
-                            </li>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        @endif
-                    @else
-                        <li class="nav-item">
-                            <a class="fw-bold nav-link " href="{{ route('login') }}"><button class="btn-login bn26">Login</button></a>
+                            </a>
                         </li>
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="fw-bold nav-link nav-menu" href="{{ route('register') }}"><button class="btn">Register</button>
-                                </a>
-                            </li>
                         @endif
-                    @endauth
-                @endif
-                
-                </ul>
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('about') ? 'menu-active' : ''}}" href="">About Us</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+      </div>
+</body>
     
     <a href="https://api.whatsapp.com/send?phone=6285321726312&text=Halo,%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20Mandiri%20Tour%20&%20Travel" target="_blank" class="whatsapp-btn"><i class="bi bi-whatsapp"></i></a>
     @yield('content')

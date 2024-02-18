@@ -33,6 +33,9 @@ class PaketWisata extends Model
     return [
         'nama' => $this->nama,
         'harga' => $this->harga,
+        'kota' => $this->kota,
+        'kapasitas' => $this->kapasitas,
     ];
 }
+
 }

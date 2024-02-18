@@ -2,7 +2,7 @@
 @section('content')
 <div class="container py-4">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-{{ Auth::check() ? '8' : '12' }}">
             <div class="d-flex gap-5 mb-4">
 
                 <img src="{{ asset('/images/' . $paketWisata->gambar) }}"
@@ -18,7 +18,14 @@
                                     @endforeach
                                 </div>
                                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias dignissimos consequuntur, quam quaerat placeat, ad inventore ullam exercitationem dolorem quae natus a unde nesciunt commodi explicabo odio similique nemo assumenda!</p>
-                                <h3 class="fw-semibold text-danger mt-5">Rp {{ number_format($paketWisata->harga, 0, ',', '.') }}</h3>
+                                <div class="d-flex mt-5 {{!Auth::check() ? 'justify-content-between' : ''}}">
+
+                                  <h3 class="fw-semibold text-danger">Rp {{ number_format($paketWisata->harga, 0, ',', '.') }}</h3>
+                                  @if (!Auth::check())
+                                      
+                                  <button class="btn btn-primary">Pesan Sekarang</button>
+                                  @endif
+                                </div>
                             </div>
             </div>
             <div>
@@ -66,8 +73,10 @@
                   </div>
             </div>
 
-
+            
         </div>
+        @if (Auth::check())
+            
         <div class="col-md-4">
             <div class="card p-3 shadow-lg" style="border: 2px solid #25aae1">
               <form action="{{ route('pesanPaket') }}" method="post">
@@ -105,6 +114,7 @@
             
             </div>
         </div>
+        @endif
     </div>
 </div>
 @endsection

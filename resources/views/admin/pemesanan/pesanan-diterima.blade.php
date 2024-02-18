@@ -18,7 +18,7 @@
                         <th>No</th>
                         <th>Nama</th>
                         <th>Paket</th>
-                        <th>Jumlah Peserta</th>
+                        <th>jumlah paket</th>
                         <th>Alamat</th>
                         <th>Total Pembayaran</th>
                         <th>Status Pembayaran</th>
@@ -34,11 +34,10 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $item->user->name }}</td>
                             <td>{{ $item->paket->nama }}</td>
-                            <td>{{ $item->jumlah_peserta }}</td>
+                            <td>{{ $item->jumlah_paket }}</td>
                             <td>{{ $item->alamat }}</td>
                             <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
-                            <td>
-                                @if($item->status_pembayaran == 'Belum Dibayar')
+                            <td> @if($item->status_pembayaran == 'Belum Dibayar')
                                 <span class="badge bg-danger">
                                     {{$item->status_pembayaran}}
                                 </span>
@@ -93,7 +92,7 @@
                                     data-phone="{{ $item->user->phone }}"
                                     data-nama="{{ $item->user->name }}"
                                     data-paket="{{ $item->paket->nama }}"
-                                    data-jumlah-peserta="{{ $item->jumlah_peserta }}"
+                                    data-jumlah-peserta="{{ $item->jumlah_paket }}"
                                     data-alamat="{{ $item->alamat }}"
                                     onclick="openWhatsApp(this)">
                                 <i class="bi bi-whatsapp"></i>
@@ -129,7 +128,7 @@
         
         Informasi Pemesanan:
         Paket: ${paket}
-        Jumlah Peserta: ${jumlahPeserta}
+        jumlah paket: ${jumlahPeserta}
         Alamat: ${alamat}
 
         Kami mengingatkan bahwa pembayaran Anda belum diterima. Jika ada pertanyaan, silakan tanyakan.

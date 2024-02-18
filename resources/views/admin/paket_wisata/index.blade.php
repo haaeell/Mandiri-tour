@@ -48,7 +48,8 @@
                                 <img src="{{ $item->gambar ? asset('/images/' . $item->gambar) : asset('assets/img/profile.png') }}"
                                     alt="{{ $item->gambar ? 'item Image' : 'Default Image' }}" width="50" onClick="showImage(this)">
                             </td>
-                            <td>{{ $item->deskripsi }}</td>
+                            <td>{{ implode(' ', array_slice(str_word_count($item->deskripsi, 2), 0, 3)) }}</td>
+
                             <td>{{ $item->fasilitas }}</td>
                             <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
                             <td>{{ $item->durasi }}</td>

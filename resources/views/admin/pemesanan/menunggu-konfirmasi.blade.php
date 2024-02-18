@@ -1,24 +1,20 @@
 @extends('layouts.dashboard')
 @section('title')
-    Konfirmasi Bukti Pembayaran
+    Pesanan Menunggu Konfirmasi
 @endsection
 @section('breadcumb', 'Pemesanan')
 
 @section('content')
     <div class="row d-flex">
         <div class="col-md-12 card p-4 shadow">
-            <div class="col-md-2">
-                <a href="{{ route('pemesanan.create') }}" class="btn btn-primary mb-3 ">
-                    Tambah
-                </a>
-            </div>
+            
             <table class="table table-hovered" id="table1">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
                         <th>Paket</th>
-                        <th>Jumlah Peserta</th>
+                        <th>jumlah paket</th>
                         <th>Alamat</th>
                         <th>Total Pembayaran</th>
                         <th>Status Pembayaran</th>
@@ -34,11 +30,10 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $item->user->name }}</td>
                             <td>{{ $item->paket->nama }}</td>
-                            <td>{{ $item->jumlah_peserta }}</td>
+                            <td>{{ $item->jumlah_paket }}</td>
                             <td>{{ $item->alamat }}</td>
                             <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
-                            <td>
-                                @if($item->status_pembayaran == 'Belum Dibayar')
+                            <td> @if($item->status_pembayaran == 'Belum Dibayar')
                                 <span class="badge bg-danger">
                                     {{$item->status_pembayaran}}
                                 </span>
@@ -93,7 +88,7 @@
                                     data-phone="{{ $item->user->phone }}"
                                     data-nama="{{ $item->user->name }}"
                                     data-paket="{{ $item->paket->nama }}"
-                                    data-jumlah-peserta="{{ $item->jumlah_peserta }}"
+                                    data-jumlah-peserta="{{ $item->jumlah_paket }}"
                                     data-alamat="{{ $item->alamat }}"
                                     onclick="openWhatsApp(this)">
                                 <i class="bi bi-whatsapp"></i>
@@ -115,7 +110,7 @@
     let phoneNumber = button.getAttribute('data-phone');
     let nama = button.getAttribute('data-nama');
     let paket = button.getAttribute('data-paket');
-    let jumlahPeserta = button.getAttribute('data-jumlah-peserta');
+    let jumlahPeserta = button.getAttribute('data-\].,-peserta');
     let alamat = button.getAttribute('data-alamat');
 
     // Pemeriksaan validitas nomor telepon
@@ -129,7 +124,7 @@
         
         Informasi Pemesanan:
         Paket: ${paket}
-        Jumlah Peserta: ${jumlahPeserta}
+        jumlah paket: ${jumlahPeserta}
         Alamat: ${alamat}
 
         Kami mengingatkan bahwa pembayaran Anda belum diterima. Jika ada pertanyaan, silakan tanyakan.
@@ -140,77 +135,6 @@
 }
 
 </script>
-    <script>
-        $(document).ready(function() {
-            $('#form-tambah').submit(function(e) {
-                e.preventDefault();
-
-                let formData = new FormData(this);
-
-                $.ajax({
-                    type: 'POST',
-                    url: $(this).attr('action'),
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: response.message,
-                        });
-
-                        $('#form-tambah')[0].reset();
-                        window.location.reload();
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 422) {
-                            // Handle validation errors
-                            let errors = xhr.responseJSON.errors;
-                            let errorMessage = '';
-
-                            for (let key in errors) {
-                                errorMessage += errors[key][0] + '<br>';
-                            }
-
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Validation Error',
-                                html: errorMessage,
-                            });
-                        } else {
-                            // Handle other errors
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'An error occurred while processing your request.',
-                            });
-                        }
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
-        function confirmDelete(userId) {
-            const userName = document.querySelector(`.delete-btn[data-id="${userId}"]`).getAttribute('data-name');
-
-            Swal.fire({
-                title: 'Konfirmasi Hapus',
-                text: `Apakah Anda yakin ingin menghapus ${userName}?`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById(`deleteForm${userId}`).submit();
-                }
-            });
-        }
-    </script>
-
+    
 
 @endsection

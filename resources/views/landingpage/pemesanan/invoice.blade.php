@@ -27,7 +27,8 @@
         
         @if ($pemesanan->status_pembayaran != 'Pembayaran Diterima')
             
-        <button class="btn btn-success btn-lg mb-3">Cetak Invoice </button>
+        <button class="btn btn-secondary btn-sm mb-3">Cetak Invoice </button>
+        <button class="btn btn-success btn-sm mb-3">Hubungi Admin </button>
         <div class="card p-3 shadow mb-5">
             <div class="card-header">
                 <h2 class="fw-semibold text-center">Invoice Pembayaran</h2>
@@ -72,8 +73,8 @@
                                     <th>Nama Paket</th>
                                     <th>Jumlah Paket</th>
                                     <th>Harga per Paket</th>
-                                    <th>Total</th>
                                     <th>Terbilang</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider">
@@ -81,8 +82,8 @@
                                     <td>{{ $pemesanan->paket->nama }}</td>
                                     <td>{{ $pemesanan->jumlah_paket }}</td>
                                     <td>{{ 'Rp '.number_format($pemesanan->paket->harga, 0, ',', '.') }}</td>
+                                    <td class="  "> <i> {{ ucwords(\App\Helpers\TerbilangHelper::terbilang($pemesanan->total_pembayaran)) }} Rupiah</i></td>
                                 <td class="fw-bold text-danger">{{ 'Rp '.number_format($pemesanan->total_pembayaran, 0, ',', '.') }}</td>
-                                <td class="fw-bold ">{{ ucwords(\App\Helpers\TerbilangHelper::terbilang($pemesanan->total_pembayaran)) }} Rupiah</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -104,7 +105,7 @@
                         <form action="{{ route('pemesanan.cancel', $pemesanan->id) }}" method="post">
                             @csrf
                             @method('post')
-                            <button type="submit" class="btn btn-danger btn-lg">Batalkan Pemesanan</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Batalkan Pemesanan</button>
                         </form>
                     @endif
             </div>

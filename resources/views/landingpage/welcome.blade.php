@@ -72,6 +72,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </section>
     {{-- PAKET WISATA --}}
     <section>
@@ -83,32 +84,42 @@
                 <div class="swiper-wrapper">
                     @foreach ($paketwisata as $p)
                         <div class="swiper-slide">
-                            <div class="card border-0 card-paket p-2">
-                                <img src="{{ asset('/images/' . $p->gambar) }}"
-                                    style="width: 100%; height:300px; border-radius:24px" alt="">
+                            <div class="card  card-paket border-0 p-3 shadow-lg">
+                                <div class="bg-primary border m-2 position-relative" style="border-radius: 16px;">
+                                    <img src="{{ asset('/images/' . $p->gambar) }}" style="width: 100%; height: 300px; border-radius: 16px;" alt="">
+                                    <div class="bg-danger text-white px-4 py-1 rounded fw-semibold position-absolute rounded-pill" style="transform: rotate(30deg); top: 10px; right: -20px;">
+                                        {{ $p->durasi }}
+                                    </div>
+                                    
+                                    <span class="position-absolute bottom-0 end-0 m-2 bg-white px-2 py-1 rounded fw-semibold">
+                                        {{ $p->kategori }}
+                                    </span>
+                                </div>
+                                
+                                
+                                
                                 <div class="px-2">
-                                    <h3 class="fw-semibold my-3">{{ $p->nama }}.</h3>
-                                    <div class="mb-3 d-flex gap-2">
+                                    <h3 class="fw-semibold my-3 text-center">{{ $p->nama }}.</h3>
+                                    <div class="mb-3 d-flex flex-wrap gap-2">
                                         @foreach ($p->kotas as $kota)
                                             <span class="badge text-bg-success">{{ $kota->nama }}</span>
                                         @endforeach
                                     </div>
-                                    <P>{{ $p->deskripsi }}</P>
-                                    <ol>
-                                        @foreach ($p->wisatas as $wisata)
-                                            <li>
-                                                {{ $wisata->nama }}
-                                            </li>
-                                        @endforeach
-
-                                    </ol>
-                                    <p>{{$p->fasilitad}}
+                                    
+                                    <p>
+                                        <span class="read-more">{{ Illuminate\Support\Str::limit($p->deskripsi, $limit = 130, $end = '...') }}</span>
+                                        <a href="{{ route('detailPaket', $p->slug) }}" class="show-more">Read more</a>
                                     </p>
-                                    <p>Rp {{ number_format($p->harga, 0, ',', '.') }}</p>
+                                    
+                                    
+                                    <p class="fw-bold m-0">Fasilitas : {{$p->fasilitas}}
+                                    </p>
+                                    <p class="fw-bold">Kendaraan : {{$p->kendaraan->nama}}  /<span class="text-danger"> ({{ $p->kendaraan->kapasitas }} orang) </span> 
+                                    </p>
+                                    <p class="fs-2 text-danger fw-bold text-center">Rp {{ number_format($p->harga, 0, ',', '.') }} <span class="fs-5 text-dark fw-normal"> / Paket</span> </p>
                                 </div>
-
-                                <button class="btn btn-secondary mb-1">Lihat Detail</button>
-                                <button class="btn btn-primary mb-2">Pesan Sekarang</button>
+                
+                                <a href="{{ route('detailPaket', $p->slug) }}" class="btn btn-paket  mb-1 btn-lg">Detail Info</a>
                             </div>
                         </div>
                     @endforeach
@@ -168,6 +179,8 @@
 @endsection
 
 @section('script')
+
+    </script>
     <script>
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 1,
@@ -197,7 +210,7 @@
             loop: true, // Menampilkan 1 kartu pada tampilan awal
             breakpoints: {
                 768: {
-                    slidesPerView: 4 // Menampilkan 3 kartu ketika lebar layar >= 768px
+                    slidesPerView: 3 // Menampilkan 3 kartu ketika lebar layar >= 768px
                 }
             },
             autoplay: {
