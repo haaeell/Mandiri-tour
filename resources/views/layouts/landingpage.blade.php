@@ -30,7 +30,7 @@
         </div>
       </nav>
     
-      <div class="sticky-top">
+      <div class=" {{ request()->is('/') ? 'sticky-top' : ''}}">
 
           <nav class="navbar navbar-expand-lg navbar-light nav-parent  border-bottom border-2" style="background-color: white" >
             <div class="container">
@@ -160,7 +160,34 @@
 </body>
     
     <a href="https://api.whatsapp.com/send?phone=6285321726312&text=Halo,%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20Mandiri%20Tour%20&%20Travel" target="_blank" class="whatsapp-btn"><i class="bi bi-whatsapp"></i></a>
+    <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top"><i class="bi bi-arrow-up"></i></button>
+
     @yield('content')
+
+    <script>
+        // Ketika dokumen dimuat
+window.onload = function() {
+  // Mendaftarkan fungsi untuk menampilkan atau menyembunyikan tombol scroll to top
+  window.addEventListener('scroll', toggleScrollToTopBtn);
+}
+
+// Fungsi untuk menampilkan atau menyembunyikan tombol scroll to top
+function toggleScrollToTopBtn() {
+  var btn = document.getElementById('scrollToTopBtn');
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    btn.style.display = 'block';
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+// Fungsi untuk menangani klik tombol scroll to top
+function scrollToTop() {
+  document.body.scrollTop = 0; // Untuk browser Safari
+  document.documentElement.scrollTop = 0; // Untuk browser lainnya
+}
+
+    </script>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
