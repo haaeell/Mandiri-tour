@@ -87,6 +87,10 @@ public function paketWisata(Request $request)
         $paketWisata = PaketWisata::where('slug', $slug)->firstOrFail();
         return view('landingpage.detailPaket', compact('paketWisata'));
     }
+    public function detailPaketForm($slug){
+        $paketWisata = PaketWisata::where('slug', $slug)->firstOrFail();
+        return view('landingpage.pemesanan.detailPaketForm', compact('paketWisata')); 
+    }
     public function riwayatPesanan()
     {
         $unreadNotifications = Auth::user()->unreadNotifications;

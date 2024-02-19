@@ -91,6 +91,7 @@
                 </div>
 
                 <a href="{{ route('detailPaket', $p->slug) }}" class="btn btn-paket  mb-1 btn-lg">Detail Info</a>
+                <a href="{{ route('detailPaketForm', $p->slug) }}" class="btn btn-paket2 mt-2  mb-1 btn-lg">Pesan Sekarang</a>
             </div>
         </div>
         @endforeach
@@ -124,10 +125,10 @@
             });
         }
     </script>
-    <script>
+    {{-- <script>
         function toggleLoading() {
     var loading = document.getElementById('loading');
     loading.style.display = (loading.style.display == 'none') ? 'block' : 'none';
 }
-    </script>
+    </script> --}}
 @endsection

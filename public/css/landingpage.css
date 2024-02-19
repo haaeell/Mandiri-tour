@@ -175,3 +175,28 @@ body{
     );
     box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
 }
+
+.btn-paket2 {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1c71e0;
+    cursor: pointer;
+    height: 45px;
+    text-align: center;
+    border: none;
+    background: linear-gradient(to right, #fff, #d6dff0, #d1d1d1, #ffffff);
+    background-size: 300% 100%;
+    border-radius: 50px;
+    transition: background-position 0.4s ease-in-out, color 0.4s ease-in-out;
+    box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+}
+
+.btn-paket2:hover {
+    background-position: 100% 0;
+    color: #1c71e0;
+}
+
+.btn-paket2:focus {
+    outline: none;
+}

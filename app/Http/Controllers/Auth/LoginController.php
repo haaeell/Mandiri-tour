@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -30,16 +31,32 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected function redirectTo()
-    {
-        $isAdmin = Auth::User()->role == "admin";
+    public function login(Request $request)
+{
+    // Validasi data input
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        if (!$isAdmin) {
-            
-        return '/';
+    // Mendefinisikan nilai dari variabel $credentials dengan data input
+    $credentials = $request->only('email', 'password');
+
+    // Proses autentikasi pengguna menggunakan metode attempt()
+    if (Auth::attempt($credentials)) {
+        // Cek apakah pengguna memiliki role admin
+        if (Auth::user()->role == 'admin') {
+            // Jika role adalah admin, arahkan ke halaman admin
+            return redirect()->route('home');
+        } else {
+            // Jika role bukan admin, arahkan sesuai dengan URL halaman sebelumnya atau halaman default
+            return redirect()->intended('/');
         }
-        return RouteServiceProvider::HOME;
+    } else {
+        // Jika autentikasi gagal, arahkan kembali ke halaman login dengan pesan kesalahan
+        return redirect('/login')->with('error', 'Email atau password salah. Silakan coba lagi.');
     }
+}
 
     /**
      * Create a new controller instance.

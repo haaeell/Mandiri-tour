@@ -31,33 +31,35 @@ use App\Http\Controllers\WisataController;
 */
 
 Route::get('/', [LandingpageController::class, 'index'])->name('welcome');
-Route::get('/keluhan', [LandingpageController::class, 'keluhan'])->name('keluhan');
-Route::get('/riwayat-pesanan', [LandingpageController::class, 'riwayatPesanan'])->name('riwayatPesanan');
-Route::post('/keluhan', [KeluhanController::class, 'store'])->name('keluhan.store');
+
 Route::get('/paket', [LandingpageController::class, 'paketWisata'])->name('paketWisata');
-Route::get('/paket/{slug}', [LandingpageController::class, 'detailPaket'])->name('detailPaket');
-Route::post('/pesan-paket', [PemesananController::class, 'pesanPaket'])->name('pesanPaket');
-Route::get('/pemesanan/invoice/{id}', [PemesananController::class, 'invoice'])->name('pemesanan.invoice');
-Route::post('/pemesanan/upload/{id}', [PemesananController::class, 'uploadBukti'])->name('pemesanan.upload');
-Route::post('/pemesanan/{id}/cancel', [PemesananController::class, 'cancel'])->name('pemesanan.cancel');
 
-Route::get('/pemesanan/pemesanan-baru', [PemesananController::class, 'pemesananBaru'])->name('pemesanan.pemesanan-baru');
-
-Route::get('/pemesanan/menunggu-konfirmasi', [PemesananController::class, 'menungguKonfirmasi'])->name('pemesanan.menunggu-konfirmasi');
-
-Route::get('/pemesanan/pesanan-dibatalkan', [PemesananController::class, 'pesananDibatalkan'])->name('pemesanan.pesanan-dibatalkan');
-
-Route::get('/pemesanan/pesanan-diterima', [PemesananController::class, 'pesananDiterima'])->name('pemesanan.pesanan-diterima');
 
 Route::get('/login/google',[LoginController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback',[LoginController::class, 'handleGoogleCallback']);
+Route::get('/paket/{slug}', [LandingpageController::class, 'detailPaket'])->name('detailPaket');
+
 
 Route::get('/testing', [TestingController::class,'index']);
 Route::post('/kabisat', [TestingController::class, 'checkTahunKabisat'])->name('kabisat');
-Route::get('/home/{status}', [HomeController::class, 'getUsersByStatus']);
 
 
 
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/pesan-paket', [PemesananController::class, 'pesanPaket'])->name('pesanPaket');
+    Route::get('/pemesanan/invoice/{id}', [PemesananController::class, 'invoice'])->name('pemesanan.invoice');
+    Route::post('/pemesanan/upload/{id}', [PemesananController::class, 'uploadBukti'])->name('pemesanan.upload');
+    Route::post('/pemesanan/{id}/cancel', [PemesananController::class, 'cancel'])->name('pemesanan.cancel');
+
+    Route::get('/keluhan', [LandingpageController::class, 'keluhan'])->name('keluhan');
+    Route::get('/riwayat-pesanan', [LandingpageController::class, 'riwayatPesanan'])->name('riwayatPesanan');
+    Route::post('/keluhan', [KeluhanController::class, 'store'])->name('keluhan.store');
+
+    Route::get('/detailpaket/form/{slug}', [LandingpageController::class, 'detailPaketForm'])->name('detailPaketForm');
+    
+});
 
 
 Auth::routes();
@@ -67,7 +69,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/users/batchDelete', [UserController::class, 'batchDelete'])->name('users.batchDelete');
     Route::get('/export-pdf', [UserController::class, 'exportToPDF']);
     Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
-
+    Route::get('/home/{status}', [HomeController::class, 'getUsersByStatus']);
     Route::resource('kota', KotaController::class);
     Route::resource('wisata', WisataController::class);
     Route::resource('hotel', HotelController::class);
@@ -87,5 +89,12 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/email', [EmailController::class, 'index'])->name('email.index');
     Route::get('/email/send/{id}', [EmailController::class, 'sendEmail'])->name('email.send');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    
+    Route::get('/pemesanan/pemesanan-baru', [PemesananController::class, 'pemesananBaru'])->name('pemesanan.pemesanan-baru');
+    Route::get('/pemesanan/menunggu-konfirmasi', [PemesananController::class, 'menungguKonfirmasi'])->name('pemesanan.menunggu-konfirmasi');
+    Route::get('/pemesanan/pesanan-dibatalkan', [PemesananController::class, 'pesananDibatalkan'])->name('pemesanan.pesanan-dibatalkan');
+    Route::get('/pemesanan/pesanan-diterima', [PemesananController::class, 'pesananDiterima'])->name('pemesanan.pesanan-diterima');
+
     
 });

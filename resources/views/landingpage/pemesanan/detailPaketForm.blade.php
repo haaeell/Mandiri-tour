@@ -2,7 +2,7 @@
 @section('content')
 <div class="container py-5">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="d-flex gap-5 mb-4">
 
                 <img src="{{ asset('/images/' . $paketWisata->gambar) }}"
@@ -18,17 +18,10 @@
                                     @endforeach
                                 </div>
                                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias dignissimos consequuntur, quam quaerat placeat, ad inventore ullam exercitationem dolorem quae natus a unde nesciunt commodi explicabo odio similique nemo assumenda!</p>
-                                <div class="d-flex mt-5 justify-content-between">
+                                <div class="d-flex mt-5}">
 
                                   <h3 class="fw-semibold text-danger">Rp {{ number_format($paketWisata->harga, 0, ',', '.') }}</h3>
-                                  
-                                      <div class="col-md-3">
-
-                                        <a href="{{ route('detailPaketForm', $paketWisata->slug) }}" class="btn btn-paket" >Pesan Sekarang</a>
-                                      </div>
-                                
-
-                                  
+                
                                 </div>
                             </div>
             </div>
@@ -79,7 +72,73 @@
 
             
         </div>
-       
+        <div class="col-md-4">
+            <div class="card p-3 shadow-lg" style="border: 2px solid #25aae1">
+              <form action="{{ route('pesanPaket') }}" method="post">
+                @csrf
+                <div class="mb-3">
+                    <label for="nama" class="form-label">Nama </label>
+                    <input type="text" class="form-control" id="nama"  value="{{ Auth::user()->name }}" readonly>
+                </div>
+                
+                  <input type="hidden" class="form-control" id="user_id" name="user_id"  value="{{ Auth::user()->id }}" readonly>
+              
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email </label>
+                    <input type="text" class="form-control" id="email" value="{{ Auth::user()->email }}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="paket_id" class="form-label">Nama Paket </label>
+                    <input type="hidden" class="form-control" id="paket_id" name="paket_id" value="{{ $paketWisata->id }}" readonly>
+                    <input type="text" class="form-control"  value="{{ $paketWisata->nama }}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="jumlah_paket" class="form-label">Jumlah Paket:</label>
+                    <input type="number" class="form-control" id="jumlah_paket" name="jumlah_paket" value="{{ old('jumlah_paket') }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="tanggal_keberangkatan" class="form-label">Tanggal Keberangkatan:</label>
+                    <input type="date" class="form-control" id="tanggal_keberangkatan" name="tanggal_keberangkatan" value="{{ old('tanggal_keberangkatan') }}" required>
+                </div>
+                <div class="mb-3">
+                  <label for="alamat" class="form-label">Alamat:</label>
+                  <input type="text" class="form-control" id="alamat" name="alamat" value="{{ old('alamat') }}" required>
+              </div>
+                <button type="submit" class="btn btn-login bn26">Submit</button>
+            </form>
+            
+            </div>
+        </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+  function cekLogin(loginUrl){
+        Swal.fire({
+            title: "Silakan login terlebih dahulu!",
+            text: "Untuk dapat melakukan pemesanan",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Login",
+            cancelButtonText: "Kembali",
+            confirmButtonColor: "#4481eb", 
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Simpan URL halaman saat ini
+                var currentUrl = window.location.href;
+                // Redirect ke halaman login dengan menyertakan URL saat ini sebagai parameter
+                window.location.href = loginUrl + "?redirect=" + encodeURIComponent(currentUrl);
+            } 
+        });
+    }
+</script>
+
+    {{-- <script>
+        function toggleLoading() {
+    var loading = document.getElementById('loading');
+    loading.style.display = (loading.style.display == 'none') ? 'block' : 'none';
+}
+    </script> --}}
 @endsection
