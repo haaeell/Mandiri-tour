@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/riwayat-pesanan', [LandingpageController::class, 'riwayatPesanan'])->name('riwayatPesanan');
     Route::post('/keluhan', [KeluhanController::class, 'store'])->name('keluhan.store');
 
-    Route::get('/detailpaket/form/{slug}', [LandingpageController::class, 'detailPaketForm'])->name('detailPaketForm');
+    Route::get('/Detailpaket/form/{slug}', [LandingpageController::class, 'detailPaketForm'])->name('detailPaketForm');
     
 });
 
@@ -91,10 +91,10 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     
-    Route::get('/pemesanan/pemesanan-baru', [PemesananController::class, 'pemesananBaru'])->name('pemesanan.pemesanan-baru');
-    Route::get('/pemesanan/menunggu-konfirmasi', [PemesananController::class, 'menungguKonfirmasi'])->name('pemesanan.menunggu-konfirmasi');
-    Route::get('/pemesanan/pesanan-dibatalkan', [PemesananController::class, 'pesananDibatalkan'])->name('pemesanan.pesanan-dibatalkan');
-    Route::get('/pemesanan/pesanan-diterima', [PemesananController::class, 'pesananDiterima'])->name('pemesanan.pesanan-diterima');
+    Route::get('/pemesanan-baru', [PemesananController::class, 'pemesananBaru'])->name('pemesanan.pemesanan-baru');
+    Route::get('/menunggu-konfirmasi', [PemesananController::class, 'menungguKonfirmasi'])->name('pemesanan.menunggu-konfirmasi');
+    Route::get('/pesanan-dibatalkan', [PemesananController::class, 'pesananDibatalkan'])->name('pemesanan.pesanan-dibatalkan');
+    Route::get('/pesanan-diterima', [PemesananController::class, 'pesananDiterima'])->name('pemesanan.pesanan-diterima');
 
     
 });

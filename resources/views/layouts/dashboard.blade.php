@@ -134,7 +134,7 @@
 
 
                         </li>
-                        <li class="sidebar-item has-sub {{ request()->is('pemesanan') || request()->is('pemesanan/pemesanan-baru') || request()->is('pemesanan/pesanan-diterima') || request()->is('pemesanan/pesanan-dibatalkan') || request()->is('pemesanan/menunggu-konfirmasi') ? 'active' : '' }}">
+                        <li class="sidebar-item has-sub {{ request()->is('pemesanan') || request()->is('pemesanan-baru') || request()->is('pesanan-diterima') || request()->is('pesanan-dibatalkan') || request()->is('menunggu-konfirmasi') ? 'active' : '' }}">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-basket3-fill"></i>
                                 <span>Pemesanan
@@ -155,7 +155,7 @@
                             </a>
                             <ul class="submenu">
                                
-                                <li class="submenu-item {{ request()->is('pemesanan/pemesanan-baru') ? 'active' : '' }} ">
+                                <li class="submenu-item {{ request()->is('pemesanan-baru') ? 'active' : '' }} ">
                                     <a href="{{ route('pemesanan.pemesanan-baru') }}" class="submenu-link">Pesanan Baru
                                         @php
                                         $unread = Auth::user()->unreadNotifications
@@ -170,7 +170,7 @@
                                     @endif
                                     </a>
                                 </li>
-                                <li class="submenu-item {{ request()->is('pemesanan/menunggu-konfirmasi') ? 'active' : '' }}">
+                                <li class="submenu-item {{ request()->is('menunggu-konfirmasi') ? 'active' : '' }}">
                                 
                                     <a href="{{ route('pemesanan.menunggu-konfirmasi') }}" class="submenu-link">Menunggu Konfirmasi
                                         @php
@@ -186,7 +186,7 @@
                             @endif
                                     </a>
                                 </li>
-                                <li class="submenu-item {{ request()->is('pemesanan/pesanan-dibatalkan') ? 'active' : '' }} ">
+                                <li class="submenu-item {{ request()->is('pesanan-dibatalkan') ? 'active' : '' }} ">
                                     <a href="{{ route('pemesanan.pesanan-dibatalkan') }}" class="submenu-link">Pesanan Dibatalkan
                                         {{-- <span class="position-absolute top-40 start-80 translate-middle badge rounded-pill bg-danger">
                                             {{
@@ -195,7 +195,7 @@
                                         </span> --}}
                                     </a>
                                 </li>
-                                <li class="submenu-item {{ request()->is('pemesanan/pesanan-diterima') ? 'active' : '' }}">
+                                <li class="submenu-item {{ request()->is('pesanan-diterima') ? 'active' : '' }}">
                                     <a href="{{ route('pemesanan.pesanan-diterima') }}" class="submenu-link">Pesanan Diterima
                                         {{-- <span class="position-absolute top-40 start-80 translate-middle badge rounded-pill bg-success">
                                             {{
