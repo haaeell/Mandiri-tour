@@ -57,7 +57,7 @@
                             <td>
                                 @foreach ($item->wisatas as $wisata)
                                 
-                                <span class="badge bg-primary">
+                                <span class="badge bg-info mb-1">
                                     {{ $wisata->nama }}
                                 </span>
                                 @endforeach

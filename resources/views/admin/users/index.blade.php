@@ -43,12 +43,12 @@
                                     </td>
 
                                     <td>
-                                        <span class="badge {{ $user->role === 'admin' ? 'bg-primary' : 'bg-success' }}">
+                                        <span class="badge {{ $user->role === 'admin' ? 'bg-primary' : 'bg-info' }}">
                                             {{ $user->role === 'admin' ? 'Admin' : 'Customer' }}
                                         </span>
                                     </td>
                                     <td>
-                                        <div class="d-flex ">
+                                        <div class="d-flex gap-2 ">
                                             <a href="{{ route('users.edit', $user->id) }}"
                                                 class="btn btn-warning btn-sm  text-center" data-bs-toggle="modal"
                                                 data-bs-target="#modalEdit{{ $user->id }}">
@@ -248,7 +248,7 @@
                     </div>
                 </div>
                 @endforeach
-                <div class="d-flex gap-1">
+                <div class="d-flex gap-2">
 
                     <button class="btn btn-danger btn-sm delete-button" data-id="{{ $user->id }}">
                         Hapus data yang dipilih

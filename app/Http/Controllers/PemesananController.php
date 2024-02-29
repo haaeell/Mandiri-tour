@@ -106,13 +106,18 @@ class PemesananController extends Controller
             'user_id' => 'required',
             'paket_id' => 'required',
             'jumlah_paket' => 'required|integer|min:1',
-            'tanggal_keberangkatan' => 'required|date',
+            'tanggal_keberangkatan' => 'required|date|after_or_equal:today',
             'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
             'alamat' => 'required|string',
         ], [
-            'required' => 'Kolom :attribute harus diisi.',
-            'image' => 'File :attribute harus berupa gambar.',
+            'required' => 'Kolom :attribute harus diisi',
+            'integer' => 'Kolom :attribute harus berupa angka',
+            'min' => ':attribute minimal 1',
+            'date' => 'Kolom :attribute harus berupa tanggal',
+            'after_or_equal' => ':attribute harus tanggal hari ini atau setelahnya',
+            'string' => 'Kolom :attribute harus berupa teks',
         ]);
+        
     
         $hargaPaket = PaketWisata::find($request->paket_id)->harga;
         $totalPembayaran = $hargaPaket * $request->jumlah_paket;
@@ -163,6 +168,8 @@ public function uploadBukti(Request $request, $id)
 
     return redirect()->route('riwayatPesanan')->with('success', 'Bukti Pembayaran berhasil diunggah!');
 }
+
+
 public function cancel($id)
 {
     $pemesanan = Pemesanan::findOrFail($id);
@@ -212,7 +219,7 @@ public function pemesananBaru()
         }
     }
     $pemesanan = Pemesanan::where('status_pembayaran', 'Belum Dibayar')
-        ->latest() // Mengurutkan berdasarkan tanggal pembuatan terbaru
+        ->latest() 
         ->get();
 
     return view('admin.pemesanan.pemesanan-baru', ['pemesanan' => $pemesanan]);

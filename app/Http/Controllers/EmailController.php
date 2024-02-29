@@ -32,11 +32,20 @@ class EmailController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {  
         $request->validate([
             'subject' => 'required',
             'content' => 'required',
+        ], [
+            'required' => 'Kolom :attribute harus diisi.',
         ]);
+    
+        EmailMarketing::create([
+            'subject' => $request->subject,
+            'content' => $request->content,
+            'status' => 'draft',
+        ]);
+    
 
         EmailMarketing::create([
             'subject' => $request->subject,
@@ -44,14 +53,17 @@ class EmailController extends Controller
             'status' => 'draft',
         ]);
 
-        return redirect()->route('email.index')->with('success', 'Email Marketing berhasil disimpan.');
+        return redirect()->back()->with('success', 'Email Marketing berhasil disimpan.');
     }
     public function update(Request $request, EmailMarketing $email)
     {
         // Metode untuk memperbarui data email marketing dalam database
         $request->validate([
-            'subject' => 'required|string',
-            'content' => 'required|string',
+            'subject' => 'required',
+            'content' => 'required',
+            'status' => 'draft',
+        ], [
+            'required' => 'Kolom :attribute harus diisi.',
         ]);
 
         $email->update([
@@ -59,15 +71,15 @@ class EmailController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->route('email.index')->with('success', 'Email Marketing updated successfully.');
+        return redirect()->back()->with('success', 'Email Marketing updated successfully.');
     }
 
     public function destroy(EmailMarketing $email)
     {
-        // Metode untuk menghapus data email marketing dari database
+        
         $email->delete();
 
-        return redirect()->route('email.index')->with('success', 'Email Marketing deleted successfully.');
+        return redirect()->back()->with('success', 'Email Marketing deleted successfully.');
     }
    
 
@@ -75,17 +87,13 @@ class EmailController extends Controller
     {
         $emailMarketing = EmailMarketing::findOrFail($id);
 
-        // Ambil semua pelanggan
-        $subscribers = User::all();
-
-        foreach ($subscribers as $subscriber) {
-            // Dispatch job untuk pengiriman email
+        $customers = User::all();
+        foreach ($customers as $subscriber) {
             SendEmailMarketingJob::dispatch($emailMarketing, $subscriber)->delay(now()->addSeconds(10));
         }
 
-        // Ubah status email marketing menjadi 'sent'
         $emailMarketing->update(['status' => 'sent']);
 
-        return redirect()->route('email.index')->with('success', 'Email Marketing berhasil dikirim dengan menggunakan job dan queue.');
+        return redirect()->back()->with('success', 'Email Marketing berhasil dikirim ');
     }
 }

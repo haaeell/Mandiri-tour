@@ -65,9 +65,9 @@
                                     </div>
                                     <div>
                                         @if ($item->status_pembayaran == 'Menunggu Konfirmasi Admin' && $item->bukti_pembayaran)
-                                        <form action="{{ route('admin.pemesanan.konfirmasi', $item->id) }}" method="post">
+                                        <form id="confirmForm" action="{{ route('admin.pemesanan.konfirmasi', $item->id) }}" method="post">
                                             @csrf
-                                            <button type="submit" class="btn btn-info btn-sm">Konfirmasi Pembayaran</button>
+                                            <button type="button" class="btn btn-info btn-sm" onclick="confirmPayment()">Konfirmasi Pembayaran</button>
                                         </form>
                                     @endif
                                     @if ($item->status_pembayaran == 'Pembayaran Diterima')
@@ -105,6 +105,25 @@
     </div>
 @endsection
 @section('script')
+<script>
+    function confirmPayment() {
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: "Apakah Anda yakin ingin mengkonfirmasi pembayaran?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mengirim formulir secara langsung
+                document.getElementById("confirmForm").submit();
+            }
+        });
+    }
+</script>
 <script>
    function openWhatsApp(button) {
     let phoneNumber = button.getAttribute('data-phone');

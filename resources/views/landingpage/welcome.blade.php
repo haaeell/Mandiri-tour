@@ -102,7 +102,7 @@
                                     <h3 class="fw-semibold my-3 text-center">{{ $p->nama }}.</h3>
                                     <div class="mb-3 d-flex flex-wrap gap-2">
                                         @foreach ($p->kotas as $kota)
-                                            <span class="badge text-bg-success">{{ $kota->nama }}</span>
+                                            <span class="badge text-bg-primary">{{ $kota->nama }}</span>
                                         @endforeach
                                     </div>
                                     

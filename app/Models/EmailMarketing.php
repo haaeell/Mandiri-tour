@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EmailMarketing extends Model
 {
@@ -14,4 +15,9 @@ class EmailMarketing extends Model
         'content',
         'status',
     ];
+
+    public function getCreatedAtIndoAttribute()
+    {
+        return Carbon::parse($this->created_at)->translatedFormat('l, d F Y H:i:s');
+    }
 }

@@ -13,10 +13,11 @@
                         <th>No</th>
                         <th>Nama</th>
                         <th>Paket</th>
-                        <th>Jumlah Peserta</th>
+                        <th>Jumlah Paket</th>
                         <th>Total Pembayaran</th>
                         <th>Status Pembayaran</th>
                         <th>Tanggal Pemesanan</th>
+                        <th>Tanggal Keberangkatan</th>
                         <th>Bukti Pembayaran</th>
                         <th>Aksi</th>
                     </tr>
@@ -29,7 +30,7 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $item->user->name }}</td>
                             <td>{{ $item->paket->nama }}</td>
-                            <td>{{ $item->jumlah_peserta }}</td>
+                            <td>{{ $item->jumlah_paket }}</td>
                             <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
                             <td>
                                 @if($item->status_pembayaran == 'Belum Dibayar')
@@ -57,7 +58,10 @@
                         </td>
                             
                         <td>
-                            {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->isoFormat('D MMMM YYYY') }}
+                            {{ $item->tanggal_keberangkatan_indo }}
+                        </td>
+                        <td>
+                            {{ $item->created_at_indo}}
                         </td>
                             <td style="cursor: pointer">
                                 {!! $item->bukti_pembayaran ? '<img src="' . asset('storage/' . $item->bukti_pembayaran) . '" width="50" onClick="showImage(this)">' : '<span class="fw-bold text-danger">Belum Dibayar</span>' !!}

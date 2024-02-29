@@ -22,7 +22,7 @@
                 <h2 class="fw-semibold">{{ $paketWisata->nama }}</h2>
                 <div class="mb-3 d-flex gap-2">
                     @foreach ($paketWisata->kotas as $kota)
-                        <span class="badge text-bg-success">{{ $kota->nama }}</span>
+                        <span class="badge bg-primary">{{ $kota->nama }}</span>
                     @endforeach
                 </div>
                 <p>{{ $paketWisata->deskripsi }}</p>

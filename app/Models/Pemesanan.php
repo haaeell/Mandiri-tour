@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pemesanan extends Model
 {
@@ -39,6 +40,15 @@ class Pemesanan extends Model
     function getKeyType()
     {
         return 'string';
+    }
+    public function getTanggalKeberangkatanIndoAttribute()
+{
+    // Mengonversi kolom tanggal_keberangkatan ke dalam format bahasa Indonesia
+    return Carbon::parse($this->tanggal_keberangkatan)->translatedFormat('l, d F Y');
+}
+public function getCreatedAtIndoAttribute()
+    {
+        return Carbon::parse($this->created_at)->translatedFormat('l, d F Y ');
     }
     
 }

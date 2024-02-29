@@ -21,7 +21,7 @@
                             <h2 class="fw-semibold text-center">{{ $paketWisata->nama }}</h2>
                             <div class="mb-3 d-flex flex-wrap gap-2 justify-content-center">
                                 @foreach ($paketWisata->kotas as $kota)
-                                    <span class="badge text-bg-success">{{ $kota->nama }}</span>
+                                    <span class="badge bg-primary">{{ $kota->nama }}</span>
                                 @endforeach
                             </div>
                             <p >{{ Illuminate\Support\Str::limit($paketWisata->deskripsi, $limit = 250, $end = '...') }}</p>
@@ -37,8 +37,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div>
+                    <div class="col-md-12 mt-4">
+                        <div> 
                             <div class="accordion accordion-flush" id="accordionFlushExample">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header ">
@@ -128,13 +128,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="jumlah_paket" class="form-label">Jumlah Paket:</label>
-                            <input type="number" class="form-control" id="jumlah_paket" name="jumlah_paket"
-                                value="{{ old('jumlah_paket') }}" required>
+                            <input type="text" class="form-control" id="jumlah_paket" name="jumlah_paket" required>
+                            <p id="error_message" class="text-danger"></p>
                         </div>
                         <div class="mb-3">
                             <label for="tanggal_keberangkatan" class="form-label">Tanggal Keberangkatan:</label>
                             <input type="date" class="form-control" id="tanggal_keberangkatan"
                                 name="tanggal_keberangkatan" value="{{ old('tanggal_keberangkatan') }}" required>
+                                <p id="tanggal_keberangkatan_message" class="text-danger fs-7 text-small">Tanggal keberangkatan minimal adalah H-3 dari hari ini.</p>
                         </div>
                         <div class="mb-3">
                             <label for="alamat" class="form-label">Alamat:</label>
@@ -174,10 +175,44 @@
         }
     </script>
 
-    {{-- <script>
-        function toggleLoading() {
-    var loading = document.getElementById('loading');
-    loading.style.display = (loading.style.display == 'none') ? 'block' : 'none';
-}
-    </script> --}}
+<script>
+    // Ambil elemen input tanggal dan pesan
+    var inputTanggal = document.getElementById('tanggal_keberangkatan');
+    var pesanTanggal = document.getElementById('tanggal_keberangkatan_message');
+
+    // Hitung tanggal minimal (H-3)
+    var today = new Date(); // Tanggal hari ini
+    var tanggalMinimal = new Date(today); // Salin tanggal hari ini
+    tanggalMinimal.setDate(tanggalMinimal.getDate() + 3); // Tambahkan 3 hari
+
+    // Konversi tanggal minimal ke format ISO (YYYY-MM-DD) untuk diatur sebagai nilai atribut min
+    var tanggalMinimalISO = tanggalMinimal.toISOString().split('T')[0];
+    inputTanggal.setAttribute('min', tanggalMinimalISO);
+
+    // Tampilkan pesan untuk pengguna
+    pesanTanggal.innerHTML = 'Tanggal keberangkatan minimal H-3 atau ' + tanggalMinimal.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + '.';
+</script>
+
+<script>
+    // Ambil elemen input jumlah paket dan pesan error
+    var inputJumlahPaket = document.getElementById('jumlah_paket');
+    var errorMessage = document.getElementById('error_message');
+
+    // Tambahkan event listener untuk event input
+    inputJumlahPaket.addEventListener('input', function(event) {
+        // Ambil nilai dari input
+        var nilaiInput = inputJumlahPaket.value;
+
+        // Cek jika nilai input bukan angka atau kurang dari 1
+        if (!(/^\d+$/.test(nilaiInput)) || parseInt(nilaiInput) < 1) {
+            // Tampilkan pesan error
+            errorMessage.textContent = 'Minimal jumlah paket adalah 1.';
+            // Bersihkan nilai input
+            inputJumlahPaket.value = '';
+        } else {
+            // Kosongkan pesan error jika input valid
+            errorMessage.textContent = '';
+        }
+    });
+</script>
 @endsection

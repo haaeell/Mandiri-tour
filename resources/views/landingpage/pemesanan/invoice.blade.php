@@ -27,7 +27,7 @@
         
         @if ($pemesanan->status_pembayaran != 'Pembayaran Diterima')
             
-        <button class="btn btn-secondary btn-sm mb-3">Cetak Invoice </button>
+        
         <button class="btn btn-success btn-sm mb-3">Hubungi Admin </button>
         <div class="card p-3 shadow mb-5">
             <div class="card-header">
@@ -58,7 +58,7 @@
                                 <div class="d-flex">
 
                                     <dt class="col-sm-4">Tanggal </dt>
-                                    <dt class="col-sm-8">:  {{ $pemesanan->tanggal_keberangkatan }}</dt>
+                                    <dt class="col-sm-8">:  {{ $pemesanan->tanggal_keberangkatan_indo }}</dt>
                                 </div>
                             </div>
                             
@@ -115,7 +115,8 @@
                 <form action="{{ route('pemesanan.upload', $pemesanan->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group d-flex">
-                        <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control" required>
+                        <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control" accept="image/jpeg, image/png" required>
+
                         <button type="submit" class="btn btn-primary">Kirim</button>
                     </div>
                     
@@ -147,7 +148,7 @@
                              <td>{{ $pemesanan->paket->nama }}</td>
                              <td>{{ $pemesanan->jumlah_paket }}</td>
                              <td>{{ $pemesanan->alamat }}</td>
-                             <td>{{ \Carbon\Carbon::parse($pemesanan->tanggal_keberangkatan)->format('d F Y ') }}</td>
+                             <td>{{ $pemesanan->tanggal_keberangkatan_indo}}</td>
                              <td><span class="badge bg-success">{{ $pemesanan->status_pembayaran }}</span></td>
      
                          </tr>

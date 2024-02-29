@@ -198,6 +198,8 @@ function scrollToTop() {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     @yield('script')
+
+    
     <script>
         function showImage(imageElement) {
             const imageUrl = imageElement.src;
@@ -209,6 +211,20 @@ function scrollToTop() {
             });
         }
     </script>
+     @if ($errors->any())
+     <script>
+         let errorMessages = '';
+         @foreach ($errors->all() as $error)
+             errorMessages += "{{ $error }}\n";
+         @endforeach
+
+         Swal.fire({
+             icon: 'error',
+             title: 'Oops...',
+             text: errorMessages,
+         });
+     </script>
+ @endif
     @if (session('success') || session('error'))
     <script>
         $(document).ready(function() {

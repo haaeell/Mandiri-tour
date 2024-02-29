@@ -38,6 +38,89 @@
         z-index: 1050;
         /* Sesuaikan dengan z-index modal */
     }
+
+    .modal-content{
+        border-radius: 24px!important;
+        padding: 12px;
+    }
+
+    .bg-primary {
+        background-color: #f43f5e !important;
+    }
+    .bg-danger {
+        background-color: #dc2626 !important;
+    }
+
+    .badge{
+       
+        border-radius: 24px
+    }
+
+    .bg-success{
+        background-color: #15803d !important;
+    }
+
+    .bg-secondary{
+        background-color: #1c1917!important;
+    }
+
+    .btn-primary{
+        background-color: #2563eb !important;
+    }
+
+    .btn-primary:hover{
+        background-color: #1e40af !important;
+    }
+    .btn-warning{
+        background-color:  #facc15 !important;
+        border: none
+    }
+
+    .btn-warning:hover{
+        background-color: #fde047  !important;
+        border: none;
+    }
+    .btn-danger{
+        background-color: #dc2626 !important;
+    }
+
+    .btn-danger:hover{
+        background-color: #991b1b !important;
+    }
+    .btn-info{
+        background-color: #06b6d4 !important;
+    }
+
+    .btn-info:hover{
+        background-color: #0891b2 !important;
+    }
+    .btn-success{
+        background-color: #34d399 !important;
+        border: none;
+    }
+    .btn-success:hover{
+        background-color: #10b981 !important;
+    }
+    .btn-secondary{
+        background-color: #64748b !important;
+        border: none;
+    }
+    .btn-secondary:hover{
+        background-color: #334155 !important;
+    }
+
+    .bg-info{
+        background-color: #6d28d9 !important;
+    }
+
+
+
+
+
+    .btn{
+        padding: 10px 16px;
+        border-radius: 8px
+    }
 </style>
 
 <body>
@@ -242,12 +325,13 @@
                                 <span>Gallery</span>
                             </a>
                         </li>
-                        <li class="sidebar-item  {{ request()->is('email') ? 'active' : '' }} ">
-                            <a href={{ route('email.index') }} class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->is('emails?status=draft') || request()->is('emails?status=draft') ? 'active' : '' }}">
+                            <a href="{{ route('email.index', ['status' => 'draft']) }}" class='sidebar-link'>
                                 <i class="bi bi-envelope-check-fill"></i>
                                 <span>Email Marketing</span>
                             </a>
                         </li>
+                        
                         <li class="sidebar-item  {{ request()->is('users') ? 'active' : '' }} ">
                             <a href={{ route('users.index') }} class='sidebar-link'>
                                 <i class="bi bi-people-fill"></i>
