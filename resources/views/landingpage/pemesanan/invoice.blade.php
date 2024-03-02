@@ -5,30 +5,37 @@
 @section('content')
     <div class="container mt-5">
         @if ($pemesanan->bukti_pembayaran > 0 && $pemesanan->status_pembayaran != 'Pembayaran Diterima')
-        <div class="alert alert-info" role="alert">
-            <h4 class="alert-heading fw-semibold">Pembayaran Sedang Diperiksa!</h4>
-            <p>Pembayaran Anda sedang dalam proses pengecekan oleh admin.</p>
-            <hr>
-            <p class="mb-0">Terima kasih atas kesabaran Anda.</p>
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading fw-semibold mb-3">
+                <i class="bi bi-clock-fill text-warning me-2"></i> <!-- Tambahkan ikon jam disini -->
+                Pembayaran Sedang Diperiksa!
+            </h4>
+            <p>Pembayaran Anda sedang dalam proses pengecekan oleh admin. <br>
+                Terima kasih atas kesabaran Anda.</p>
+            
+            <a href="https://wa.me/6285321726312" target="_blank" class="btn-sm btn btn-warning text-white " >
+                <i class="bi bi-whatsapp"></i> Hubungi Admin
+            </a>   
         </div>
+        
         @elseif ($pemesanan->bukti_pembayaran > 0 && $pemesanan->status_pembayaran === 'Pembayaran Diterima')
         <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading fw-semibold">Pembayaran Berhasill!</h4>
-            <p>Berikut detail pesanan dan jadwal perjalanan</p>
+            <h4 class="alert-heading fw-semibold mb-3">
+                <i class="bi bi-check-circle-fill text-success me-2"></i> <!-- Tambahkan ikon centang disini -->
+                Pembayaran Berhasil!
+            </h4>
+            <p>Berikut adalah detail pesanan Anda beserta jadwal perjalanan yang telah berhasil dipesan <br> Untuk informasi lebih lanjut, jangan ragu untuk menghubungi Admin kami . Terimakasih </p> <!-- Tambahkan kalimat agar lebih lengkap -->
             <hr>
-            <p class="mb-0">Informasi lebih lanjut hubungi Admin di <a href="https://wa.me/6285321726312">+6285321726312</a> 
-                <a href="https://wa.me/6285321726312" target="_blank" class="btn btn-success delete-btn btn-lg">
-                    <i class="bi bi-whatsapp"></i>
-                </a>
-            </p>
-            
+            <a href="https://wa.me/6285321726312" target="_blank" class="btn-sm btn text-white " style="background-color: #047857">
+                <i class="bi bi-whatsapp"></i> Hubungi Admin
+            </a>       
         </div>
+        
         @endif
         
         @if ($pemesanan->status_pembayaran != 'Pembayaran Diterima')
             
         
-        <button class="btn btn-success btn-sm mb-3">Hubungi Admin </button>
         <div class="card p-3 shadow mb-5">
             <div class="card-header">
                 <h2 class="fw-semibold text-center">Invoice Pembayaran</h2>

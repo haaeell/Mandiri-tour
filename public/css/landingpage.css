@@ -309,3 +309,9 @@ body{
 .btn{
     padding: 10px 16px;
 }
+
+.alert-success{
+    border-color: #059669!important;
+    background-color: #dcfce7;
+    color: #166534;
+}
