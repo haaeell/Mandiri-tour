@@ -36,15 +36,16 @@
         @if ($pemesanan->status_pembayaran != 'Pembayaran Diterima')
             
         
-        <div class="card p-3 shadow mb-5">
-            <div class="card-header">
-                <h2 class="fw-semibold text-center">Invoice Pembayaran</h2>
+        <div class="card shadow mb-5 " style="border-radius: 24px">
+            <div class="bg-warning p-2" style="border-top-left-radius: 24px; border-top-right-radius: 24px;">
+                <h2 class="fw-semibold text-center text-light">Invoice Pembayaran</h2>
             </div>
+            
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
                         <dl class="row d-flex justify-content-between align-itmes-center">
-                            <div class="col-md-9">
+                            <div class="col-md-8">
                                 <div class="d-flex">
 
                                     <dt class="col-sm-4">ID Pemesanan</dt>
@@ -56,7 +57,7 @@
                                     <dt class="col-sm-8">:  {{ $pemesanan->user->name }}</dt>
                                 </div>
                             </div>
-                            <div class="col-md-3 ">
+                            <div class="col-md-4 ">
                                 <div class="d-flex ">
 
                                     <dt class="col-sm-4">No. Telepon </dt>
@@ -75,7 +76,7 @@
 
                     <div class="col-md-12">
                         <table class="table">
-                            <thead class="table-light">
+                            <thead class="table-warning">
                                 <tr>
                                     <th>Nama Paket</th>
                                     <th>Jumlah Paket</th>

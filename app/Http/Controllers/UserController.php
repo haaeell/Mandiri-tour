@@ -99,7 +99,6 @@ class UserController extends Controller
         'phone' => 'required',
         'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         'role' => 'required',
-        'address' => 'required',
     ], $messages);
 
     $user = User::findOrFail($id);

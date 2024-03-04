@@ -6,35 +6,35 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Ajukan Keluhan</div>
+                <div class="card shadow"  style="border-top-left-radius: 24px; border-top-right-radius: 24px;">
+                    <div class="p-3 fw-semibold fs-5 text-center"  style="border-top-left-radius: 24px; border-top-right-radius: 24px;">Ajukan Keluhan</div>
+
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('keluhan.store') }}" id="form-tambah">
                             @csrf
 
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <label for="subject">Subject</label>
                                 <input type="text" name="subject" class="form-control" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea name="description" class="form-control" required></textarea>
+                                <textarea name="description" class="form-control" style="height: 100px" required></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary mt-3 d-block">Ajukan Keluhan</button>
+                            <div>
+                                
+                            </div>
+                            <button type="submit" class="btn w-100 btn-primary mt-3 d-block ">Submit</button>
                         </form>
                     </div>
                 </div>
-
-                <hr>
-
-                
             </div>
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header text-center">Riwayat Keluhan</div>
+                <div class="card"  style="border-top-left-radius: 24px; border-top-right-radius: 24px;">
+                    <div class="bg-primary p-3 text-light fw-semibold fs-5 text-center"  style="border-top-left-radius: 24px; border-top-right-radius: 24px;">Riwayat Keluhan</div>
 
                     <div class="card-body">
                         @if($riwayatKeluhan->count() > 0)
@@ -52,7 +52,7 @@
                                     @foreach($riwayatKeluhan as $riwayat)
                                         <tr>
                                             <td>{{ $riwayat->user->name }}</td>
-                                            <td>{{ $riwayat->created_at->format('Y-m-d H:i:s') }}</td>
+                                            <td>{{ $riwayat->created_at_indo}}</td>
                                             <td>{{ $riwayat->description }}</td>
                                             <td>  <span class="badge {{ $riwayat->status === 'resolved' ? 'text-bg-success' : ($riwayat->status === 'pending' ? 'text-bg-warning' : 'text-bg-default') }}">
                                                 {{ $riwayat->status }}

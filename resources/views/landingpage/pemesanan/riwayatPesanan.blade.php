@@ -4,14 +4,15 @@
 @section('content')
 <div class="container py-4">
     <div class="row d-flex">
-        <h2 class="fw-semibold text-center my-3">Riwayat Pesanan</h2>
-        <div class="col-md-12 card p-4 ">
+
+       
+        <div class="col-md-12 card"  style="border-top-left-radius: 24px; border-top-right-radius: 24px;">
+            <h2 class="fw-semibold text-center my-3 bg-primary p-3 text-light"  style="border-top-left-radius: 24px; border-top-right-radius: 24px;">Riwayat Pesanan</h2>
             @if(count($riwayatPesanan) > 0)
             <div class="table-responsive">
-
                 <table class="table table-hovered" >
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>No</th>
                             <th>Nama</th>
                             <th>Paket</th>
@@ -34,30 +35,30 @@
                                 <td>{{ $item->paket->nama }}</td>
                                 <td>{{ $item->jumlah_paket }}</td>
                                 <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
-                                <td>
+                                <td class="text-center align-middle">
                                     @if($item->status_pembayaran == 'Belum Dibayar')
-                                    <span class="badge bg-danger">
-                                        {{$item->status_pembayaran}}
-                                    </span>
-                                @elseif($item->status_pembayaran == 'Menunggu Konfirmasi Admin')
-                                    <span class="badge bg-warning">
-                                        {{$item->status_pembayaran}}
-                                    </span>
-                                @elseif($item->status_pembayaran == 'Pembayaran Diterima')
-                                    <span class="badge bg-success">
-                                        {{$item->status_pembayaran}}
-                                    </span>
-                                @elseif($item->status_pembayaran == 'Pembayaran Ditolak')
-                                    <span class="badge bg-danger">
-                                        {{$item->status_pembayaran}}
-                                    </span>
-                                @elseif($item->status_pembayaran == 'Pemesanan Dibatalkan')
-                                    <span class="badge bg-secondary">
-                                        {{$item->status_pembayaran}}
-                                    </span>
-                                @endif
+                                        <span class="badge bg-danger">
+                                            {{$item->status_pembayaran}}
+                                        </span>
+                                    @elseif($item->status_pembayaran == 'Menunggu Konfirmasi Admin')
+                                        <span class="badge bg-warning">
+                                            {{$item->status_pembayaran}}
+                                        </span>
+                                    @elseif($item->status_pembayaran == 'Pembayaran Diterima')
+                                        <span class="badge bg-success">
+                                            {{$item->status_pembayaran}}
+                                        </span>
+                                    @elseif($item->status_pembayaran == 'Pembayaran Ditolak')
+                                        <span class="badge bg-danger">
+                                            {{$item->status_pembayaran}}
+                                        </span>
+                                    @elseif($item->status_pembayaran == 'Pemesanan Dibatalkan')
+                                        <span class="badge bg-secondary">
+                                            {{$item->status_pembayaran}}
+                                        </span>
+                                    @endif
+                                </td>
                                 
-                            </td>
                                 
                             <td>
                                 {{ $item->tanggal_keberangkatan_indo }}
