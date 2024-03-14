@@ -13,10 +13,7 @@ class EmailController extends Controller
 {
     public function index(Request $request)
     {
-        // Mendapatkan status dari parameter request, default ke 'sent' jika tidak disediakan
         $status = $request->input('status', 'sent');
-
-        // Mengambil data email berdasarkan status
         $emails = $this->getEmailsByStatus($status);
 
         return view('emails.index', [
