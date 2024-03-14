@@ -12,8 +12,11 @@
    <link rel="stylesheet" href="{{asset('./css/landingpage.css')}}">
    <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-/>
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css" integrity="sha512-OTcub78R3msOCtY3Tc6FzeDJ8N9qvQn1Ph49ou13xgA9VsH9+LRxoFU6EqLhW4+PKRfU+/HReXmSZXHEkpYoOA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.green.css" integrity="sha512-riTSV+/RKaiReucjeDW+Id3WlRLVZlTKAJJOHejihLiYHdGaHV7lxWaCfAvUR0ErLYvxTePZpuKZbrTbwpyG9w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
    
 </head>
 <body>
@@ -157,6 +160,8 @@
             </div>
         </nav>
       </div>
+
+      
 </body>
     
     <a href="https://api.whatsapp.com/send?phone=6285321726312&text=Halo,%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20Mandiri%20Tour%20&%20Travel" target="_blank" class="whatsapp-btn"><i class="bi bi-whatsapp"></i></a>
@@ -165,13 +170,10 @@
     @yield('content')
 
     <script>
-        // Ketika dokumen dimuat
 window.onload = function() {
-  // Mendaftarkan fungsi untuk menampilkan atau menyembunyikan tombol scroll to top
   window.addEventListener('scroll', toggleScrollToTopBtn);
 }
 
-// Fungsi untuk menampilkan atau menyembunyikan tombol scroll to top
 function toggleScrollToTopBtn() {
   var btn = document.getElementById('scrollToTopBtn');
   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
@@ -181,7 +183,6 @@ function toggleScrollToTopBtn() {
   }
 }
 
-// Fungsi untuk menangani klik tombol scroll to top
 function scrollToTop() {
   document.body.scrollTop = 0; // Untuk browser Safari
   document.documentElement.scrollTop = 0; // Untuk browser lainnya
