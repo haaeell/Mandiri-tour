@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kendaraan;
 use App\Models\Kota;
-use App\Models\PaketWisata;
 use App\Models\Wisata;
-use Illuminate\Http\Request;
+use App\Models\Rundown;
+use App\Models\Kendaraan;
+use App\Models\PaketWisata;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class PaketWisataController extends Controller
 {
@@ -39,7 +40,7 @@ class PaketWisataController extends Controller
     
     $request->validate([
         'nama' => 'required',
-        'kendaraan_id' => 'required', // Menambahkan validasi untuk kendaraan_id
+        'kendaraan_id' => 'required',
         'kotas' => 'required|array',
         'deskripsi' => 'required',
         'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -65,9 +66,9 @@ class PaketWisataController extends Controller
     }
 
     $slug = Str::slug($request->nama);
-    $harga = str_replace('.', '', $request->harga); // Menghapus titik sebagai pemisah ribuan
-$harga = str_replace(',', '.', $harga); // Mengganti koma dengan titik sebagai tanda desimal
-$harga = doubleval($harga);
+    $harga = str_replace('.', '', $request->harga);
+    $harga = str_replace(',', '.', $harga);
+    $harga = doubleval($harga);
 
     // Simpan data ke dalam tabel wisata
     $wisata = PaketWisata::create([
@@ -78,13 +79,14 @@ $harga = doubleval($harga);
         'harga' => $harga,
         'kategori' => $request->kategori,
         'durasi' => $request->durasi,
-        'kendaraan_id' => $request->kendaraan_id, // Menambahkan kendaraan_id
+        'kendaraan_id' => $request->kendaraan_id,
         'slug' => $slug,
     ]);
 
     // Attach relasi kotas dan wisatas
     $wisata->kotas()->attach($request->kotas);
     $wisata->wisatas()->attach($request->wisatas);
+
 
     session()->flash('success', 'Data berhasil ditambah');
     return redirect()->route('paket-wisata.index');
@@ -93,13 +95,18 @@ $harga = doubleval($harga);
 
 
 
+
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function show($id)
+{
+    $paketWisata = PaketWisata::findOrFail($id);
+    $rundownsGrouped = $paketWisata->rundowns->groupBy('hari_ke')->map(function ($rundowns) {
+        return $rundowns->sortBy('mulai');
+    });
+    return view('admin.paket_wisata.show', compact('paketWisata','rundownsGrouped'));
+}
 
     /**
      * Show the form for editing the specified resource.

@@ -37,5 +37,9 @@ class PaketWisata extends Model
         'kapasitas' => $this->kapasitas,
     ];
 }
+public function rundowns()
+    {
+        return $this->hasMany(Rundown::class);
+    }
 
 }

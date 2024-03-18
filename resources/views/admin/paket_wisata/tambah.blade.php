@@ -123,25 +123,27 @@
             </div>
         </div>
         <!-- Kendaraan -->
-<div class="mb-2 d-flex">
-    <div class="col-md-2">
-        <label for="kendaraan_id">Kendaraan<span class="text-danger">*</span></label>
-    </div>
-    <div class="col-md-10">
-        <div class="form-group">
-            <select name="kendaraan_id" class="form-control" required>
-                <option value="">Pilih Kendaraan</option>
-                @foreach ($kendaraans as $kendaraan)
-                    <option value="{{ $kendaraan->id }}">{{ $kendaraan->nama }}</option>
-                @endforeach
-            </select>
+        <div class="mb-2 d-flex">
+            <div class="col-md-2">
+                <label for="kendaraan_id">Kendaraan<span class="text-danger">*</span></label>
+            </div>
+            <div class="col-md-10">
+                <div class="form-group">
+                    <select name="kendaraan_id" class="form-control" required>
+                        <option value="">Pilih Kendaraan</option>
+                        @foreach ($kendaraans as $kendaraan)
+                            <option value="{{ $kendaraan->id }}">{{ $kendaraan->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-
-
-        <button type="submit" class="btn btn-primary">Simpan</button>
+        <button type="submit" class="btn btn-primary float-end">Simpan</button>
     </form>
 </div>
+@endsection
+
+@section('script')
+
 @endsection
 

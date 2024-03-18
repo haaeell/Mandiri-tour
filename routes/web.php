@@ -16,6 +16,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\KotaController;
 use App\Http\Controllers\PaketWisataController;
 use App\Http\Controllers\PemesananController;
+use App\Http\Controllers\RundownController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WisataController;
 
@@ -78,6 +79,19 @@ Route::group(['middleware' => 'admin'], function () {
     Route::resource('paket-wisata', PaketWisataController::class);
     Route::resource('pemesanan', PemesananController::class);
     Route::resource('emails', EmailController::class);
+
+    Route::get('/admin/rundown/{id}',[RundownController::class,'create'])->name('rundown.add');
+    Route::post('/tambah-rundown', [RundownController::class,'store'])->name('rundown.store');
+    Route::get('/edit-rundown/{id}', [RundownController::class,'edit'])->name('rundown.edit');
+    Route::put('/update-rundown/{id}', [RundownController::class, 'updateRundown'])->name('rundown.updateRundown');
+    Route::delete('/delete-all/{id}',  [RundownController::class, 'deleteAll'])->name('rundown.deleteAll');
+    Route::delete('/rundown/delete-activity', [RundownController::class, 'deleteActivity'])->name('rundown.deleteActivity');
+    Route::get('/rundown/{id}', [RundownController::class,'generatePdf'])->name('rundown.generatePdf');
+
+
+
+
+
 
     Route::get('/admin/keluhan', [KeluhanController::class, 'index'])->name('keluhan.index-admin');
     

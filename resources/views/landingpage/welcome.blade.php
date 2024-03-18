@@ -237,6 +237,9 @@
             breakpoints: {
                 768: {
                     slidesPerView: 4 // Menampilkan 3 kartu ketika lebar layar >= 768px
+                },
+                200: {
+                    slidesPerView: 2// Menampilkan 3 kartu ketika lebar layar >= 768px
                 }
             },
             autoplay: {

@@ -85,11 +85,17 @@ public function paketWisata(Request $request)
     public function detailPaket($slug)
     {
         $paketWisata = PaketWisata::where('slug', $slug)->firstOrFail();
-        return view('landingpage.detailPaket', compact('paketWisata'));
+        $rundownsGrouped = $paketWisata->rundowns->groupBy('hari_ke')->map(function ($rundowns) {
+            return $rundowns->sortBy('mulai');
+        });
+        return view('landingpage.detailPaket', compact('paketWisata','rundownsGrouped'));
     }
     public function detailPaketForm($slug){
         $paketWisata = PaketWisata::where('slug', $slug)->firstOrFail();
-        return view('landingpage.pemesanan.detailPaketForm', compact('paketWisata')); 
+        $rundownsGrouped = $paketWisata->rundowns->groupBy('hari_ke')->map(function ($rundowns) {
+            return $rundowns->sortBy('mulai');
+        });
+        return view('landingpage.pemesanan.detailPaketForm', compact('paketWisata','rundownsGrouped')); 
     }
     public function riwayatPesanan()
     {
