@@ -42,16 +42,55 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <div class="navbar-nav mx-auto col-md-8 fw-semibold">
-                        <div class="input-group">
-                            <form action="" class="w-100 position-relative">
-                                <input type="search" style="border-radius: 32px; padding-right: 40px;" name="" id="" placeholder="Cari paket wisata favoritmu!" class="form-control px-3 py-2 my-4">
-                                <div class="position-absolute top-50 end-0 translate-middle-y">
-                                    <span class="input-group-text" style="background-color: transparent; border: none;"><i class="bi bi-search"></i></span>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <ul class="navbar-nav mx-auto gap-4 fw-semibold  ">
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('/') ? 'menu-active' : ''}}" href="{{route('welcome')}}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('diskusi') ? 'menu-active' : ''}}" href="">Wisata</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('paket') ? 'menu-active' : ''}}" href="{{route('paketWisata')}}">Paket Wisata</a>
+                        </li>
+                        @if (Auth::check())
+                            
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('keluhan') ? 'menu-active' : ''}}" href="{{ route('keluhan') }}">
+                                Keluhan
+                                @php
+                                    $unreadKeluhanCount = Auth::user()->unreadNotifications
+                                        ->where('type', 'App\Notifications\KeluhanDitanggapiNotification')
+                                        ->count();
+                                @endphp
+                        
+                                @if($unreadKeluhanCount > 0)
+                                    <span class="position-absolute top-20 start-70 translate-middle badge rounded-pill bg-danger">
+                                        {{ $unreadKeluhanCount }}
+                                    </span>
+                                @endif
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('riwayat-pesanan') ? 'menu-active' : ''}}" href="{{route('riwayatPesanan')}}">Pesanan
+                                @php
+                                $unreadKeluhanCount = Auth::user()->unreadNotifications
+                                    ->where('type', 'App\Notifications\KonfirmasiPembayaran')
+                                    ->count();
+                            @endphp
+                    
+                            @if($unreadKeluhanCount > 0)
+                                <span class="position-absolute top-20 start-70 translate-middle badge rounded-pill bg-danger">
+                                    {{ $unreadKeluhanCount }}
+                                </span>
+                            @endif
+                            </a>
+                        </li>
+                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu {{ request()->is('about') ? 'menu-active' : ''}}" href="">About Us</a>
+                        </li>
+                    </ul>
                     
                     
                     
@@ -104,61 +143,6 @@
             </div>
         </nav>
     
-        <nav class="navbar navbar-expand-lg navbar-light nav-parent  border-bottom border-info border-2 py-2 shadow" style="background-color: white" >
-            <div class="container">
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mx-auto gap-4 fw-semibold ">
-                        <li class="nav-item">
-                            <a class="nav-link nav-menu {{ request()->is('/') ? 'menu-active' : ''}}" href="{{route('welcome')}}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-menu {{ request()->is('diskusi') ? 'menu-active' : ''}}" href="">Wisata</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-menu {{ request()->is('paket') ? 'menu-active' : ''}}" href="{{route('paketWisata')}}">Paket Wisata</a>
-                        </li>
-                        @if (Auth::check())
-                            
-                        <li class="nav-item">
-                            <a class="nav-link nav-menu {{ request()->is('keluhan') ? 'menu-active' : ''}}" href="{{ route('keluhan') }}">
-                                Keluhan
-                                @php
-                                    $unreadKeluhanCount = Auth::user()->unreadNotifications
-                                        ->where('type', 'App\Notifications\KeluhanDitanggapiNotification')
-                                        ->count();
-                                @endphp
-                        
-                                @if($unreadKeluhanCount > 0)
-                                    <span class="position-absolute top-20 start-70 translate-middle badge rounded-pill bg-danger">
-                                        {{ $unreadKeluhanCount }}
-                                    </span>
-                                @endif
-                            </a>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a class="nav-link nav-menu {{ request()->is('riwayat-pesanan') ? 'menu-active' : ''}}" href="{{route('riwayatPesanan')}}">Pesanan
-                                @php
-                                $unreadKeluhanCount = Auth::user()->unreadNotifications
-                                    ->where('type', 'App\Notifications\KonfirmasiPembayaran')
-                                    ->count();
-                            @endphp
-                    
-                            @if($unreadKeluhanCount > 0)
-                                <span class="position-absolute top-20 start-70 translate-middle badge rounded-pill bg-danger">
-                                    {{ $unreadKeluhanCount }}
-                                </span>
-                            @endif
-                            </a>
-                        </li>
-                        @endif
-                        <li class="nav-item">
-                            <a class="nav-link nav-menu {{ request()->is('about') ? 'menu-active' : ''}}" href="">About Us</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
       </div>
 
       

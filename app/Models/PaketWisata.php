@@ -35,6 +35,7 @@ class PaketWisata extends Model
         'harga' => $this->harga,
         'kota' => $this->kota,
         'kapasitas' => $this->kapasitas,
+        'kendaraan' => $this->kendaraan,
     ];
 }
 public function rundowns()

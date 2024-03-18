@@ -77,9 +77,16 @@ public function paketWisata(Request $request)
 
     $paketWisata = $query->get();
     
-    $kotas = Kota::all(); // Mengambil data kota
+    $kotas = Kota::all(); 
+    $nama_kota = Kota::find($city_id)->nama ?? '';
+    $paketTerpopuler = PaketWisata::select('paket_wisata.*')
+                        ->join('pemesanan', 'paket_wisata.id', '=', 'pemesanan.paket_id')
+                        ->groupBy('paket_wisata.id')
+                        ->orderByRaw('COUNT(pemesanan.id) DESC')
+                        ->take(3)
+                        ->get();
 
-    return view('landingpage.paketwisata', compact('paketWisata', 'kotas'));
+    return view('landingpage.paketwisata', compact('paketWisata', 'kotas', 'search', 'min_price', 'max_price', 'city_id', 'capacity','nama_kota','paketTerpopuler'));
 }
 
     public function detailPaket($slug)

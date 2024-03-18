@@ -43,6 +43,7 @@ Route::get('/paket/{slug}', [LandingpageController::class, 'detailPaket'])->name
 
 Route::get('/testing', [TestingController::class,'index']);
 Route::post('/kabisat', [TestingController::class, 'checkTahunKabisat'])->name('kabisat');
+Route::get('/rundown/{id}', [RundownController::class,'generatePdf'])->name('rundown.generatePdf');
 
 
 
@@ -86,8 +87,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::put('/update-rundown/{id}', [RundownController::class, 'updateRundown'])->name('rundown.updateRundown');
     Route::delete('/delete-all/{id}',  [RundownController::class, 'deleteAll'])->name('rundown.deleteAll');
     Route::delete('/rundown/delete-activity', [RundownController::class, 'deleteActivity'])->name('rundown.deleteActivity');
-    Route::get('/rundown/{id}', [RundownController::class,'generatePdf'])->name('rundown.generatePdf');
-
+    
 
 
 

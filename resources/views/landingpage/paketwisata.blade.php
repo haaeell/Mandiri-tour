@@ -4,15 +4,58 @@
 
 @section('content')
     <div class="container py-5">
-        <div class="row d-flex justify-content-center ">
+        <div class="row d-flex justify-content-center " >
             
             
             <h2 class="fw-bold text-center mb-4">Paket Wisata</h2>
-            <div class="text-center mb-4 col-md-10">
-                <!-- Tombol Filter -->
-                <button type="button" class="btn btn-primary rounded-pill py-3 px-4" data-bs-toggle="modal" data-bs-target="#filterModal">
-                    Filter Paket Wisata
-                </button>
+            
+            
+            <div class=" d-flex align-items-center gap-2 justify-content-center text-center mb-4 col-10 d-flex ">
+                <div class="col-10 col-md-10">
+
+                    <form action="" method="get" class="w-100 position-relative">
+                        <input type="search" style="border-radius: 32px; border:2px solid #3f86ed"  name="keyword" id="search" placeholder="Cari Tempat wisata, kota atau kendaraan" class="form-control px-3 py-2 my-4 shadow">
+                        <div class="position-absolute top-50 end-0 translate-middle-y">
+                            <span class="input-group-text" style="background-color: transparent; border: none;"><i class="bi bi-search"></i></span>
+                        </div>
+                    </form>
+                    
+                    
+                </div>
+                <div>
+
+                    <button type="button" class="btn btn-outline-primary shadow " style="border-radius: 32px;" data-bs-toggle="modal" data-bs-target="#filterModal">
+                        Filter  <i class="bi bi-funnel-fill"></i>
+                    </button>
+                </div>
+            
+            </div>
+            <div class="text-start col-md-9 mb-4">
+     @if (!empty($search) || !empty($min_price) || !empty($max_price) || !empty($city_id) || !empty($capacity))
+                <div class="search-info">
+                    <p>Menampilkan hasil pencarian:  @if (!empty($search))
+                        <strong>{{ $search }}</strong>
+                    @endif</p>
+                    <ul>
+                        @if (!empty($min_price))
+                            <li>Harga minimum: <strong>{{ $min_price }}</strong></li>
+                        @endif
+
+                        @if (!empty($max_price))
+                            <li>Harga maksimum: <strong>{{ $max_price }}</strong></li>
+                        @endif
+
+                        @if (!empty($city_id))
+                            <li>Kota: <strong>{{ $nama_kota }}</strong></li>
+                        @endif
+
+                        @if (!empty($capacity))
+                            <li>Kapasitas: <strong>{{ $capacity }}</strong></li>
+                        @endif
+                    </ul>
+                </div>
+    @endif
+    
             </div>
             <div class="modal fade rounded-pill" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -24,9 +67,7 @@
                         <div class="modal-body">
                             <!-- Formulir Pencarian -->
                             <form action="" method="get">
-                                <div class="input-group mb-3">
-                                    <input type="text" name="keyword" id="search" class="form-control border-2 rounded-pill py-3 px-4" placeholder="Cari Nama...">
-                                </div>
+                               
                                 <div class="input-group mb-3">
                                     <input type="number" name="min_price" id="min_price" class="form-control border-2 rounded-pill py-3 px-4" placeholder="Harga Minimum">
                                     <input type="number" name="max_price" id="max_price" class="form-control border-2 rounded-pill py-3 px-4" placeholder="Harga Maksimum">
@@ -53,8 +94,9 @@
             </div>
             
             
-            @if ($paketWisata->count() > 0)
-        @foreach ($paketWisata as $p)
+    @if ($paketWisata->count() > 0)
+        <div class="row" style="overflow-x: auto; ">
+            @foreach ($paketWisata as $p)
         <div class="col-md-4">
             <div class="card  card-paket border-0 p-3 shadow-lg">
                 <div class="bg-primary border m-2 position-relative" style="border-radius: 16px;">
@@ -95,11 +137,14 @@
             </div>
         </div>
         @endforeach
-        @else
-        <div class="text-center col-md-12">
+            </div>
+        
+    @else
+        
+        <div class="text-center col-md-12 my-4">
             <p>~ Tidak ada paket wisata yang sesuai dengan pencarian ~</p>
         </div>
-        @endif
+    @endif
         </div>
 
         
