@@ -195,35 +195,7 @@
         </div>
     </section>
 
-    {{-- FOOTER --}}
-    <footer style="border-top: 2px solid #25aae1" class="shadow">
-        <div class="container text-center py-5">
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-4">
-                    <img src="{{asset('assets/img/logo2.png')}}" style="width: 70%" alt="">
-                    <p>GG.Merpati Dsn.Betok RT 05/02 Desa Mulyasari Kecamatan Binong Kabupaten Subang Jawa Barat 41253 </p>
-                </div>
-                <div class="col-md-4 ">
-                    <h4 class="fw-semibold mt-3 mb-5">LAYANAN</h4>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">Studi Tour</li>
-                        <li class="mb-2">Studi Banding</li>
-                        <li class="mb-2">Wisata Keluarga</li>
-                        <li class="mb-2">Wisata Religi</li>
-                        <li class="mb-2">DLL</li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h4 class="fw-semibold mt-3 mb-5">KONTAK KAMI</h4>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><i class="bi bi-whatsapp"></i> Whatsapp : +62867645642</li>
-                        <li class="mb-2"><i class="bi bi-envelope"></i> Email : +62867645642</li>
-                        <li class="mb-2"><i class="bi bi-instagram"></i> Instagram : mandiritour_subang</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+   
 @endsection
 
 @section('script')

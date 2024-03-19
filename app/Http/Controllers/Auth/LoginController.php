@@ -39,21 +39,14 @@ class LoginController extends Controller
         'password' => 'required',
     ]);
 
-    // Mendefinisikan nilai dari variabel $credentials dengan data input
     $credentials = $request->only('email', 'password');
-
-    // Proses autentikasi pengguna menggunakan metode attempt()
     if (Auth::attempt($credentials)) {
-        // Cek apakah pengguna memiliki role admin
         if (Auth::user()->role == 'admin') {
-            // Jika role adalah admin, arahkan ke halaman admin
             return redirect()->route('home');
         } else {
-            // Jika role bukan admin, arahkan sesuai dengan URL halaman sebelumnya atau halaman default
             return redirect()->intended('/');
         }
     } else {
-        // Jika autentikasi gagal, arahkan kembali ke halaman login dengan pesan kesalahan
         return redirect('/login')->with('error', 'Email atau password salah. Silakan coba lagi.');
     }
 }

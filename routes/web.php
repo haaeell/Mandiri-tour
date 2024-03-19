@@ -89,13 +89,8 @@ Route::group(['middleware' => 'admin'], function () {
     Route::delete('/rundown/delete-activity', [RundownController::class, 'deleteActivity'])->name('rundown.deleteActivity');
     
 
-
-
-
-
     Route::get('/admin/keluhan', [KeluhanController::class, 'index'])->name('keluhan.index-admin');
     
-
     Route::get('/keluhan/{id}/tanggapi', [KeluhanController::class, 'tanggapi'])->name('keluhan.tanggapi');
     Route::post('/keluhan/{id}/tanggapi', [KeluhanController::class, 'prosesTanggapi'])->name('keluhan.proses-tanggapi');
 
@@ -103,12 +98,10 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/email', [EmailController::class, 'index'])->name('email.index');
     Route::get('/email/send/{id}', [EmailController::class, 'sendEmail'])->name('email.send');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-
     
     Route::get('/pemesanan-baru', [PemesananController::class, 'pemesananBaru'])->name('pemesanan.pemesanan-baru');
     Route::get('/menunggu-konfirmasi', [PemesananController::class, 'menungguKonfirmasi'])->name('pemesanan.menunggu-konfirmasi');
     Route::get('/pesanan-dibatalkan', [PemesananController::class, 'pesananDibatalkan'])->name('pemesanan.pesanan-dibatalkan');
     Route::get('/pesanan-diterima', [PemesananController::class, 'pesananDiterima'])->name('pemesanan.pesanan-diterima');
 
-    
 });

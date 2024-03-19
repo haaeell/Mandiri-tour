@@ -82,7 +82,7 @@ class RundownController extends Controller
 
 public function updateRundown(Request $request, $id)
 {
-    // dd($request->paket_wisata_id);
+    
     if ($request->has('hari_ke')) {
         foreach ($request->hari_ke as $key => $value) {
             Rundown::updateOrCreate(

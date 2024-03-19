@@ -38,89 +38,91 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12 mt-3">
-                        <ul class="nav nav-tabs" id="myTabs" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active fw-semibold" id="rundown-tab" data-bs-toggle="tab"
-                                    data-bs-target="#rundown" type="button" role="tab" aria-controls="rundown"
-                                    aria-selected="false">Rundown
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link fw-semibold " id="wisata-tab" data-bs-toggle="tab"
-                                    data-bs-target="#wisata" type="button" role="tab" aria-controls="wisata"
-                                    aria-selected="true">Wisata yang dikunjungi
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link fw-semibold" id="fasilitas-tab" data-bs-toggle="tab"
-                                    data-bs-target="#fasilitas" type="button" role="tab" aria-controls="fasilitas"
-                                    aria-selected="false">Fasilitas
-                                </button>
-                            </li>
-
-                        </ul>
-                        <div class="tab-content" id="myTabsContent">
-                            <div class="tab-pane fade show active mt-3" id="rundown" role="tabpanel"
-                                aria-labelledby="rundown-tab">
-                                <ul>
-                                    <div class="accordion" id="accordionExample">
-                                        @if (!$rundownsGrouped->isEmpty())
-                                            <div class="text-start mb-3">
-                                                <a href="{{ route('rundown.generatePdf', $paketWisata->id) }}" class="btn btn-primary btn-sm">Cetak Rundown</a>
+                    <div class="row">
+                        <div class="card p-4" style="background-color: #dfe2f5; border:2px solid #25aae1">
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-primary "><i class="bi bi-box-seam-fill "></i> Tentang {{$paketWisata->nama}}</h5>
+                                <div class="col-md-10">
+                                    <p class="m-0 ">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde, dolor! Lorem ipsum, dolor sit amet consectetur adipisicing
+                                    </p>
+                                </div>
+                            </div>
+                        
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="nav nav-tabs" id="myTabs" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active fw-semibold" id="rundown-tab" data-bs-toggle="tab" data-bs-target="#rundown"
+                                                type="button" role="tab" aria-controls="rundown" aria-selected="false">Rundown
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link fw-semibold" id="wisata-tab" data-bs-toggle="tab" data-bs-target="#wisata"
+                                                type="button" role="tab" aria-controls="wisata" aria-selected="true">Wisata yang dikunjungi
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link fw-semibold" id="fasilitas-tab" data-bs-toggle="tab" data-bs-target="#fasilitas"
+                                                type="button" role="tab" aria-controls="fasilitas" aria-selected="false">Fasilitas
+                                            </button>
+                                        </li>
+                                    </ul>
+                        
+                                    <div class="tab-content" id="myTabsContent">
+                                        <div class="tab-pane fade show active mt-3" id="rundown" role="tabpanel" aria-labelledby="rundown-tab">
+                                            <div class="d-flex justify-content-end mb-3">
+                                                @if (!$rundownsGrouped->isEmpty())
+                                                    <a href="{{ route('rundown.generatePdf', $paketWisata->id) }}" class="btn btn-primary btn-sm">Cetak Rundown</a>
+                                                @endif
                                             </div>
-                                        @endif
-                                    
-                                        @if ($rundownsGrouped->isEmpty())
-                                            <p>- Rundown belum tersedia. -</p>
-                                        @else
-                                            @foreach ($rundownsGrouped as $hari => $rundowns)
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="heading{{ $loop->index }}">
-                                                        <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse"
-                                                            data-bs-target="#collapse{{ $loop->index }}"
-                                                            aria-expanded="false"
-                                                            aria-controls="collapse{{ $loop->index }}">
-                                                            Hari ke-{{ $hari }}
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapse{{ $loop->index }}"
-                                                        class="accordion-collapse collapse"
-                                                        aria-labelledby="heading{{ $loop->index }}"
-                                                        data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">
-                                                            <ul>
-                                                                @foreach ($rundowns as $rundown)
-                                                                    <li>
-                                                                        {{ \Carbon\Carbon::parse($rundown->mulai)->format('H.i') }}
-                                                                        -
-                                                                        {{ \Carbon\Carbon::parse($rundown->selesai)->format('H.i') }}:
-                                                                        {{ $rundown->deskripsi }}
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
+                                            <div class="accordion" id="accordionExample">
+                                                @if ($rundownsGrouped->isEmpty())
+                                                    <p class="text-center">Rundown belum tersedia.</p>
+                                                @else
+                                                    @foreach ($rundownsGrouped as $hari => $rundowns)
+                                                        <div class="accordion-item mb-2 " >
+                                                            <h2 class="accordion-header " id="heading{{ $loop->index }}">
+                                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                                    data-bs-target="#collapse{{ $loop->index }}" aria-expanded="false"
+                                                                    aria-controls="collapse{{ $loop->index }}">
+                                                                    Hari ke-{{ $hari }}
+                                                                </button>
+                                                            </h2>
+                                                            <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse"
+                                                                aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
+                                                                <div class="accordion-body ">
+                                                                    <ul>
+                                                                        @foreach ($rundowns as $rundown)
+                                                                            <li>
+                                                                                {{ \Carbon\Carbon::parse($rundown->mulai)->format('H.i') }} -
+                                                                                {{ \Carbon\Carbon::parse($rundown->selesai)->format('H.i') }}:
+                                                                                {{ $rundown->deskripsi }}
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                        </div>
+                        
+                                        <div class="tab-pane fade mt-3" id="wisata" role="tabpanel" aria-labelledby="wisata-tab">
+                                            <ol>
+                                                @foreach ($paketWisata->wisatas as $wisata)
+                                                    <li>{{ $wisata->nama }} - {{ $wisata->kota->nama }}</li>
+                                                @endforeach
+                                            </ol>
+                                        </div>
+                        
+                                        <div class="tab-pane fade mt-3" id="fasilitas" role="tabpanel" aria-labelledby="fasilitas-tab">
+                                            {{ $paketWisata->fasilitas }}
+                                        </div>
                                     </div>
-                                    
-
-                                </ul>
+                                </div>
                             </div>
-                            <div class="tab-pane fade mt-3" id="wisata" role="tabpanel" aria-labelledby="wisata-tab">
-                                <ol>
-                                    @foreach ($paketWisata->wisatas as $wisata)
-                                        <li>{{ $wisata->nama }}</li>
-                                    @endforeach
-                                </ol>
-                            </div>
-                            <div class="tab-pane fade mt-3" id="fasilitas" role="tabpanel" aria-labelledby="fasilitas-tab">
-                                {{ $paketWisata->fasilitas }}
-                            </div>
-
                         </div>
                     </div>
                 </div>

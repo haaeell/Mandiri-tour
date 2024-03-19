@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Keluhan;
 use App\Models\Kota;
-use App\Models\PaketWisata;
+use App\Models\Keluhan;
+use App\Models\Kendaraan;
 use App\Models\Pemesanan;
+use App\Models\PaketWisata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,7 +47,7 @@ public function paketWisata(Request $request)
     $min_price = $request->min_price;
     $max_price = $request->max_price;
     $city_id = $request->city;
-    $capacity = $request->capacity;
+    $kendaraan_id = $request->kendaraan;
 
     $query = PaketWisata::query();
 
@@ -68,17 +69,19 @@ public function paketWisata(Request $request)
         });
     }
 
-    if (!empty($capacity)) {
-        // Menambahkan kondisi where untuk kapasitas kendaraan
-        $query->whereHas('kendaraan', function ($q) use ($capacity) {
-            $q->where('kapasitas', '=', $capacity);
+    if (!empty($kendaraan_id)) {
+        $query->whereHas('kendaraan', function ($q) use ($kendaraan_id) {
+            $q->where('kendaraan_id', $kendaraan_id);
         });
     }
 
     $paketWisata = $query->get();
     
     $kotas = Kota::all(); 
+    $kendaraan = Kendaraan::all(); 
     $nama_kota = Kota::find($city_id)->nama ?? '';
+    $nama_kendaraan = Kendaraan::find($kendaraan_id)->nama ?? '';
+  
     $paketTerpopuler = PaketWisata::select('paket_wisata.*')
                         ->join('pemesanan', 'paket_wisata.id', '=', 'pemesanan.paket_id')
                         ->groupBy('paket_wisata.id')
@@ -86,7 +89,7 @@ public function paketWisata(Request $request)
                         ->take(3)
                         ->get();
 
-    return view('landingpage.paketwisata', compact('paketWisata', 'kotas', 'search', 'min_price', 'max_price', 'city_id', 'capacity','nama_kota','paketTerpopuler'));
+    return view('landingpage.paketwisata', compact('paketWisata', 'kotas', 'search', 'min_price', 'max_price', 'city_id', 'kendaraan_id','nama_kota','nama_kendaraan','paketTerpopuler','kendaraan'));
 }
 
     public function detailPaket($slug)

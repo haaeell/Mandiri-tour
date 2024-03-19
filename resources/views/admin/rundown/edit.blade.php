@@ -22,7 +22,7 @@
         <div class="col-md-1">
             <div class="form-group">
                 <label for="hari_ke[]">Hari</label>
-                <input type="number" name="hari_ke[]" class="form-control day-input" value="{{ $rundown->hari_ke }}" required >
+                <input type="number" name="hari_ke[]" readonly class="form-control day-input" value="{{ $rundown->hari_ke }}" required >
             </div>
         </div>
         <div class="col-md-2">
@@ -75,93 +75,96 @@
 @section('script')
 <script>
     $(document).ready(function() {
-        var dayCount = {{ $rundowns->max('hari_ke') }}; // Mengatur jumlah hari sesuai dengan hari terakhir
+    var dayCount = {{ $rundowns->max('hari_ke') }}; // Mengatur jumlah hari sesuai dengan hari terakhir
+
+    // Tambah aktivitas
+    $(document).on('click', '.addActivity', function() {
+        // Periksa ID aktivitas yang sudah ada
+        var existingIds = [];
+        $('.activity').each(function() {
+            var activityId = $(this).find('input[name="activity_id[]"]').val();
+            existingIds.push(activityId);
+        });
+        
+        // Buat ID baru yang unik
+        var newActivityId = generateUniqueId(existingIds);
+        
+        // Clone elemen aktivitas dan atur ID baru
+        var newActivityField = $(this).closest('.activity').clone();
+        newActivityField.find('input[type="time"], textarea').val(''); // Mengosongkan nilai input
+        newActivityField.find('input[name="activity_id[]"]').val(newActivityId); // Setel ID baru
+        newActivityField.hide().insertAfter($(this).closest('.activity')).slideDown();
+    });
+
+    function generateUniqueId(existingIds) {
+        var newId = Math.max(...existingIds) + 1;
+        return newId.toString();
+    }
+
+    $('#addDay').click(function() {
+    dayCount++; // Menambah jumlah hari
+    var newDayField = $('#activities .activity').last().clone();
+    var currentDay = parseInt(newDayField.find('input[name^="hari_ke"]').val());
+    newDayField.find('input[name^="hari_ke"]').val(currentDay + 1);
+    newDayField.find('input[type="time"], textarea').val(''); // Mengosongkan nilai input
     
-        // Tambah aktivitas
-        $(document).on('click', '.addActivity', function() {
-    // Periksa ID aktivitas yang sudah ada
+    // Menemukan aktivitas terakhir pada hari sebelumnya
+    var lastActivityOfPreviousDay = $('#activities .activity input[name^="hari_ke"][value="' + currentDay + '"]').last().closest('.activity');
+    
+    // Menyisipkan hari baru setelah aktivitas terakhir pada hari sebelumnya
+    newDayField.hide().insertAfter(lastActivityOfPreviousDay).slideDown();
+    
+    // Berikan ID yang unik untuk elemen hari baru
     var existingIds = [];
     $('.activity').each(function() {
         var activityId = $(this).find('input[name="activity_id[]"]').val();
-        existingIds.push(activityId);
+        existingIds.push(parseInt(activityId));
     });
-    
-    // Buat ID baru yang unik
-    var newActivityId = generateUniqueId(existingIds);
-    
-    // Clone elemen aktivitas dan atur ID baru
-    var newActivityField = $(this).closest('.activity').clone();
-    newActivityField.find('input[type="time"], textarea').val(''); // Mengosongkan nilai input
-    newActivityField.find('input[name="activity_id[]"]').val(newActivityId); // Setel ID baru
-    newActivityField.hide().insertAfter($(this).closest('.activity')).slideDown();
+    var newDayId = Math.max(...existingIds) + 1;
+    newDayField.find('input[name="activity_id[]"]').val(newDayId);
 });
 
-function generateUniqueId(existingIds) {
-    var newId = Math.max(...existingIds) + 1;
-    return newId.toString();
-}
-    
-$('#addDay').click(function() {
-        dayCount++; // Menambah jumlah hari
-        var newDayField = $('#activities .activity').last().clone();
-        var currentDay = parseInt(newDayField.find('input[name^="hari_ke"]').val());
-        newDayField.find('input[name^="hari_ke"]').val(currentDay + 1);
-        newDayField.find('input[type="time"], textarea').val(''); // Mengosongkan nilai input
-        
-        // Menemukan aktivitas terakhir pada hari sebelumnya
-        var lastActivityOfPreviousDay = $('#activities .activity input[name^="hari_ke"][value="' + currentDay + '"]').last().closest('.activity');
-        
-        // Menyisipkan hari baru setelah aktivitas terakhir pada hari sebelumnya
-        newDayField.hide().insertAfter(lastActivityOfPreviousDay).slideDown();
-    });
-    
-        // Hapus aktivitas
-        $(document).on('click', '.deleteActivity', function() {
-            $(this).closest('.activity').remove();
-        });
-    });
-    
-   
-    </script>
-    
 
-<script>
     // Hapus aktivitas
-$(document).on('click', '.deleteActivity', function() {
-    var activityId = $(this).closest('.activity').find('input[name="activity_id[]"]').val();
-    
-    $.ajax({
-        url: '{{ route("rundown.deleteActivity") }}',
-        type: 'DELETE',
-        data: {
-            activity_id: activityId,
-            _token: '{{ csrf_token() }}'
-        },
-        success: function(response) {
-            if (response.success) {
-                // Aktivitas berhasil dihapus
-                $(this).closest('.activity').remove();
+    $(document).on('click', '.deleteActivity', function() {
+        $(this).closest('.activity').remove();
+    });
+
+    // Hapus aktivitas menggunakan AJAX
+    $(document).on('click', '.deleteActivity', function() {
+        var activityId = $(this).closest('.activity').find('input[name="activity_id[]"]').val();
+        
+        $.ajax({
+            url: '{{ route("rundown.deleteActivity") }}',
+            type: 'DELETE',
+            data: {
+                activity_id: activityId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Aktivitas berhasil dihapus
+                    $(this).closest('.activity').remove();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Aktivitas berhasil dihapus',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Aktivitas berhasil dihapus',
-                    showConfirmButton: false,
-                    timer: 1500
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Ada kesalahan saat menghapus aktivitas'
                 });
             }
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Ada kesalahan saat menghapus aktivitas'
-            });
-        }
+        });
     });
-});
 
-</script>
-<script>
+    // Konfirmasi hapus semua
     function confirmDeleteAll() {
         event.preventDefault(); // Menghentikan aksi bawaan form
         const form = document.getElementById('form-delete-all');
@@ -180,6 +183,8 @@ $(document).on('click', '.deleteActivity', function() {
             }
         });
     }
+});
+
 </script>
 
 @endsection
