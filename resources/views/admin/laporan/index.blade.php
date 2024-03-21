@@ -79,7 +79,7 @@
 
         function renderData(data, bulan) {
             const bulanLabel = new Date(bulan + '-01').toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
-            let table = `<h3 class="my-4 text-center">Data Pemesanan Paket Wisata Bulan ${bulanLabel}</h3>`;
+            let table = `<h3 class="my-4 text-center">Data Penjualan Paket Wisata Bulan ${bulanLabel}</h3>`;
             table += '<div class="table-responsive">';
             table += '<table class="table table-hovered">';
             table += `<thead class="table-primary">

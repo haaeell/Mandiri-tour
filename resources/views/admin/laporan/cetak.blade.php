@@ -59,7 +59,7 @@
         <div class="header">
             <img src="{{ 'data:image/png;base64,' . base64_encode(file_get_contents(public_path('assets/img/logo2.png'))) }}" alt="Logo" class="logo">
         </div>
-        <h2>Laporan Pemesanan Paket Wisata Bulan {{ \Carbon\Carbon::parse($pemesanans->first()->created_at)->isoFormat('MMMM YYYY') }}</h2>
+        <h2>Laporan Penjualan Paket Wisata Bulan {{ \Carbon\Carbon::parse($pemesanans->first()->created_at)->isoFormat('MMMM YYYY') }}</h2>
         <table>
             <thead>
                 <tr>
