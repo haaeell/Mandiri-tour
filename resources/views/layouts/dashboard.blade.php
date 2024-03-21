@@ -290,6 +290,12 @@
                             </ul>
                         </li>
                         </li>
+                        <li class="sidebar-item {{ request()->is('laporan') ? 'active' : '' }}  ">
+                            <a href="{{ route('laporan.index') }}" class='sidebar-link'>
+                                <i class="bi bi-clipboard-data-fill"></i>
+                                <span>Laporan</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item {{ request()->is('admin/keluhan') ? 'active' : '' }}">
                             <a href="{{ route('keluhan.index-admin') }}" class='sidebar-link'>
                                 <i class="bi bi-chat-square-text-fill"></i>
@@ -308,6 +314,7 @@
                             @endif
                             </a>
                         </li>
+                        
 
 
                         <li class="sidebar-item  ">

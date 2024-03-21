@@ -36,6 +36,12 @@ class HomeController extends Controller
             ->groupBy('users.id')
             ->orderByDesc('total_orders')
             ->get();
+            $topPaketWisata = PaketWisata::select('paket_wisata.*', DB::raw('COUNT(pemesanan.id) as total_orders'))
+            ->leftJoin('pemesanan', 'paket_wisata.id', '=', 'pemesanan.paket_id')
+            ->groupBy('paket_wisata.id')
+            ->orderByDesc('total_orders')
+            ->get();
+
         $totalPaketWisata = PaketWisata::count();
         $totalKeluhan = Keluhan::count();
         $totalCustomer = User::where('role', 'customer')->count();
@@ -57,6 +63,7 @@ class HomeController extends Controller
             'usersWithoutOrders' => $usersWithoutOrders,
             'usersWithCancelledOrders' => $usersWithCancelledOrders,
             'topUsers' => $topUsers,
+            'topPaketWisata' => $topPaketWisata,
 
 
 
@@ -77,6 +84,6 @@ class HomeController extends Controller
     {
         return view('admin.users.profile');
     }
-
+   
     
 }

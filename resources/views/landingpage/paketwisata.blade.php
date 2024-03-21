@@ -72,7 +72,7 @@
                                     <input type="number" name="max_price" id="max_price" class="form-control border-2 rounded-pill py-3 px-4" placeholder="Harga Maksimum">
                                 </div>
                                 <div class="input-group mb-3">
-                                    <select name="city" id="city" class="form-select border-2 rounded-pill py-3 px-4">
+                                    <select name="city" id="city" class="form-select  border-2 rounded-pill py-3 px-4">
                                         <option value="">Pilih Kota</option>
                                         @foreach($kotas as $kota)
                                         <option value="{{ $kota->id }}">{{ $kota->nama }}</option>

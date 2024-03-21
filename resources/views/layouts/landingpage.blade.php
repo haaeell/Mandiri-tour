@@ -47,7 +47,7 @@
                             <a class="nav-link nav-menu {{ request()->is('/') ? 'menu-active' : ''}}" href="{{route('welcome')}}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-menu {{ request()->is('diskusi') ? 'menu-active' : ''}}" href="">Wisata</a>
+                            <a class="nav-link nav-menu {{ request()->is('landingpage/wisata') ? 'menu-active' : ''}}" href="{{route('landingpage.wisata')}}">Wisata</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-menu {{ request()->is('paket') ? 'menu-active' : ''}}" href="{{route('paketWisata')}}">Paket Wisata</a>
@@ -88,7 +88,7 @@
                         </li>
                         @endif
                         <li class="nav-item">
-                            <a class="nav-link nav-menu {{ request()->is('about') ? 'menu-active' : ''}}" href="">About Us</a>
+                            <a class="nav-link nav-menu {{ request()->is('about') ? 'menu-active' : ''}}" href="{{route('about')}}">About Us</a>
                         </li>
                     </ul>
                     

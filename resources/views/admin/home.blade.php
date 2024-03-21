@@ -141,32 +141,57 @@
                 {!! $monthlyOrdersChart->container() !!}
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="container">
-                <h2 class="fw-semibold text-center mb-4">Top Users with Most Orders</h2>
-        <div class="card p-4 shadow rounded">
+                <h2 class="fw-semibold text-center mb-4">Top Customers with Most Orders</h2>
+            <div class="card p-4 shadow ">
 
-            <table class="table-bordered table ">
-                <thead class="">
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Total Orders</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($topUsers as $user)
+                <table class="table-bordered table ">
+                    <thead class="">
                         <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->total_orders }}</td>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Total Orders</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @foreach($topUsers as $user)
+                            <tr>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->total_orders }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="container">
+                <h4 class="fw-bold text-center mb-4">Paket Wisata Terpopuler</h4>
+                <div class="card p-4 shadow ">
+                    <table class="table-bordered table ">
+                        <thead class="">
+                            <tr>
+                                <th>Nama Paket Wisata</th>
+                                <th>Jumlah Pemesanan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($topPaketWisata as $paketWisata)
+                            <tr>
+                                <td>{{ $paketWisata->nama }}</td>
+                                
+                                <td>{{ $paketWisata->total_orders }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
     </div>
 </div>
 

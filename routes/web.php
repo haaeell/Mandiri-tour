@@ -14,6 +14,7 @@ use App\Http\Controllers\KeluhanController;
 use App\Http\Controllers\LandingpageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KotaController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PaketWisataController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\RundownController;
@@ -34,6 +35,8 @@ use App\Http\Controllers\WisataController;
 Route::get('/', [LandingpageController::class, 'index'])->name('welcome');
 
 Route::get('/paket', [LandingpageController::class, 'paketWisata'])->name('paketWisata');
+Route::get('/landingpage/wisata', [LandingpageController::class, 'wisata'])->name('landingpage.wisata');
+Route::get('/about', [LandingpageController::class, 'about'])->name('about');
 
 
 Route::get('/login/google',[LoginController::class, 'redirectToGoogle']);
@@ -95,9 +98,14 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/keluhan/{id}/tanggapi', [KeluhanController::class, 'prosesTanggapi'])->name('keluhan.proses-tanggapi');
 
     Route::post('/admin/pemesanan/{id}/konfirmasi', [PemesananController::class, 'konfirmasiPembayaran'])->name('admin.pemesanan.konfirmasi');
+    Route::post('/admin/pemesanan/{id}/tolak', [PemesananController::class, 'tolakPembayaran'])->name('admin.pemesanan.tolak');
     Route::get('/email', [EmailController::class, 'index'])->name('email.index');
     Route::get('/email/send/{id}', [EmailController::class, 'sendEmail'])->name('email.send');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+Route::post('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
+Route::get('/laporan/data', [LaporanController::class, 'data'])->name('laporan.data');
     
     Route::get('/pemesanan-baru', [PemesananController::class, 'pemesananBaru'])->name('pemesanan.pemesanan-baru');
     Route::get('/menunggu-konfirmasi', [PemesananController::class, 'menungguKonfirmasi'])->name('pemesanan.menunggu-konfirmasi');

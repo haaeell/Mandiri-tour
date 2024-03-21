@@ -49,15 +49,12 @@
                                 <span class="badge bg-success">
                                     {{$item->status_pembayaran}}
                                 </span>
-                            @elseif($item->status_pembayaran == 'Pembayaran Ditolak')
-                                <span class="badge bg-danger">
-                                    {{$item->status_pembayaran}}
-                                </span>
-                            @elseif($item->status_pembayaran == 'Pemesanan Dibatalkan')
-                                <span class="badge bg-secondary">
+                            @elseif($item->status_pembayaran == 'Pembayaran Ditolak' || $item->status_pembayaran == 'Pemesanan Dibatalkan')
+                                <span class="badge bg-dark">
                                     {{$item->status_pembayaran}}
                                 </span>
                             @endif
+                            
                             </td>
                             <td>
                                 {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->isoFormat('D MMMM YYYY') }}

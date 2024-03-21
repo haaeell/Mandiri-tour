@@ -63,11 +63,15 @@
                                     <div>
                                         {!! $item->bukti_pembayaran ? '<img src="' . asset('storage/' . $item->bukti_pembayaran) . '" width="50" style="cursor: pointer;" onClick="showImage(this)">' : '<span class="fw-bold text-danger">Belum Dibayar</span>' !!}
                                     </div>
-                                    <div>
+                                    <div class="d-flex">
                                         @if ($item->status_pembayaran == 'Menunggu Konfirmasi Admin' && $item->bukti_pembayaran)
                                         <form id="confirmForm" action="{{ route('admin.pemesanan.konfirmasi', $item->id) }}" method="post">
                                             @csrf
-                                            <button type="button" class="btn btn-info btn-sm" onclick="confirmPayment()">Konfirmasi Pembayaran</button>
+                                            <button type="button" class="btn btn-info btn-sm" onclick="confirmPayment()">Konfirmasi </button>
+                                        </form>
+                                        <form id="tolakForm" action="{{ route('admin.pemesanan.tolak', $item->id) }}" method="post">
+                                            @csrf
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="rejectPayment()">Tolak </button>
                                         </form>
                                     @endif
                                     @if ($item->status_pembayaran == 'Pembayaran Diterima')
@@ -106,6 +110,35 @@
 @endsection
 @section('script')
 <script>
+    function rejectPayment() {
+        // Konfirmasi dialog untuk memastikan pengguna ingin menolak pembayaran
+        if (confirm("Anda yakin ingin menolak pembayaran?")) {
+            // Lakukan permintaan POST menggunakan fetch API atau library JavaScript seperti axios
+            fetch('{{ route("admin.pemesanan.tolak", $item->id) }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                // Membuat body permintaan kosong karena tidak perlu mengirim data tambahan
+                body: JSON.stringify({})
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Jika permintaan berhasil, muat ulang halaman atau lakukan tindakan lain yang sesuai
+                    window.location.reload();
+                } else {
+                    // Tangani kesalahan jika ada
+                    console.error('Gagal menolak pembayaran');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+</script>
+<script>
     function confirmPayment() {
         Swal.fire({
             title: 'Konfirmasi',
@@ -123,7 +156,25 @@
             }
         });
     }
+    function rejectPayment() {
+        Swal.fire({
+            title: 'Tolak',
+            text: "Apakah Anda yakin ingin menolak pembayaran?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mengirim formulir secara langsung
+                document.getElementById("tolakForm").submit();
+            }
+        });
+    }
 </script>
+
 <script>
    function openWhatsApp(button) {
     let phoneNumber = button.getAttribute('data-phone');

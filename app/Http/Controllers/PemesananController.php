@@ -20,7 +20,7 @@ class PemesananController extends Controller
     public function index()
     {
        
-        $pemesanan = Pemesanan::orderBy('created_at', 'desc')->get();
+        $pemesanan = Pemesanan::orderBy('updated_at', 'desc')->get();
         return view('admin.pemesanan.index',compact('pemesanan'));
     }
 
@@ -180,7 +180,7 @@ public function cancel($id)
     }
 
     // Tambahkan logika pembatalan pemesanan sesuai kebutuhan Anda
-    // Contoh: Update status pembayaran dan status pembatalan
+    // Contoh: Update status pembayaran dan status pemfibatalan
     $pemesanan->update([
         'status_pembayaran' => 'Pemesanan Dibatalkan',
     ]);
@@ -204,6 +204,23 @@ public function konfirmasiPembayaran($id)
     Auth::user()->unreadNotifications->where('data.pemesanan_id', $pemesananId)->markAsRead();
 
     return redirect()->route('pemesanan.index')->with('success', 'Konfirmasi pembayaran berhasil.');
+}
+public function tolakPembayaran($id)
+{
+    
+    $pemesanan = Pemesanan::findOrFail($id);
+
+    
+    $pemesanan->update([
+        'status_pembayaran' => 'Pembayaran Ditolak',
+    ]);
+
+    $user = $pemesanan->user;
+    $user->notify(new KonfirmasiPembayaran($pemesanan));
+    $pemesananId = $pemesanan->id;
+    Auth::user()->unreadNotifications->where('data.pemesanan_id', $pemesananId)->markAsRead();
+
+    return redirect()->route('pemesanan.index')->with('success', 'Pembayaran berhasil ditolak.');
 }
 
 public function pemesananBaru()

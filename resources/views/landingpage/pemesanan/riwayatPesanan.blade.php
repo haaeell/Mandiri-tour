@@ -37,26 +37,22 @@
                                 <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
                                 <td class="text-center align-middle">
                                     @if($item->status_pembayaran == 'Belum Dibayar')
-                                        <span class="badge bg-danger">
-                                            {{$item->status_pembayaran}}
-                                        </span>
-                                    @elseif($item->status_pembayaran == 'Menunggu Konfirmasi Admin')
-                                        <span class="badge bg-warning">
-                                            {{$item->status_pembayaran}}
-                                        </span>
-                                    @elseif($item->status_pembayaran == 'Pembayaran Diterima')
-                                        <span class="badge bg-success">
-                                            {{$item->status_pembayaran}}
-                                        </span>
-                                    @elseif($item->status_pembayaran == 'Pembayaran Ditolak')
-                                        <span class="badge bg-danger">
-                                            {{$item->status_pembayaran}}
-                                        </span>
-                                    @elseif($item->status_pembayaran == 'Pemesanan Dibatalkan')
-                                        <span class="badge bg-secondary">
-                                            {{$item->status_pembayaran}}
-                                        </span>
-                                    @endif
+                                <span class="badge bg-danger">
+                                    {{$item->status_pembayaran}}
+                                </span>
+                            @elseif($item->status_pembayaran == 'Menunggu Konfirmasi Admin')
+                                <span class="badge bg-warning">
+                                    {{$item->status_pembayaran}}
+                                </span>
+                            @elseif($item->status_pembayaran == 'Pembayaran Diterima')
+                                <span class="badge bg-success">
+                                    {{$item->status_pembayaran}}
+                                </span>
+                            @elseif($item->status_pembayaran == 'Pembayaran Ditolak' || $item->status_pembayaran == 'Pemesanan Dibatalkan')
+                                <span class="badge bg-dark">
+                                    {{$item->status_pembayaran}}
+                                </span>
+                            @endif
                                 </td>
                                 
                                 
