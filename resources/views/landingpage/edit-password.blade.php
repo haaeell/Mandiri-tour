@@ -47,6 +47,8 @@
                             <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
                             <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
                         </div>
+                        
+                <p class="text-end">  <a href="{{ route('password.request') }}" class="nav-link mt-3">Forgot password?</a></p>
 
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">{{ __('Update Password') }}</button>
