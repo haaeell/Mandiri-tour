@@ -39,6 +39,7 @@ Route::get('/landingpage/wisata', [LandingpageController::class, 'wisata'])->nam
 Route::get('/about', [LandingpageController::class, 'about'])->name('about');
 
 
+
 Route::get('/login/google',[LoginController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback',[LoginController::class, 'handleGoogleCallback']);
 Route::get('/paket/{slug}', [LandingpageController::class, 'detailPaket'])->name('detailPaket');
@@ -65,6 +66,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/Detailpaket/form/{slug}', [LandingpageController::class, 'detailPaketForm'])->name('detailPaketForm');
     
 });
+
+Route::middleware(['auth', 'check.user.profile'])->group(function () {
+    Route::get('/profilEdit/{id}', [LandingpageController::class, 'editProfil'])->name('customer.edit-profil');
+    Route::get('/editPassword/{id}', [LandingpageController::class, 'editPassword'])->name('customer.edit-password');
+    Route::put('/profilUpdate/{id}', [LandingpageController::class, 'updateProfil'])->name('customer.update-profil');
+    Route::put('/profilEdit/password/{id}', [LandingpageController::class, 'updatePassword'])->name('customer.update-password');
+    Route::put('/hapus-gambar-profil', [LandingpageController::class, 'hapusGambarProfil'])->name('hapus-gambar-profil');
+
+
+});
+
 
 
 Auth::routes();

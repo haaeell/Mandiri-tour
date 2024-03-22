@@ -7,9 +7,11 @@ use App\Models\Keluhan;
 use App\Models\Kendaraan;
 use App\Models\Pemesanan;
 use App\Models\PaketWisata;
+use App\Models\User;
 use App\Models\Wisata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class LandingPageController extends Controller
 {
@@ -126,11 +128,118 @@ class LandingPageController extends Controller
         return view('landingpage.pemesanan.riwayatPesanan', compact('riwayatPesanan'));
     }
 
-    public function wisata(){
+    public function wisata()
+    {
         $wisatas = Wisata::all();
-        return view('landingpage.wisata',compact('wisatas'));
+        return view('landingpage.wisata', compact('wisatas'));
     }
-    public function about(){
+    public function about()
+    {
         return view('landingpage.about');
+    }
+
+    public function editProfil($id)
+    {
+        // Pastikan pengguna hanya dapat mengedit profil mereka sendiri
+        if ($id != auth()->user()->id) {
+            return redirect()->route('home')->with('error', 'Anda tidak diizinkan mengakses halaman ini.');
+        }
+
+        $user = User::findOrFail($id);
+
+        return view('landingpage.edit-profil', compact('user'));
+    }
+
+    public function updateProfil(Request $request, $id)
+    {
+    //    dd($request);
+        $messages = [
+            'required' => 'Kolom :attribute harus diisi.',
+            'email.unique' => 'Email sudah digunakan.',
+            'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
+        ];
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'phone' => 'required|string|max:20',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+
+        ], $messages);
+
+        if ($id != auth()->user()->id) {
+            return redirect()->route('home')->with('error', 'Anda tidak diizinkan mengakses halaman ini.');
+        }
+
+       
+
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $path = 'images';
+            $namaGambar = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($path, $namaGambar);
+    
+            // Hapus gambar lama jika ada
+            if (!empty($user->image) && Storage::exists($user->image)) {
+                Storage::delete($user->image); // Hapus gambar dari direktori penyimpanan
+            }
+    
+            $user->image = $namaGambar;
+        } else {
+            // Jika input gambar kosong, hapus gambar di database dan dari direktori penyimpanan
+            if (!empty($user->image) && Storage::exists($user->image)) {
+                Storage::delete($user->image); // Hapus gambar dari direktori penyimpanan
+            }
+            $user->image = null;
+        }
+    
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    public function hapusGambarProfil(Request $request)
+{
+    $userId = Auth::user()->id;
+    $user = User::findOrFail($userId);
+    $user->update(['image' => null]);
+
+    return response()->json(['message' => 'Gambar profil berhasil dihapus']);
+}
+
+    public function editPassword($id)
+    {
+        if ($id != auth()->user()->id) {
+            return redirect()->route('home')->with('error', 'Anda tidak diizinkan mengakses halaman ini.');
+        }
+
+        $user = User::findOrFail($id);
+
+        return view('landingpage.edit-password', compact('user'));
+    }
+    public function updatePassword(Request $request, $id)
+    {
+        // Validasi input form
+        $request->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Temukan user berdasarkan ID
+        $user = User::findOrFail($id);
+
+        // Periksa apakah password saat ini cocok dengan password yang dimasukkan pengguna
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->with('error', 'Password saat ini salah.');
+        }
+
+        // Update password user
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return redirect()->route('customer.edit-password', $id)->with('success', 'Password berhasil diperbarui.');
     }
 }
