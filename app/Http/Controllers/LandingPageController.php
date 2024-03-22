@@ -12,6 +12,8 @@ use App\Models\Wisata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+
 
 class LandingPageController extends Controller
 {
@@ -221,25 +223,28 @@ class LandingPageController extends Controller
         return view('landingpage.edit-password', compact('user'));
     }
     public function updatePassword(Request $request, $id)
-    {
-        // Validasi input form
-        $request->validate([
-            'current_password' => 'required|string',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+{
+    $messages = [
+        'required' => 'Kolom :attribute harus diisi.',
+        'min' => 'Kolom :attribute harus memiliki minimal :min karakter.',
+        'confirmed' => 'Konfirmasi password tidak cocok.',
+    ];
 
-        // Temukan user berdasarkan ID
-        $user = User::findOrFail($id);
+    $request->validate([
+        'current_password' => 'required|string',
+        'password' => 'required|string|min:8|confirmed',
+    ], $messages);
 
-        // Periksa apakah password saat ini cocok dengan password yang dimasukkan pengguna
-        if (!Hash::check($request->current_password, $user->password)) {
-            return redirect()->back()->with('error', 'Password saat ini salah.');
-        }
+    $user = User::findOrFail($id);
 
-        // Update password user
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        return redirect()->route('customer.edit-password', $id)->with('success', 'Password berhasil diperbarui.');
+    if (!Hash::check($request->current_password, $user->password)) {
+        return redirect()->back()->with('error', 'Password saat ini salah.');
     }
+
+    $user->password = bcrypt($request->password);
+    $user->save();
+
+    return redirect()->route('customer.edit-password', $id)->with('success', 'Password berhasil diperbarui.');
+}
+
 }
