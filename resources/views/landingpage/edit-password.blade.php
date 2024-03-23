@@ -17,7 +17,7 @@
                             <label for="current_password" class="form-label">Password Saat Ini</label>
                             <div class="input-group">
                                 <input id="current_password" type="password" class="form-control @error('current_password') is-invalid @enderror" name="current_password" required autofocus>
-                                <button class="btn btn-outline-secondary" type="button" id="toggleCurrentPassword">
+                                <button class="btn btn-secondary" type="button" id="toggleCurrentPassword">
                                     <i class="bi bi-eye-slash"></i>
                                 </button>
                             </div>
@@ -32,7 +32,7 @@
                             <label for="password" class="form-label">Password Baru</label>
                             <div class="input-group">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
-                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <button class="btn btn-secondary" type="button" id="togglePassword">
                                     <i class="bi bi-eye-slash"></i>
                                 </button>
                             </div>
@@ -45,7 +45,13 @@
 
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                            <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
+                            <div class="input-group">
+                                <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
+                                <button class="btn btn-secondary" type="button" id="toggleConfirmPassword">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </div>
+                            
                         </div>
                         
                 <p class="text-end">  <a href="{{ route('password.request') }}" class="nav-link mt-3">Forgot password?</a></p>
@@ -60,31 +66,34 @@
     </div>
 </div>
 
-<!-- Script untuk toggle visibility password -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // Function untuk toggle visibility password
+   
     function togglePasswordVisibility(inputId, buttonId) {
-        var passwordInput = document.getElementById(inputId);
-        var toggleButton = document.getElementById(buttonId);
+        var passwordInput = $('#' + inputId);
+        var toggleButton = $('#' + buttonId);
 
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
+        if (passwordInput.attr('type') === "password") {
+            passwordInput.attr('type', 'text');
+            toggleButton.html('<i class="bi bi-eye"></i>');
         } else {
-            passwordInput.type = "password";
-            toggleButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
+            passwordInput.attr('type', 'password');
+            toggleButton.html('<i class="bi bi-eye-slash"></i>');
         }
     }
 
-    // Event listener untuk toggle current password visibility
-    document.getElementById('toggleCurrentPassword').addEventListener('click', function() {
+    $('#toggleCurrentPassword').click(function() {
         togglePasswordVisibility('current_password', 'toggleCurrentPassword');
     });
 
-    // Event listener untuk toggle new password visibility
-    document.getElementById('togglePassword').addEventListener('click', function() {
+    $('#togglePassword').click(function() {
         togglePasswordVisibility('password', 'togglePassword');
     });
+
+    $('#toggleConfirmPassword').click(function() {
+        togglePasswordVisibility('password_confirmation', 'toggleConfirmPassword');
+    });
 </script>
+
 
 @endsection

@@ -1,11 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.landingpage')
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center py-5">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+            <h2 class="text-start mb-4 fw-semibold">
+                Reset Password
+            </h2>
+            <div class="card p-2 shadow" style="border-radius: 16px">
 
                 <div class="card-body">
                     @if (session('status'))
@@ -32,7 +34,7 @@
                         </div>
 
                         <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-6 offset-md-4 text-end">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Send Password Reset Link') }}
                                 </button>

@@ -6,12 +6,35 @@ body{
 
 /* BANNER */
 .banner {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)),
-        url("https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7)), url("https://images.pexels.com/photos/1198835/pexels-photo-1198835.jpeg?auto=compress&cs=tinysrgb&w=600");
     background-size: cover;
+    background-position: center;
     height: 100vh;
-    background-attachment: fixed;
+    display: flex;
 }
+
+.garisbawah{
+    position: relative; /* Tambahkan posisi relatif untuk membuat pseudo-element bekerja */
+}
+
+
+.garisbawah::after {
+    content: "";
+    position: absolute;
+    bottom: -10px; /* Geser ke bawah sejauh ketebalan garis */
+    left: 50%; /* Mulai dari 50% lebar container */
+    width: 10%; /* Panjang 50% dari lebar container */
+    height: 8px; /* Ketebalan garis */
+    background-color: #25aae1; /* Warna garis */
+    transform: translateX(-50%) skewX(-30deg); 
+    transform-origin: right;
+}
+
+.banner h1 {
+    font-size: 4.5rem;
+}
+
+
 
 /* NAVBAR */
 
@@ -95,6 +118,16 @@ body{
         #3f86ed
     );
     box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+}
+
+.h-title{
+    border-radius: 64px 18px 64px 18px;
+    background-image: linear-gradient(
+                    to right,
+                    #25aae1,
+                    #3f86ed
+                );
+    
 }
 
 

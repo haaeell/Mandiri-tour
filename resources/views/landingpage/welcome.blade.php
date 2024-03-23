@@ -8,19 +8,26 @@
         height: 400px;
     }
 </style>
-    <Section class="banner">
-        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-10 text-center text-light">
-                        <span>Lorem ipsum dolor sit amet.</span>
-                        <h1 style="font-size: 64px" class="text-center fw-bold ">LANDINGPAGE</h1>
+    <section class="banner">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center text-light" style="margin-top: 150px">
+                    <div class="col-md-10 mx-auto">
+                        <p id="welcomeText" class="m-0 fs-4 fw-semibold p-3" style="border: 3px solid #fff; border-radius: 10px 18px 10px 18px; text-align: center;"><span id="welcome"></span></p>
                     </div>
+                    
+                    <h1 class="fw-bold m-0 mt-3">Mandiri Tour & Travel</h1>
+                    <div class="col-md-8 mx-auto ">
+
+                        <p class="m-0 fw-semibold fs-5">Temukan Keindahan Indonesia Bersama Kami!</p>
+                    </div>
+                    <a href="/paket" class="btn btn-primary fw-bold mt-3 btn-login bn26">Get Started</a> 
                 </div>
             </div>
-
+            
         </div>
-    </Section>
+    </section>
+
     {{-- PROFIL --}}
     <section>
         <div class="container py-5">
@@ -47,7 +54,7 @@
     <section class="py-5 " style="background-color: rgb(224, 241, 248)">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-md-12 text-center">
-                <h1 class="fw-bold">LAYANAN</h1>
+                <h1 class="fw-bold ">LAYANAN</h1>
                 <div class="container mt-5">
                     <div class="swiper mySwiper">
                         <div class="swiper-wrapper">
@@ -231,6 +238,18 @@
 
 @section('script')
 
+    <script>
+
+@auth
+        var username = "{{ Auth::user()->name }} ,";
+    @else
+        var username = ''; // Atur username menjadi string kosong jika pengguna belum login
+    @endauth
+        var typed = new Typed('#welcome', {
+            strings: [`${username} Selamat Datang di Mandiri Tour Subang`, 'Ayo menikmati liburanmu bersama kami!'],
+      typeSpeed: 50,
+        loop: true
+        });
     </script>
     <script>
         var swiper = new Swiper(".mySwiper", {
