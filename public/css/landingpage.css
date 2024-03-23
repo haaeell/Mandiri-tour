@@ -349,3 +349,9 @@ body{
     color: #166534;
 }
 
+
+@media (max-width: 768px) {
+    .text-center-sm {
+        text-align: center;
+    }
+}

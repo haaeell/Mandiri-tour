@@ -19,7 +19,7 @@
                     <h1 class="fw-bold m-0 mt-3">Mandiri Tour & Travel</h1>
                     <div class="col-md-8 mx-auto ">
 
-                        <p class="m-0 fw-semibold fs-5">Temukan Keindahan Indonesia Bersama Kami!</p>
+                        <p class="mb-3 fw-semibold fs-5 ">Temukan Keindahan Indonesia Bersama Kami!</p>
                     </div>
                     <a href="/paket" class="btn btn-primary fw-bold mt-3 btn-login bn26">Get Started</a> 
                 </div>
@@ -28,33 +28,12 @@
         </div>
     </section>
 
-    {{-- PROFIL --}}
-    <section>
-        <div class="container py-5">
-            <div class="col-md-12 text-center">
-                <h1 class="fw-bold">PROFIL PERUSAHAAN</h1>
-            </div>
-            <div class="row d-flex justify-content-center  align-items-center mt-5 ">
 
-                <div class="col-md-6 p-4">
-                    <h2 class="fw-semibold">Lorem, ipsum dolor.</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus modi dolorum voluptate voluptates
-                        rerum fugit nostrum a labore, doloremque voluptatibus ipsam voluptatum esse velit quod assumenda
-                        eius rem dolore sint doloribus nesciunt sequi nihil repellendus</p>
-                </div>
-                <div class="col-md-6  p-4">
-                    <img src="../assets/img/logo2.png" class="pt-3" style="max-width: 400px; height: auto;"
-                        alt="">
-                </div>
-
-            </div>
-        </div>
-    </section>
     {{-- LAYANAN --}}
     <section class="py-5 " style="background-color: rgb(224, 241, 248)">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-md-12 text-center">
-                <h1 class="fw-bold ">LAYANAN</h1>
+                <h2 class="fw-bold ">LAYANAN</h2>
                 <div class="container mt-5">
                     <div class="swiper mySwiper">
                         <div class="swiper-wrapper">
@@ -93,7 +72,7 @@
     <section>
         <div class="container py-5">
             <div class="col-md-12 text-center">
-                <h1 class="fw-bold">PAKET WISATA</h1>
+                <h2 class="fw-bold">PAKET WISATA POPULER</h2>
             </div>
             <div class="swiper SwiperPaket mt-5">
                 <div class="swiper-wrapper">
@@ -143,13 +122,63 @@
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
             </div>
+            <div class="text-center my-4">
+                <a
+                    name=""
+                    id=""
+                    class="btn btn-login bn26"
+                    href="#"
+                    role="button"
+                    >Lihat Semua</a
+                >
+            </div>
+            <hr>
+            
         </div>
     </section>
+
+    {{-- MENGAPA MEMILIH KAMI--}}
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5">Mengapa Memilih Kami?</h2>
+        
+        <div class="row py-4 justify-content-center align-items-center shadow" style="border: 2px solid #aeaeae; border-radius: 24px;">
+            <div class="col-md-9 order-md-1 order-2 text-center-sm">
+                <h3 class="fw-semibold">Paket All-in-One</h3>
+                <p class="text-md-left text-center-sm">Kami menyediakan paket wisata yang mencakup segala sesuatu mulai dari tiket, akomodasi, transportasi lokal, hingga tur dan kegiatan, sehingga Anda tidak perlu repot mengatur semuanya sendiri.</p>
+            </div>
+            <div class="col-md-2 order-md-2 order-1 text-md-right text-center-sm mb-3 mb-md-0">
+                <img class="USPItemImage" src="https://ik.imagekit.io/tvlk/image/imageResource/2017/09/13/1505323179630-8705894a194d158b966e77f8004a8c71.png?tr=q-75" alt="Paket All-in-One">
+            </div>
+        </div>
+        
+        <div class="row py-4 justify-content-center my-4 align-items-center shadow" style="border: 2px solid #aeaeae; border-radius: 24px;">
+            <div class="col-md-2 order-md-1 mb-3 mb-md-0 text-md-left text-center-sm">
+                <img class="USPItemImage" src="https://ik.imagekit.io/tvlk/image/imageResource/2017/09/13/1505323164752-40c57d1e4907fba0ddd47bdb99fbeb56.png?tr=q-75"/>
+            </div>
+            <div class="col-md-9 order-md-2 text-md-right text-center-sm">
+                <h3 class="fw-semibold">Layanan Personal</h3>
+                <p class="text-md-right text-center-sm">Kami memahami bahwa setiap pelanggan memiliki kebutuhan dan preferensi yang berbeda. Tim kami siap memberikan layanan yang personal dan membantu Anda merencanakan liburan yang sesuai dengan keinginan Anda.</p>
+            </div>
+        </div>
+        
+        <div class="row py-4 justify-content-center align-items-center shadow" style="border: 2px solid #aeaeae; border-radius: 24px;">
+            <div class="col-md-9 order-md-1 order-2 text-md-left text-center-sm">
+                <h3 class="fw-semibold">Jaminan Keamanan dan Kepuasan Pelanggan</h3>
+                <p class="text-md-left text-center-sm">Kepuasan dan keselamatan pelanggan adalah prioritas utama kami. Kami bekerja keras untuk memastikan bahwa setiap perjalanan Anda berjalan lancar dan menyenangkan.</p>
+            </div>
+            <div class="col-md-2 order-md-2 order-1 text-md-right text-center-sm mb-3 mb-md-0">
+                <img class="USPItemImage" src="https://ik.imagekit.io/tvlk/image/imageResource/2017/09/13/1505323174671-6761c1f627f2e2cf37f6a66829380405.png?tr=q-75" alt="Jaminan Keamanan dan Kepuasan Pelanggan">
+            </div>
+        </div>
+    </div>
+    
+    
+    
     {{-- GALLERY --}}
     <section>
         <div class=" py-5">
             <div class="col-md-12 text-center mb-5">
-                <h1 class="fw-bold">GALLERY</h1>
+                <h2 class="fw-bold">GALLERY</h2>
             </div>
             <div class="owl-carousel owl-theme">
                 <div class="item">
@@ -169,7 +198,7 @@
     <section>
         <div class="container py-5">
             <div class="col-md-12 text-center mb-5">
-                <h1 class="fw-bold">TESTIMONI</h1>
+                <h2 class="fw-bold">TESTIMONI</h2>
             </div>
             <div class="swiper swiperTestimoni mt-5">
                 <div class="swiper-wrapper">
