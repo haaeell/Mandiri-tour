@@ -11,7 +11,7 @@
                       {{ $paketWisata->durasi }}
                   </div>
                     <span class="position-absolute bottom-0 end-0 m-2 bg-white px-2 py-1 rounded fw-semibold">
-                      {{ $paketWisata->kategori }}
+                      {{ $paketWisata->kategori->nama }}
                   </span>
               </div>
             </div>

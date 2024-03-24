@@ -89,11 +89,17 @@
                 <label for="kategori">Kategori<span class="text-danger">*</span></label>
             </div>
             <div class="col-md-10">
-                <div class="form-group ">
-                    <input type="text" name="kategori" class="form-control" required>
+                <div class="form-group">
+                    <select name="kategori_id" class="form-control" required>
+                        <option value="">Pilih Kategori</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->nama }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>
+        
 
         <!-- Durasi -->
         <div class="mb-2 d-flex">

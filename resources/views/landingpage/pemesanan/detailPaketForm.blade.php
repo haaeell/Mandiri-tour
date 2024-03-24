@@ -13,7 +13,7 @@
                                 {{ $paketWisata->durasi }}
                             </div>
                             <span class="position-absolute bottom-0 end-0 m-2 bg-white px-2 py-1 rounded fw-semibold">
-                                {{ $paketWisata->kategori }}
+                                {{ $paketWisata->kategori->nama }}
                             </span>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-4">
                         <div class="card p-4" style="background-color: #dfe2f5; border:2px solid #25aae1">
                             <div class="mb-4">
                                 <h5 class="fw-bold text-primary "><i class="bi bi-box-seam-fill "></i> Tentang {{$paketWisata->nama}}</h5>

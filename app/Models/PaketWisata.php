@@ -12,8 +12,13 @@ class PaketWisata extends Model
     
     protected $table = 'paket_wisata';
     protected $fillable = [
-        'nama', 'gambar', 'durasi', 'deskripsi', 'fasilitas', 'harga', 'kategori', 'kendaraan_id', 'slug'
+        'nama', 'gambar', 'durasi', 'deskripsi', 'fasilitas', 'harga', 'kategori_id', 'kendaraan_id', 'slug'
     ];
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class);
+    }
     public function kotas()
     {
         return $this->belongsToMany(Kota::class, 'paket_wisata_kota', 'paket_wisata_id', 'kota_id');

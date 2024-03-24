@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use App\Models\Kota;
 use App\Models\Wisata;
 use App\Models\Rundown;
@@ -28,8 +29,9 @@ class PaketWisataController extends Controller
     {
         $wisatas = Wisata::all();
         $kotas = Kota::all();
+        $categories = Kategori::all();
         $kendaraans = Kendaraan::all();
-        return view('admin.paket_wisata.tambah', compact('kotas','wisatas','kendaraans'));
+        return view('admin.paket_wisata.tambah', compact('kotas','wisatas','kendaraans','categories'));
     }
 
     /**
@@ -46,7 +48,7 @@ class PaketWisataController extends Controller
         'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         'fasilitas' => 'required',
         'harga' => 'required',
-        'kategori' => 'required',
+        'kategori_id' => 'required',
         'durasi' => 'required',
         'wisatas' => 'required|array',
     ], [
@@ -77,7 +79,7 @@ class PaketWisataController extends Controller
         'gambar' => $namaGambar,
         'fasilitas' => $request->fasilitas,
         'harga' => $harga,
-        'kategori' => $request->kategori,
+        'kategori_id' => $request->kategori_id,
         'durasi' => $request->durasi,
         'kendaraan_id' => $request->kendaraan_id,
         'slug' => $slug,
@@ -120,9 +122,10 @@ class PaketWisataController extends Controller
     $kotas = Kota::all();
     $wisatas = Wisata::all();
     $kendaraans = Kendaraan::all();
+    $categories = Kategori::all();
 
     // Menampilkan halaman edit dengan membawa data yang diperlukan
-    return view('admin.paket_wisata.edit', compact('paketWisata', 'kotas', 'wisatas','kendaraans'));
+    return view('admin.paket_wisata.edit', compact('paketWisata', 'kotas', 'wisatas','kendaraans','categories'));
 }
 
     /**
@@ -138,7 +141,7 @@ class PaketWisataController extends Controller
             'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'fasilitas' => 'required',
             'harga' => 'required',
-            'kategori' => 'required',
+            'kategori_id' => 'required',
             'durasi' => 'required',
             'wisatas' => 'required|array',
         ], [
@@ -170,7 +173,7 @@ $harga = doubleval($harga); // Konversi ke angka
         $paketWisata->fasilitas = $request->fasilitas;
         $paketWisata->harga = $harga;
 
-        $paketWisata->kategori = $request->kategori;
+        $paketWisata->kategori_id = $request->kategori_id;
         $paketWisata->durasi = $request->durasi;
     
         // Tambahkan relasi kendaraan
