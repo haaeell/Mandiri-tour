@@ -53,6 +53,7 @@ class LandingPageController extends Controller
         $max_price = $request->max_price;
         $city_id = $request->city;
         $kendaraan_id = $request->kendaraan;
+        $kategori_id = $request->kategori;
 
         $query = PaketWisata::query();
 
@@ -79,13 +80,20 @@ class LandingPageController extends Controller
                 $q->where('kendaraan_id', $kendaraan_id);
             });
         }
+        if (!empty($kategori_id)) {
+            $query->whereHas('kategori', function ($q) use ($kategori_id) {
+                $q->where('kategori_id', $kategori_id);
+            });
+        }
 
         $paketWisata = $query->get();
 
         $kotas = Kota::all();
         $kendaraan = Kendaraan::all();
+        $kategori = Kategori::all();
         $nama_kota = Kota::find($city_id)->nama ?? '';
         $nama_kendaraan = Kendaraan::find($kendaraan_id)->nama ?? '';
+        $nama_kategori = Kategori::find($kategori_id)->nama ?? '';
 
         $paketTerpopuler = PaketWisata::select('paket_wisata.*')
             ->join('pemesanan', 'paket_wisata.id', '=', 'pemesanan.paket_id')
@@ -94,7 +102,7 @@ class LandingPageController extends Controller
             ->take(3)
             ->get();
 
-        return view('landingpage.paketwisata', compact('paketWisata', 'kotas', 'search', 'min_price', 'max_price', 'city_id', 'kendaraan_id', 'nama_kota', 'nama_kendaraan', 'paketTerpopuler', 'kendaraan'));
+        return view('landingpage.paketwisata', compact('paketWisata', 'kotas', 'search', 'min_price', 'max_price', 'city_id', 'kendaraan_id', 'nama_kota', 'nama_kendaraan', 'paketTerpopuler', 'kendaraan','kategori_id','nama_kategori','kategori'));
     }
 
     public function detailPaket($slug)
