@@ -38,6 +38,8 @@ Route::get('/', [LandingpageController::class, 'index'])->name('welcome');
 Route::get('/paket', [LandingpageController::class, 'paketWisata'])->name('paketWisata');
 Route::get('/landingpage/wisata', [LandingpageController::class, 'wisata'])->name('landingpage.wisata');
 Route::get('/about', [LandingpageController::class, 'about'])->name('about');
+Route::get('/fetch-wisata', [LandingpageController::class, 'fetchWisata'])->name('fetch.wisata');
+Route::get('/fetch-kota', [LandingpageController::class, 'fetchKota'])->name('fetch.kota');
 
 
 

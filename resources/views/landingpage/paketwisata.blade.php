@@ -150,7 +150,7 @@
     @else
         
         <div class="text-center col-md-12">
-            <img src="https://cdni.iconscout.com/illustration/premium/thumb/data-search-not-found-7464562-6109670.png"  alt="">
+            <img src="https://cdni.iconscout.com/illustration/premium/thumb/data-search-not-found-7464562-6109670.png" style="width: 200px;"  alt="">
             <p class="fw-semibold fs-5">~ Tidak ada paket wisata yang sesuai dengan pencarian ~</p>
         </div>
     @endif

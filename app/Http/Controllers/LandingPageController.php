@@ -9,6 +9,7 @@ use App\Models\Pemesanan;
 use App\Models\PaketWisata;
 use App\Models\User;
 use App\Models\Wisata;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,9 +21,9 @@ class LandingPageController extends Controller
     public function index()
     {
         $paketwisata = PaketWisata::all();
-        // dd($paketwisata);
+        $kategori = Kategori::all();
 
-        return view('landingpage.welcome', compact('paketwisata'));
+        return view('landingpage.welcome', compact('paketwisata','kategori'));
     }
     public function keluhan()
     {
@@ -132,9 +133,12 @@ class LandingPageController extends Controller
 
     public function wisata()
     {
-        $wisatas = Wisata::all();
-        return view('landingpage.wisata', compact('wisatas'));
+        
+        return view('landingpage.wisata');
     }
+
+    
+    
     public function about()
     {
         return view('landingpage.about');
@@ -246,5 +250,37 @@ class LandingPageController extends Controller
 
     return redirect()->route('customer.edit-password', $id)->with('success', 'Password berhasil diperbarui.');
 }
+
+public function fetchWisata(Request $request)
+{
+    $kotaId = $request->query('kota_id');
+
+    // Jika kota ID disertakan, ambil hanya wisata yang terkait dengan kota tersebut
+    if ($kotaId) {
+        $wisatas = Wisata::where('kota_id', $kotaId)->get();
+    } else {
+        // Jika tidak ada kota ID, ambil semua data wisata
+        $wisatas = Wisata::all();
+    }
+
+    // Format data untuk JSON response
+    $formattedWisatas = $wisatas->map(function ($wisata) {
+        return [
+            'nama' => $wisata->nama,
+            'deskripsi' => $wisata->deskripsi,
+            'kota' => $wisata->kota->nama,
+            'gambar' => asset('/images/'.$wisata->gambar) // Menambahkan URL gambar
+        ];
+    });
+
+    return response()->json($formattedWisatas);
+}
+
+public function fetchKota()
+{
+    $kotas = Kota::all();
+    return response()->json($kotas);
+}
+
 
 }

@@ -37,31 +37,14 @@
                 <div class="container mt-5">
                     <div class="swiper mySwiper">
                         <div class="swiper-wrapper">
+                            @foreach ($kategori as $item)
+                                
                             <div class="swiper-slide">
                                 <div class=" p-3 card-layanan">
-                                    <p>Studi Tour</p>
+                                    <p>{{$item->nama}}</p>
                                 </div>
                             </div>
-                            <div class="swiper-slide">
-                                <div class=" p-3 card-layanan">
-                                    <p>Studi Wisata</p>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class=" p-3 card-layanan">
-                                    <p>Wisata Religi</p>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class=" p-3 card-layanan">
-                                    <p>Studi Tiru</p>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class=" p-3 card-layanan">
-                                    <p>Wisata Keluarga</p>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
