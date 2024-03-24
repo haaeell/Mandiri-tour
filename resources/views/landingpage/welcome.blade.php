@@ -178,7 +178,7 @@
     </section>
     {{-- TESTIMONI --}}
     
-    <section>
+    {{-- <section>
         <div class="container py-5">
             <div class="col-md-12 text-center mb-5">
                 <h2 class="fw-bold">TESTIMONI</h2>
@@ -212,7 +212,7 @@
             </div>
             
         </div>
-    </section>
+    </section> --}}
 
     
      {{-- FOOTER --}}
@@ -226,19 +226,18 @@
                 <div class="col-md-4 ">
                     <h4 class="fw-semibold mt-3 mb-5">LAYANAN</h4>
                     <ul class="list-unstyled">
-                        <li class="mb-2">Studi Tour</li>
-                        <li class="mb-2">Studi Banding</li>
-                        <li class="mb-2">Wisata Keluarga</li>
-                        <li class="mb-2">Wisata Religi</li>
-                        <li class="mb-2">DLL</li>
+                        @foreach ($kategori as $item)
+                        <li><a class="nav-link" href="{{ route('paketWisata', ['min_price' => '', 'max_price' => '', 'city' => '', 'kendaraan' => '', 'kategori' => $item->id]) }}">{{ $item->nama }}</a></li>
+                    @endforeach
                     </ul>
                 </div>
                 <div class="col-md-4">
                     <h4 class="fw-semibold mt-3 mb-5">KONTAK KAMI</h4>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><i class="bi bi-whatsapp"></i> Whatsapp : +62867645642</li>
-                        <li class="mb-2"><i class="bi bi-envelope"></i> Email : +62867645642</li>
-                        <li class="mb-2"><i class="bi bi-instagram"></i> Instagram : mandiritour_subang</li>
+                        <li class="mb-2"><i class="bi bi-whatsapp"></i> <a class="text-decoration-none text-dark" href="https://wa.me/+62867645642" target="_blank">Whatsapp : +62867645642</a></li>
+                        <li class="mb-2"><i class="bi bi-envelope"></i> <a class="text-decoration-none text-dark" href="mailto:your_email@example.com">Email : your_email@example.com</a></li>
+                        <li class="mb-2"><i class="bi bi-instagram"></i> <a class="text-decoration-none text-dark" href="https://instagram.com/mandiritour_subang" target="_blank">Instagram : mandiritour_subang</a></li>
+
                     </ul>
                 </div>
             </div>

@@ -11,6 +11,7 @@ use App\Notifications\PemesananBaru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Dompdf\Dompdf;
 
 class PemesananController extends Controller
 {
@@ -66,6 +67,19 @@ class PemesananController extends Controller
         session()->flash('success', 'Pesanan berhasil dikirim');
         return response()->json(['message' => 'Pemesanan berhasil!', 'data' => $pemesanan]);
     }
+
+    public function cetakInvoice($id)
+{
+    $pemesanan = Pemesanan::findOrFail($id);
+    $dompdf = new Dompdf();
+    $html = view('landingpage.pemesanan.cetakInvoice', compact('pemesanan'))->render();
+    $dompdf->loadHtml($html);
+    $dompdf->render();
+
+    $nama_file = 'invoice_' . $pemesanan->user()->first()->name . '_' . Str::random(5) . '.pdf';
+    return $dompdf->stream($nama_file);
+}
+
     
 
     /**
@@ -142,8 +156,11 @@ class PemesananController extends Controller
         public function invoice($id)
     {
         $pemesanan = Pemesanan::findorFail($id);
-
-        return view('landingpage.pemesanan.invoice', compact('pemesanan'));
+        $paketWisata = PaketWisata::find($pemesanan->paket_id);
+        $rundownsGrouped = $paketWisata->rundowns->groupBy('hari_ke')->map(function ($rundowns) {
+           return $rundowns->sortBy('mulai');
+       });
+        return view('landingpage.pemesanan.invoice', compact('pemesanan', 'paketWisata', 'rundownsGrouped'));
     }
     // PemesananController.php
 

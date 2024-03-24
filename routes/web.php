@@ -68,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/Detailpaket/form/{slug}', [LandingpageController::class, 'detailPaketForm'])->name('detailPaketForm');
     
+    Route::get('/cetak-invoice/{id}', [PemesananController::class, 'cetakInvoice'])->name('cetak.invoice');
 });
 
 Route::middleware(['auth', 'check.user.profile'])->group(function () {
@@ -76,7 +77,6 @@ Route::middleware(['auth', 'check.user.profile'])->group(function () {
     Route::put('/profilUpdate/{id}', [LandingpageController::class, 'updateProfil'])->name('customer.update-profil');
     Route::put('/profilEdit/password/{id}', [LandingpageController::class, 'updatePassword'])->name('customer.update-password');
     Route::put('/hapus-gambar-profil', [LandingpageController::class, 'hapusGambarProfil'])->name('hapus-gambar-profil');
-
 
 });
 

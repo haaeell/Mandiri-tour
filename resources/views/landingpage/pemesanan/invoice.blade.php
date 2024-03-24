@@ -29,6 +29,9 @@
             <a href="https://wa.me/6285321726312" target="_blank" class="btn-sm btn text-white " style="background-color: #047857">
                 <i class="bi bi-whatsapp"></i> Hubungi Admin
             </a>       
+            <a href="{{ route('cetak.invoice', ['id' => $pemesanan->id]) }}" class="btn-sm btn text-white ms-2" style="background-color: #e01e05">
+                <i class="bi bi-printer"></i> Cetak Invoice
+            </a>
         </div>
         
         @endif
@@ -38,7 +41,7 @@
         
         <div class="card shadow mb-5 " style="border-radius: 24px">
             <div class="bg-warning p-2" style="border-top-left-radius: 24px; border-top-right-radius: 24px;">
-                <h2 class="fw-semibold text-center text-light">Invoice Pembayaran</h2>
+                <h2 class="fw-semibold text-center text-light">Detail Pembayaran</h2>
             </div>
             
             <div class="card-body">
@@ -140,7 +143,7 @@
          <div class="card p-3 my-5">
                      
              <div class="col-md-12">
-                 <table class="table">
+                 <table class="table" >
                      <thead class="table-light">
                          <tr>
                              <th>Nama Paket</th>
@@ -164,70 +167,138 @@
                  </table>
  
                  <h2 class="fw-semibold text-center my-5">Detail Paket Wisata</h2>
-                 <div class="row">
- 
-                     <div class="col-md-6">
-                         <div class="d-flex gap-5 mb-4">
-                             <img src="{{ asset('/images/' . $pemesanan->paket->gambar) }}"
-                                  style="width: 200px; height:100px; border-radius:24px; object-fit: cover;" alt="">
-                             <div>
-                                 <h3 class="fw-semibold">{{ $pemesanan->paket->nama }}</h3>
-                                 <div class="mb-3 d-flex gap-2">
-                                     @foreach ($pemesanan->paket->kotas as $kota)
-                                         <span class="badge text-bg-success">{{ $kota->nama }}</span>
-                                     @endforeach
-                                 </div>
-                                 <p>{{ $pemesanan->paket->deskripsi }}</p>
-                                 <p>{{ $pemesanan->paket->kendaraan->nama }}</p>
-                                 <p>{{ $pemesanan->paket->kendaraan->kapasitas }}</p>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="col-md-6">
-                         <div>
-                             <div class="accordion accordion-flush" id="accordionFlushExample">
-                                 <div class="accordion-item">
-                                     <h2 class="accordion-header">
-                                         <button class="accordion-button collapsed fw-bold " style="border:1px solid #25aae1; border-radius:8px" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                             Wisata
-                                         </button>
-                                     </h2>
-                                     <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                                         <div class="accordion-body">
-                                             <ol>
-                                                 @foreach ($pemesanan->paket->wisatas as $wisata)
-                                                     <li>{{ $wisata->nama }}</li>
-                                                 @endforeach
-                                             </ol>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <div class="accordion-item my-2">
-                                     <h2 class="accordion-header">
-                                         <button class="accordion-button collapsed fw-bold" type="button" style="border:1px solid #25aae1; border-radius:8px" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                             Fasilitas
-                                         </button>
-                                     </h2>
-                                     <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                                         <div class="accordion-body">
-                                             {{ $pemesanan->paket->fasilitas }}
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <div class="accordion-item">
-                                     <h2 class="accordion-header">
-                                         <button class="accordion-button collapsed fw-bold" style="border:1px solid #25aae1; border-radius:8px" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                             Rundown
-                                         </button>
-                                     </h2>
-                                     <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                                         <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative lorem500 of how this would look in a real-world application.</div>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
+                 
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="d-flex gap-5 mb-4">
+              <div class="position-relative">
+                <img src="{{ asset('/images/' . $pemesanan->paket->gambar) }}"
+                    style="width: 100%; height:350px; border-radius:24px;object-fit:cover;" alt="">
+                    <div class="bg-danger text-white px-4 py-1 rounded fw-semibold position-absolute rounded-pill" style="transform: rotate(30deg); top: 10px; right: -20px;">
+                      {{ $pemesanan->paket->durasi }}
+                  </div>
+                    <span class="position-absolute bottom-0 end-0 m-2 bg-white px-2 py-1 rounded fw-semibold">
+                      {{ $pemesanan->paket->kategori->nama }}
+                  </span>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+          <div>
+
+            <h2 class="fw-semibold">{{ $pemesanan->paket->nama }}</h2>
+            <div class="mb-3 d-flex gap-2">
+                @foreach ($pemesanan->paket->kotas as $kota)
+                    <span class="badge bg-primary">{{ $kota->nama }}</span>
+                @endforeach
+            </div>
+            <p class="deskripsi-paket m-0">{{ Illuminate\Support\Str::limit($pemesanan->paket->deskripsi, $limit = 400) }}</p>
+                <!-- Anchor "Lihat Selengkapnya" -->
+                @if (strlen($pemesanan->paket->deskripsi) > 400)
+                    <a href="#" class="lihat-selengkapnya" data-full-description="{{ $pemesanan->paket->deskripsi }}">Lihat Selengkapnya</a>
+                @endif
+
+                
+            <p class="fw-bold mt-2">Kendaraan : {{ $pemesanan->paket->kendaraan->nama }} /<span class="text-danger">
+                    ({{ $pemesanan->paket->kendaraan->kapasitas }} orang) </span>
+            </p>
+            <div class="d-flex mt-3 justify-content-between">
+
+                <h3 class="fw-semibold text-danger">Rp {{ number_format($pemesanan->paket->harga, 0, ',', '.') }}
+                </h3>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card p-4" style="background-color: #dfe2f5; border:2px solid #25aae1">
+            <div class="mb-4">
+                <h5 class="fw-bold text-primary "><i class="bi bi-box-seam-fill "></i> Tentang {{$pemesanan->paket->nama}}</h5>
+                <div class="col-md-6">
+                    <p class="m-0 ">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde, dolor! Lorem ipsum, dolor sit amet consectetur adipisicing
+                    </p>
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs" id="myTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active fw-semibold" id="rundown-tab" data-bs-toggle="tab" data-bs-target="#rundown"
+                                type="button" role="tab" aria-controls="rundown" aria-selected="false">Rundown
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-semibold" id="wisata-tab" data-bs-toggle="tab" data-bs-target="#wisata"
+                                type="button" role="tab" aria-controls="wisata" aria-selected="true">Wisata yang dikunjungi
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-semibold" id="fasilitas-tab" data-bs-toggle="tab" data-bs-target="#fasilitas"
+                                type="button" role="tab" aria-controls="fasilitas" aria-selected="false">Fasilitas
+                            </button>
+                        </li>
+                    </ul>
+        
+                    <div class="tab-content" id="myTabsContent">
+                        <div class="tab-pane fade show active mt-3" id="rundown" role="tabpanel" aria-labelledby="rundown-tab">
+                            <div class="d-flex justify-content-end mb-3">
+                                @if (!$rundownsGrouped->isEmpty())
+                                    <a href="{{ route('rundown.generatePdf', $pemesanan->paket->id) }}" class="btn btn-primary btn-sm">Cetak Rundown</a>
+                                @endif
+                            </div>
+                            <div class="accordion" id="accordionExample">
+                                @if ($rundownsGrouped->isEmpty())
+                                    <p class="text-center">Rundown belum tersedia.</p>
+                                @else
+                                    @foreach ($rundownsGrouped as $hari => $rundowns)
+                                        <div class="accordion-item mb-2 " >
+                                            <h2 class="accordion-header " id="heading{{ $loop->index }}">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapse{{ $loop->index }}" aria-expanded="false"
+                                                    aria-controls="collapse{{ $loop->index }}">
+                                                    Hari ke-{{ $hari }}
+                                                </button>
+                                            </h2>
+                                            <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse"
+                                                aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body ">
+                                                    <ul>
+                                                        @foreach ($rundowns as $rundown)
+                                                            <li>
+                                                                {{ \Carbon\Carbon::parse($rundown->mulai)->format('H.i') }} -
+                                                                {{ \Carbon\Carbon::parse($rundown->selesai)->format('H.i') }}:
+                                                                {{ $rundown->deskripsi }}
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+        
+                        <div class="tab-pane fade mt-3" id="wisata" role="tabpanel" aria-labelledby="wisata-tab">
+                            <ol>
+                                @foreach ($pemesanan->paket->wisatas as $wisata)
+                                    <li>{{ $wisata->nama }} - {{ $wisata->kota->nama }}</li>
+                                @endforeach
+                            </ol>
+                        </div>
+        
+                        <div class="tab-pane fade mt-3" id="fasilitas" role="tabpanel" aria-labelledby="fasilitas-tab">
+                            {{ $pemesanan->paket->fasilitas }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
                  
              </div>
  
@@ -236,4 +307,24 @@
        
         
     </div>
+@endsection
+
+@section('script')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const lihatSelengkapnyaLinks = document.querySelectorAll('.lihat-selengkapnya');
+
+        lihatSelengkapnyaLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const fullDescription = this.getAttribute('data-full-description');
+                const deskripsiElement = this.previousElementSibling;
+                deskripsiElement.textContent = fullDescription;
+                deskripsiElement.style.display = 'block';
+                this.style.display = 'none';
+            });
+        });
+    });
+</script>
+
 @endsection
