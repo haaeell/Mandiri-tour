@@ -20,6 +20,7 @@ use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\RundownController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WisataController;
+use App\Http\Controllers\KategoriController;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,12 +117,13 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-Route::post('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
-Route::get('/laporan/data', [LaporanController::class, 'data'])->name('laporan.data');
-    
+    Route::post('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
+    Route::get('/laporan/data', [LaporanController::class, 'data'])->name('laporan.data');
+        
     Route::get('/pemesanan-baru', [PemesananController::class, 'pemesananBaru'])->name('pemesanan.pemesanan-baru');
     Route::get('/menunggu-konfirmasi', [PemesananController::class, 'menungguKonfirmasi'])->name('pemesanan.menunggu-konfirmasi');
     Route::get('/pesanan-dibatalkan', [PemesananController::class, 'pesananDibatalkan'])->name('pemesanan.pesanan-dibatalkan');
     Route::get('/pesanan-diterima', [PemesananController::class, 'pesananDiterima'])->name('pemesanan.pesanan-diterima');
 
+    Route::resource('kategori', KategoriController::class);
 });
