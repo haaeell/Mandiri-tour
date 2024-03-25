@@ -143,8 +143,9 @@ class LandingPageController extends Controller
 
     public function wisata()
     {
+        $wisata = Wisata::all();
         
-        return view('landingpage.wisata');
+        return view('landingpage.wisata',compact('wisata'));
     }
 
     
