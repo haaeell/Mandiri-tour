@@ -104,7 +104,7 @@
         </div>
         
 
-        <!-- Durasi -->
+      <!-- Durasi -->
         <div class="mb-2 d-flex">
             <div class="col-md-2">
                 <label for="durasi">Durasi (hari)<span class="text-danger">*</span></label>
@@ -112,9 +112,11 @@
             <div class="col-md-10">
                 <div class="form-group">
                     <input type="text" name="durasi" class="form-control" value="{{ $paketWisata->durasi }}" required>
+                    <small class="text-danger">Contoh Format: 3 Hari 2 malam</small>
                 </div>
             </div>
         </div>
+
 
         <!-- Wisata -->
         <div class="mb-2 d-flex">
