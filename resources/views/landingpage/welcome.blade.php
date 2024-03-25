@@ -164,15 +164,12 @@
                 <h2 class="fw-bold">GALLERY</h2>
             </div>
             <div class="owl-carousel owl-theme">
+                @foreach ($galeri as $item)
                 <div class="item">
-                    <img src="https://1.bp.blogspot.com/-JmEjqT5m8sI/WuKP24mzJHI/AAAAAAAAGuU/ZFBL1Q4qJJYN79Af_DtyY1f_6yglPuwuQCLcBGAs/s1600/DSCF5243.JPG" alt="">
-                </div>
-                <div class="item">
-                    <img src="https://i.pinimg.com/736x/28/28/0e/28280e037de5292ba789cdd75ec9074d.jpg" alt="">
-                </div>
-                <div class="item">
-                    <img src="https://1.bp.blogspot.com/-UEXKl_OtP8U/YAZlBHjR-XI/AAAAAAAALFs/HN-ohrjflogxvR2Cb9S-6v59tsHt5xShgCLcBGAsYHQ/s1200/jasa-dokumentasi-honeymoon.jpg" alt="">
-                </div>
+                    <img src="{{ asset('/images/' . $item->gambar) }}" alt="{{$item->gambar}}">
+                </div> 
+                @endforeach
+                
             </div>
         </div>
     </section>

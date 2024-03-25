@@ -9,6 +9,7 @@ use App\Models\Pemesanan;
 use App\Models\PaketWisata;
 use App\Models\User;
 use App\Models\Wisata;
+use App\Models\Galeri;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,8 +23,9 @@ class LandingPageController extends Controller
     {
         $paketwisata = PaketWisata::all();
         $kategori = Kategori::all();
+        $galeri = Galeri::all();
 
-        return view('landingpage.welcome', compact('paketwisata','kategori'));
+        return view('landingpage.welcome', compact('paketwisata','kategori', 'galeri'));
     }
     public function keluhan()
     {
@@ -165,55 +167,55 @@ class LandingPageController extends Controller
     }
 
     public function updateProfil(Request $request, $id)
-    {
-    //    dd($request);
-        $messages = [
-            'required' => 'Kolom :attribute harus diisi.',
-            'email.unique' => 'Email sudah digunakan.',
-            'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
-        ];
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'phone' => 'required|string|max:20',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+{
+    $messages = [
+        'required' => 'Kolom :attribute harus diisi.',
+        'email.unique' => 'Email sudah digunakan.',
+        'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
+    ];
 
-        ], $messages);
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+        'phone' => 'required|string|max:20',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ], $messages);
 
-        if ($id != auth()->user()->id) {
-            return redirect()->route('home')->with('error', 'Anda tidak diizinkan mengakses halaman ini.');
+    $user = User::findOrFail($id);
+
+    // Periksa apakah ada file gambar yang diunggah sebelumnya
+    $oldImage = $user->image;
+
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->phone = $request->phone;
+
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $path = 'images';
+        $namaGambar = date('YmdHis') . "." . $image->getClientOriginalExtension();
+        $image->move($path, $namaGambar);
+
+        // Simpan nama gambar baru
+        $user->image = $namaGambar;
+
+        // Hapus gambar lama jika ada
+        if (!empty($oldImage) && Storage::exists($oldImage)) {
+            Storage::delete($oldImage);
         }
-
-       
-
-        $user = User::findOrFail($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $path = 'images';
-            $namaGambar = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($path, $namaGambar);
-    
-            // Hapus gambar lama jika ada
-            if (!empty($user->image) && Storage::exists($user->image)) {
-                Storage::delete($user->image); // Hapus gambar dari direktori penyimpanan
-            }
-    
-            $user->image = $namaGambar;
-        } else {
-            // Jika input gambar kosong, hapus gambar di database dan dari direktori penyimpanan
-            if (!empty($user->image) && Storage::exists($user->image)) {
-                Storage::delete($user->image); // Hapus gambar dari direktori penyimpanan
-            }
-            $user->image = null;
+    } elseif ($request->has('hapus_gambar') && $request->hapus_gambar == '1') {
+        // Jika pengguna memilih untuk menghapus gambar
+        if (!empty($oldImage) && Storage::exists($oldImage)) {
+            Storage::delete($oldImage);
         }
-    
-        $user->save();
-
-        return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
+        $user->image = null; // Atur gambar pengguna menjadi null
     }
+
+    $user->save();
+
+    return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
+}
+
 
     public function hapusGambarProfil(Request $request)
 {

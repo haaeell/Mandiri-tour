@@ -82,24 +82,44 @@ class RundownController extends Controller
 
 public function updateRundown(Request $request, $id)
 {
-    
-    if ($request->has('hari_ke')) {
-        foreach ($request->hari_ke as $key => $value) {
-            Rundown::updateOrCreate(
-                ['id' => $request->activity_id[$key]], // Kriteria pencarian
-                [   // Data yang akan diperbarui atau dibuat baru
-                    'paket_wisata_id' => $request->paket_wisata_id,
-                    'hari_ke' => $value,
-                    'mulai' => $request->mulai[$key],
-                    'selesai' => $request->selesai[$key],
-                    'deskripsi' => $request->deskripsi[$key],
-                ]
-            );
-        }
-    }
+  $existingDays = Rundown::where('paket_wisata_id', $id)->pluck('hari_ke')->toArray();
+  $newDays = array_diff($request->hari_ke, $existingDays);
 
-    session()->flash('success', 'Rundown berhasil diperbarui');
-    return redirect()->route('paket-wisata.index');
+  if ($newDays) {
+    foreach ($newDays as $day) {
+      for ($i = 0; $i < count($request->mulai); $i++) {
+        if ($request->hari_ke[$i] == $day) {
+          Rundown::create([
+            'paket_wisata_id' => $request->paket_wisata_id,
+            'hari_ke' => $day,
+            'mulai' => $request->mulai[$i],
+            'selesai' => $request->selesai[$i],
+            'deskripsi' => $request->deskripsi[$i],
+          ]);
+        }
+      }
+    }
+  }
+
+  if ($request->has('hari_ke')) {
+    foreach ($request->hari_ke as $key => $value) {
+      if (in_array($value, $existingDays)) {
+        Rundown::updateOrCreate(
+          ['id' => $request->activity_id[$key]],
+          [
+            'paket_wisata_id' => $request->paket_wisata_id,
+            'hari_ke' => $value,
+            'mulai' => $request->mulai[$key],
+            'selesai' => $request->selesai[$key],
+            'deskripsi' => $request->deskripsi[$key],
+          ]
+        );
+      }
+    }
+  }
+
+  session()->flash('success', 'Rundown berhasil diperbarui');
+  return redirect()->route('paket-wisata.index');
 }
 
 

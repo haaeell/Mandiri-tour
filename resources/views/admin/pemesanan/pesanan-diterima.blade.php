@@ -126,17 +126,24 @@
     let message = encodeURIComponent(`
         Halo ${nama},
         
-        Informasi Pemesanan:
-        Paket: ${paket}
-        jumlah paket: ${jumlahPeserta}
-        Alamat: ${alamat}
+        Kami berharap Anda dalam keadaan baik.
 
-        Kami mengingatkan bahwa pembayaran Anda belum diterima. Jika ada pertanyaan, silakan tanyakan.
+        Kami ingin mengonfirmasi pemesanan yang telah Anda buat dengan rincian sebagai berikut:
+        - Paket Wisata: ${paket}
+        - Jumlah Paket: ${jumlahPeserta}
+        - Alamat: ${alamat}
+
+        Mohon untuk diketahui bahwa pesanan Anda telah kami terima. Namun, kami ingin mengingatkan bahwa pembayaran belum kami terima.
+
+        Jika Anda memiliki pertanyaan atau memerlukan bantuan lebih lanjut, jangan ragu untuk menghubungi kami.
+
+        Terima kasih atas kerjasamanya.
     `);
 
     let whatsappUrl = 'https://api.whatsapp.com/send?phone=' + phoneNumber + '&text=' + message;
     window.open(whatsappUrl, '_blank');
 }
+
 
 </script>
     <script>

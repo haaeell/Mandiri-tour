@@ -102,26 +102,25 @@
     }
 
     $('#addDay').click(function() {
-    dayCount++; // Menambah jumlah hari
-    var newDayField = $('#activities .activity').last().clone();
-    var currentDay = parseInt(newDayField.find('input[name^="hari_ke"]').val());
-    newDayField.find('input[name^="hari_ke"]').val(currentDay + 1);
-    newDayField.find('input[type="time"], textarea').val(''); // Mengosongkan nilai input
-    
-    // Menemukan aktivitas terakhir pada hari sebelumnya
-    var lastActivityOfPreviousDay = $('#activities .activity input[name^="hari_ke"][value="' + currentDay + '"]').last().closest('.activity');
-    
-    // Menyisipkan hari baru setelah aktivitas terakhir pada hari sebelumnya
-    newDayField.hide().insertAfter(lastActivityOfPreviousDay).slideDown();
-    
-    // Berikan ID yang unik untuk elemen hari baru
+  dayCount++;
+  var newDayField = $('#activities .activity').last().clone(true); // Clone with descendants
+  var currentDay = parseInt(newDayField.find('input[name^="hari_ke"]').val());
+  newDayField.find('input[name^="hari_ke"]').val(currentDay + 1);
+  newDayField.find('input[type="time"], textarea').val('');  // Clear input values
+
+  // Update activity IDs within the new day
+  newDayField.find('.activity').each(function() {
     var existingIds = [];
     $('.activity').each(function() {
-        var activityId = $(this).find('input[name="activity_id[]"]').val();
-        existingIds.push(parseInt(activityId));
+      var activityId = $(this).find('input[name="activity_id[]"]').val();
+      existingIds.push(parseInt(activityId));
     });
-    var newDayId = Math.max(...existingIds) + 1;
-    newDayField.find('input[name="activity_id[]"]').val(newDayId);
+    var newActivityId = Math.max(...existingIds) + 1;
+    $(this).find('input[name="activity_id[]"]').val(newActivityId);
+  });
+
+  // Insert and show the new day
+  newDayField.hide().insertAfter($('#activities .activity').last()).slideDown();
 });
 
 

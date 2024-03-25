@@ -63,6 +63,8 @@
                                         <img src="{{asset('assets/img/profile.png')}}" alt="Preview Gambar Profil" style="max-width: 100%; max-height: 100%;">
                                     @endif
                                 </div>
+                                <input type="hidden" name="hapus_gambar" id="hapus_gambar" value="0">
+
                             </div>
                         </div>
                       
@@ -80,31 +82,35 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#hapusGambar').click(function() {
-            var preview = $('#imagePreview img');
-            var defaultImage = "{{ asset('assets/img/profile.png') }}";
-            preview.attr('src', defaultImage);
-            $('#image').val('');
-            preview.css('display', 'none');
-        });
-
-        $('#image').change(function(event) {
-            var preview = $('#imagePreview img');
-            var file = event.target.files[0];
-            var reader = new FileReader();
-
-            reader.onloadend = function() {
-                preview.attr('src', reader.result);
-                preview.css('display', 'block');
-            }
-
-            if (file) {
-                reader.readAsDataURL(file);
-            } else {
-                preview.attr('src', '');
-                preview.css('display', 'none');
-            }
-        });
+    $('#hapusGambar').click(function() {
+        var preview = $('#imagePreview img');
+        var defaultImage = "{{ asset('assets/img/profile.png') }}";
+        preview.attr('src', defaultImage);
+        $('#image').val(''); // Atur nilai input gambar menjadi kosong saat tombol "Hapus Gambar" diklik
+        $('#hapus_gambar').val('1'); // Atur nilai input tersembunyi untuk menandai penghapusan gambar
+        preview.css('display', 'none');
     });
+
+    $('#image').change(function(event) {
+        var preview = $('#imagePreview img');
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function() {
+            preview.attr('src', reader.result);
+            preview.css('display', 'block');
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.attr('src', '');
+            preview.css('display', 'none');
+        }
+    });
+});
+
 </script>
+
+
 @endsection

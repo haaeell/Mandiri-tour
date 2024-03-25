@@ -198,6 +198,10 @@
                                     <a href={{ route('kota.index') }} class="submenu-link">Kota</a>
 
                                 </li>
+                                <li class="submenu-item {{ request()->is('kategori') ? 'active' : '' }} ">
+                                    <a href={{ route('kategori.index') }} class="submenu-link">Kategori</a>
+
+                                </li>
             
                                 <li class="submenu-item {{ request()->is('kendaraan') ? 'active' : '' }} ">
                                     <a href={{ route('kendaraan.index') }} class="submenu-link">Kendaraan</a>
@@ -317,12 +321,12 @@
                         
 
 
-                        <li class="sidebar-item  ">
+                        {{-- <li class="sidebar-item  ">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-chat-heart-fill"></i>
                                 <span>Testimoni</span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="sidebar-item {{ request()->is('galeri') ? 'active' : '' }} ">
                             <a href={{ route('galeri.index') }} class='sidebar-link'>
                                 <i class="bi bi-image-fill"></i>

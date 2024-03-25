@@ -48,6 +48,7 @@ public function data(Request $request)
     $pemesanans = Pemesanan::with('user', 'paket')
         ->whereYear('updated_at', Carbon::parse($bulan)->year)
         ->whereMonth('updated_at', Carbon::parse($bulan)->month)
+        ->orderBy('updated_at', 'desc')
         ->get();
 
     // Transformasi data sebelum mengirim respons

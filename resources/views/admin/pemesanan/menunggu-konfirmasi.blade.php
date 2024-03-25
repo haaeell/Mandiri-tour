@@ -110,35 +110,6 @@
 @endsection
 @section('script')
 <script>
-    function rejectPayment() {
-        // Konfirmasi dialog untuk memastikan pengguna ingin menolak pembayaran
-        if (confirm("Anda yakin ingin menolak pembayaran?")) {
-            // Lakukan permintaan POST menggunakan fetch API atau library JavaScript seperti axios
-            fetch('{{ route("admin.pemesanan.tolak", $item->id) }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                // Membuat body permintaan kosong karena tidak perlu mengirim data tambahan
-                body: JSON.stringify({})
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Jika permintaan berhasil, muat ulang halaman atau lakukan tindakan lain yang sesuai
-                    window.location.reload();
-                } else {
-                    // Tangani kesalahan jika ada
-                    console.error('Gagal menolak pembayaran');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    }
-</script>
-<script>
     function confirmPayment() {
         Swal.fire({
             title: 'Konfirmasi',
@@ -180,7 +151,7 @@
     let phoneNumber = button.getAttribute('data-phone');
     let nama = button.getAttribute('data-nama');
     let paket = button.getAttribute('data-paket');
-    let jumlahPeserta = button.getAttribute('data-\].,-peserta');
+    let jumlahPeserta = button.getAttribute('data-jumlah-peserta');
     let alamat = button.getAttribute('data-alamat');
 
     // Pemeriksaan validitas nomor telepon
@@ -192,17 +163,24 @@
     let message = encodeURIComponent(`
         Halo ${nama},
         
-        Informasi Pemesanan:
-        Paket: ${paket}
-        jumlah paket: ${jumlahPeserta}
-        Alamat: ${alamat}
+        Kami berharap Anda dalam keadaan baik.
 
-        Kami mengingatkan bahwa pembayaran Anda belum diterima. Jika ada pertanyaan, silakan tanyakan.
+        Kami ingin mengonfirmasi pemesanan yang telah Anda buat dengan rincian sebagai berikut:
+        - Paket Wisata: ${paket}
+        - Jumlah Paket: ${jumlahPeserta}
+        - Alamat: ${alamat}
+
+        Kami ingin memberitahukan bahwa pesanan Anda sedang dalam tahap proses pengecekan. Saat ini, kami sedang melakukan pengecekan terhadap pesanan Anda. Mohon bersabar sejenak.
+
+        Jika Anda memiliki pertanyaan atau memerlukan bantuan lebih lanjut, jangan ragu untuk menghubungi kami.
+
+        Terima kasih atas kerjasamanya.
     `);
 
     let whatsappUrl = 'https://api.whatsapp.com/send?phone=' + phoneNumber + '&text=' + message;
     window.open(whatsappUrl, '_blank');
 }
+
 
 </script>
     
