@@ -22,7 +22,7 @@
         <div class="col-md-1">
             <div class="form-group">
                 <label for="hari_ke[]">Hari</label>
-                <input type="number" name="hari_ke[]" readonly class="form-control day-input" value="{{ $rundown->hari_ke }}" required >
+                <input type="number" name="hari_ke[]"  class="form-control day-input" value="{{ $rundown->hari_ke }}" required >
             </div>
         </div>
         <div class="col-md-2">
