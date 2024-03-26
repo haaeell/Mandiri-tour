@@ -122,17 +122,24 @@
             </div>
             
             <div class="col-md-4">
-                <h3 class="mb-3 fw-semibold ">Unggah Bukti Pembayaran</h3>
-                <form action="{{ route('pemesanan.upload', $pemesanan->id) }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group d-flex">
-                        <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control" accept="image/jpeg, image/png" required>
-
-                        <button type="submit" class="btn btn-primary">Kirim</button>
+                <h3 class="fw-semibold text-center mb-3">Upload Bukti Pembayaran</h3>
+                <div class="card border-dashed-blue shadow-lg" style="cursor: pointer;">
+                    <div class="card-body text-center" id="upload_area" onclick="openFileSelection();" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" ondragleave="dragLeaveHandler(event);">
+                        <form id="upload_form" action="{{ route('pemesanan.upload', $pemesanan->id) }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <input type="file" id="upload_image" name="bukti_pembayaran" accept="image/jpeg, image/png" style="display: none;" onchange="displayImage(event)" required>
+                            <i id="upload_icon" class="bi bi-cloud-upload fs-1"></i>
+                            <h4 id="file_upload_title" class="mb-3 fw-semibold">Pilih atau Seret File</h4>
+                            <p id="file_upload_instruction">Klik disini atau seret file gambar ke sini</p>
+                            <img id="output_image" class="img-fluid mt-3 mb-3" style="display: none; margin: 0 auto;">
+                            
+                            <p id="file_upload_info" class="mt-3">File harus berformat PNG, JPG, atau JPEG. Ukuran maksimum 2 MB.</p>
+                        </form>
                     </div>
-                    
-                </form>
+                </div>
+                <button type="button" class="btn btn-primary w-100" id="submit_button" style="display: none;" onclick="submitForm()">Kirim</button>
             </div>
+
         </div>
         @endif
         @else
@@ -310,6 +317,59 @@
 @endsection
 
 @section('script')
+
+<script>
+    function openFileSelection() {
+        document.getElementById('upload_image').click();
+    }
+    
+    function displayImage(event) {
+        var file = event.target.files[0];
+        displayImageFromFile(file);
+    }
+    
+    function displayImageFromFile(file) {
+        var image = document.getElementById('output_image');
+        var uploadIcon = document.getElementById('upload_icon');
+        image.src = URL.createObjectURL(file);
+        image.style.display = 'block'; // Tampilkan gambar yang dipilih
+        image.style.margin = '0 auto'; // Letakkan gambar di tengah
+        uploadIcon.style.display = 'none'; // Sembunyikan icon Bootstrap
+        document.getElementById('submit_button').style.display = 'block'; // Tampilkan tombol kirim
+        document.getElementById('file_upload_title').style.display = 'none'; // Sembunyikan judul "Pilih atau Seret File"
+        document.getElementById('file_upload_instruction').style.display = 'none'; // Sembunyikan instruksi "Klik disini atau seret file gambar ke sini"
+        document.getElementById('file_upload_info').style.display = 'none'; // Sembunyikan informasi tentang file
+    }
+    
+    function dragOverHandler(event) {
+        event.preventDefault();
+        document.getElementById('upload_area').classList.add('dragover');
+    }
+    
+    function dragLeaveHandler(event) {
+        event.preventDefault();
+        document.getElementById('upload_area').classList.remove('dragover');
+    }
+    
+    function dropHandler(event) {
+        event.preventDefault();
+        document.getElementById('upload_area').classList.remove('dragover');
+        var file = event.dataTransfer.files[0];
+        displayImageFromFile(file);
+        // Menyalin file yang di-drop ke elemen input file
+        document.getElementById('upload_image').files = event.dataTransfer.files;
+    }
+    
+    function submitForm() {
+        // Memastikan bahwa gambar telah dipilih sebelum mengirim form
+        var image = document.getElementById('output_image');
+        if (image.style.display !== 'none') {
+            document.getElementById('upload_form').submit();
+        } else {
+            alert('Silakan pilih gambar terlebih dahulu.');
+        }
+    }
+    </script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const lihatSelengkapnyaLinks = document.querySelectorAll('.lihat-selengkapnya');
