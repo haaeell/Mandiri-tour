@@ -19,8 +19,7 @@ class PemesananController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-       
+    {  
         $pemesanan = Pemesanan::orderBy('updated_at', 'desc')->get();
         return view('admin.pemesanan.index',compact('pemesanan'));
     }

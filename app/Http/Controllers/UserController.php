@@ -15,10 +15,11 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $users = User::all();
-        return view('admin.users.index',compact('users'));
-    }
+{
+    $users = User::orderBy('created_at', 'desc')->get();
+    return view('admin.users.index', compact('users'));
+}
+
     
 
     /**
@@ -40,12 +41,13 @@ class UserController extends Controller
         'image' => 'File :attribute harus berupa gambar.',
         'mimes' => 'File :attribute harus memiliki format PNG, JPG, atau JPEG.',
         'min' => 'Kolom :attribute harus memiliki nilai minimal :min.',
+        'unique' => 'Email telah digunakan oleh pengguna lain.',
     ];
     $data = $request->validate([
         'name' => 'required',
-        'email' => 'required|email',
-        'phone' => 'required',
-        'password' => 'required',
+        'email' => 'required|email|unique:users,email',
+        'phone' => 'required|min:10',
+        'password' => 'required|min:8',
         'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         'role' => 'required',
         'address' => 'required',
@@ -91,12 +93,25 @@ class UserController extends Controller
         'image' => 'File :attribute harus berupa gambar.',
         'mimes' => 'File :attribute harus memiliki format PNG, JPG, atau JPEG.',
         'min' => 'Kolom :attribute harus memiliki nilai minimal :min.',
+        'unique' => 'Email telah digunakan oleh pengguna lain.',
     ];
-
+    $user = User::findOrFail($id);
     $data = $request->validate([
         'name' => 'required',
-        'email' => 'required|email',
-        'phone' => 'required',
+        'email' => [
+            'required',
+            'email',
+            function ($attribute, $value, $fail) use ($user) {
+                // Periksa apakah nilai email yang disubmit sama dengan email saat ini
+                if ($value !== $user->email) {
+                    // Jika tidak sama, lakukan validasi keunikan
+                    if (User::where('email', $value)->exists()) {
+                        return $fail(__('validation.unique', ['attribute' => __('Email')]));
+                    }
+                }
+            },
+        ],
+        'phone' => 'required|min:10',
         'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         'role' => 'required',
     ], $messages);

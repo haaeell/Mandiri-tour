@@ -181,70 +181,49 @@
 @endsection
 
 @section('script')
-    <script>
-        function cekLogin(loginUrl) {
-            Swal.fire({
-                title: "Silakan login terlebih dahulu!",
-                text: "Untuk dapat melakukan pemesanan",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Login",
-                cancelButtonText: "Kembali",
-                confirmButtonColor: "#4481eb",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Simpan URL halaman saat ini
-                    var currentUrl = window.location.href;
-                    // Redirect ke halaman login dengan menyertakan URL saat ini sebagai parameter
-                    window.location.href = loginUrl + "?redirect=" + encodeURIComponent(currentUrl);
-                }
-            });
-        }
-    </script>
-
-    <script>
+<script>
+    $(document).ready(() => {
         // Ambil elemen input tanggal dan pesan
-        var inputTanggal = document.getElementById('tanggal_keberangkatan');
-        var pesanTanggal = document.getElementById('tanggal_keberangkatan_message');
+        const inputTanggal = $('#tanggal_keberangkatan');
+        const pesanTanggal = $('#tanggal_keberangkatan_message');
 
         // Hitung tanggal minimal (H-3)
-        var today = new Date(); // Tanggal hari ini
-        var tanggalMinimal = new Date(today); // Salin tanggal hari ini
+        const today = new Date(); // Tanggal hari ini
+        const tanggalMinimal = new Date(today); // Salin tanggal hari ini
         tanggalMinimal.setDate(tanggalMinimal.getDate() + 3); // Tambahkan 3 hari
 
         // Konversi tanggal minimal ke format ISO (YYYY-MM-DD) untuk diatur sebagai nilai atribut min
-        var tanggalMinimalISO = tanggalMinimal.toISOString().split('T')[0];
-        inputTanggal.setAttribute('min', tanggalMinimalISO);
+        const tanggalMinimalISO = tanggalMinimal.toISOString().split('T')[0];
+        inputTanggal.attr('min', tanggalMinimalISO);
 
         // Tampilkan pesan untuk pengguna
-        pesanTanggal.innerHTML = 'Tanggal keberangkatan minimal H-3 atau ' + tanggalMinimal.toLocaleDateString('id-ID', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        }) + '.';
-    </script>
+        pesanTanggal.html(`Tanggal keberangkatan minimal H-3 atau ${tanggalMinimal.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}.`);
+    });
+</script>
 
-    <script>
+<script>
+    $(document).ready(() => {
         // Ambil elemen input jumlah paket dan pesan error
-        var inputJumlahPaket = document.getElementById('jumlah_paket');
-        var errorMessage = document.getElementById('error_message');
+        const inputJumlahPaket = $('#jumlah_paket');
+        const errorMessage = $('#error_message');
 
         // Tambahkan event listener untuk event input
-        inputJumlahPaket.addEventListener('input', function(event) {
+        inputJumlahPaket.on('input', (event) => {
             // Ambil nilai dari input
-            var nilaiInput = inputJumlahPaket.value;
+            const nilaiInput = inputJumlahPaket.val();
 
             // Cek jika nilai input bukan angka atau kurang dari 1
             if (!(/^\d+$/.test(nilaiInput)) || parseInt(nilaiInput) < 1) {
                 // Tampilkan pesan error
-                errorMessage.textContent = 'Minimal jumlah paket adalah 1.';
+                errorMessage.text('Minimal jumlah paket adalah 1.');
                 // Bersihkan nilai input
-                inputJumlahPaket.value = '';
+                inputJumlahPaket.val('');
             } else {
                 // Kosongkan pesan error jika input valid
-                errorMessage.textContent = '';
+                errorMessage.text('');
             }
         });
-    </script>
+    });
+</script>
+
 @endsection

@@ -48,6 +48,7 @@ public function data(Request $request)
     $pemesanans = Pemesanan::with('user', 'paket')
         ->whereYear('updated_at', Carbon::parse($bulan)->year)
         ->whereMonth('updated_at', Carbon::parse($bulan)->month)
+        ->where('status_pembayaran', 'Pembayaran Diterima') // Filter berdasarkan status_pembayaran
         ->orderBy('updated_at', 'desc')
         ->get();
 
@@ -65,6 +66,7 @@ public function data(Request $request)
 
     return response()->json($transformedData);
 }
+
 
     /**
      * Show the form for creating a new resource.

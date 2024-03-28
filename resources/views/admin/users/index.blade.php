@@ -85,18 +85,14 @@
                                                         <label class="form-label" for="newPassword">Password baru</label>
                                                         <div class="input-group input-group-merge">
                                                             <input type="password" class="form-control" id="newPassword" name="new_password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="basic-default-password" required>
-                                                            <button class="btn btn-outline-secondary" type="button" id="basic-default-password" onclick="togglePassword('newPassword')">
-                                                                <i class="bi-eye-slash"></i>
-                                                            </button>
+                                                           
                                                         </div>
                                                     </div>
                                                     <div class="form-password-toggle mb-3">
                                                         <label class="form-label" for="confirmPassword">Konfirmasi Password</label>
                                                         <div class="input-group input-group-merge">
                                                             <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="basic-default-password" required>
-                                                            <button class="btn btn-outline-secondary" type="button" id="basic-default-password" onclick="togglePassword('confirmPassword')">
-                                                                <i class="bi-eye-slash"></i>
-                                                            </button>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>

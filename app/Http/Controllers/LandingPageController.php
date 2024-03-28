@@ -15,17 +15,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 
 class LandingPageController extends Controller
 {
     public function index()
     {
-        $paketwisata = PaketWisata::all();
+        $topPaketWisata = PaketWisata::select('paket_wisata.*', DB::raw('COUNT(pemesanan.id) as total_orders'))
+        ->leftJoin('pemesanan', 'paket_wisata.id', '=', 'pemesanan.paket_id')
+        ->groupBy('paket_wisata.id')
+        ->orderByDesc('total_orders')
+        ->take(4) // Ambil 4 data teratas
+        ->get();
         $kategori = Kategori::all();
         $galeri = Galeri::all();
 
-        return view('landingpage.welcome', compact('paketwisata','kategori', 'galeri'));
+        return view('landingpage.welcome', compact('topPaketWisata','kategori', 'galeri'));
     }
     public function keluhan()
     {

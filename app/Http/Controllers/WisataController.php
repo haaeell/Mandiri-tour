@@ -12,11 +12,12 @@ class WisataController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $wisata = Wisata::with('kota')->get();
-        $kota = Kota::all();
-        return view('admin.wisata.index',compact('wisata','kota'));
-    }
+{
+    $wisata = Wisata::with('kota')->orderBy('created_at', 'desc')->get();
+    $kota = Kota::all();
+    return view('admin.wisata.index', compact('wisata', 'kota'));
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -42,7 +43,7 @@ class WisataController extends Controller
             'nama' => 'required',
             'kota_id' => 'required',
             'deskripsi' => 'required',
-             'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             
         ], $messages);
     
@@ -90,7 +91,7 @@ class WisataController extends Controller
         'nama' => 'required',
         'kota_id' => 'required',
         'deskripsi' => 'required',
-        'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
     ], $messages);
 
     $wisata = Wisata::findOrFail($id);

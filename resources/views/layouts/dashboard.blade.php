@@ -365,7 +365,6 @@
                             style="width: 40px; height: 40px; border-radius: 50%;">
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
@@ -387,7 +386,7 @@
                     <div class="col-12 col-md-6 order-md-2 order-first">
                         <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">@yield('breadcumb')</li>
                             </ol>
                         </nav>

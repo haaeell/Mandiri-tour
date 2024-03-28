@@ -59,21 +59,19 @@
             </div>
             <div class="swiper SwiperPaket mt-5">
                 <div class="swiper-wrapper">
-                    @foreach ($paketwisata as $p)
-                        <div class="swiper-slide">
-                            <div class="card  card-paket border-0 p-3 my-3">
+                    @foreach ($topPaketWisata as $p)
+                    <div class="swiper-slide">
+                        <a href="{{ route('detailPaket', $p->slug) }}" class="card-link text-decoration-none text-dark">
+                            <div class="card card-paket border-0 p-3 my-3">
                                 <div class="bg-primary border m-2 position-relative" style="border-radius: 16px;">
                                     <img src="{{ asset('/images/' . $p->gambar) }}" style="width: 100%; height: 300px; border-radius: 16px;" alt="">
                                     <div class="bg-danger text-white px-4 py-1 rounded fw-semibold position-absolute rounded-pill" style="transform: rotate(30deg); top: 10px; right: -20px;">
                                         {{ $p->durasi }}
                                     </div>
-                                    
                                     <span class="position-absolute bottom-0 end-0 m-2 bg-white px-2 py-1 rounded fw-semibold">
                                         {{ $p->kategori->nama }}
                                     </span>
                                 </div>
-                                
-                                
                                 
                                 <div class="px-2">
                                     <h3 class="fw-semibold my-3 text-center">{{ $p->nama }}.</h3>
@@ -88,18 +86,19 @@
                                         <a href="{{ route('detailPaket', $p->slug) }}" class="show-more">Read more</a>
                                     </p>
                                     
-                                    
                                     <p class="fw-bold m-0">Fasilitas : {{$p->fasilitas}}
                                     </p>
                                     <p class="fw-bold">Kendaraan : {{$p->kendaraan->nama}}  /<span class="text-danger"> ({{ $p->kendaraan->kapasitas }} orang) </span> 
                                     </p>
                                     <p class="fs-2 text-danger fw-bold text-center">Rp {{ number_format($p->harga, 0, ',', '.') }} <span class="fs-5 text-dark fw-normal"> / Paket</span> </p>
                                 </div>
-                
+                                
                                 <a href="{{ route('detailPaket', $p->slug) }}" class="btn btn-paket  mb-1 btn-lg">Detail Info</a>
                             </div>
-                        </div>
-                    @endforeach
+                        </a>
+                    </div>
+                @endforeach
+                
 
                 </div>
                 <div class="swiper-button-next"></div>
@@ -110,7 +109,7 @@
                     name=""
                     id=""
                     class="btn btn-login bn26"
-                    href="#"
+                    href="/paket"
                     role="button"
                     >Lihat Semua</a
                 >

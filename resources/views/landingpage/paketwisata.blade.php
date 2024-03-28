@@ -71,13 +71,14 @@
                         </div>
                         <div class="modal-body">
                             <form action="" method="get">
-
                                 <div class="input-group mb-3">
-                                    <input type="number" name="min_price" id="min_price"
-                                        class="form-control border-2 rounded-pill py-3 px-4" placeholder="Harga Minimum">
-                                    <input type="number" name="max_price" id="max_price"
-                                        class="form-control border-2 rounded-pill py-3 px-4" placeholder="Harga Maksimum">
+                                    <input type="text" name="min_price" id="min_price" class="form-control border-2 rounded-pill py-3 px-4"
+                                        placeholder="Harga Minimum" oninput="validateInput(this)">
+                                    <input type="text" name="max_price" id="max_price" class="form-control border-2 rounded-pill py-3 px-4"
+                                        placeholder="Harga Maksimum" oninput="validateInput(this)">
                                 </div>
+                                <div id="inputError" class="text-danger"></div>
+                                
                                 <div class="input-group mb-3">
                                     <select name="city" id="city"
                                         class="form-select  border-2 rounded-pill py-3 px-4">
@@ -117,54 +118,55 @@
                 <div class="row">
                     @foreach ($paketWisata as $p)
                                 <div class="col-md-4 mb-5">
-                                    <div class="card  card-paket border-0 p-3 shadow-lg">
-                                        <div class="bg-primary border m-2 position-relative" style="border-radius: 16px;">
-                                            <img src="{{ asset('/images/' . $p->gambar) }}"
-                                                style="width: 100%; height: 300px; border-radius: 16px;" alt="">
-                                            <div class="bg-danger text-white px-4 py-1 rounded fw-semibold position-absolute rounded-pill"
-                                                style="transform: rotate(30deg); top: 10px; right: -20px;">
-                                                {{ $p->durasi }}
-                                            </div>
-    
-                                            <span
-                                                class="position-absolute bottom-0 end-0 m-2 bg-white px-2 py-1 rounded fw-semibold">
-                                                {{ $p->kategori->nama }}
-                                            </span>
-                                        </div>
-    
-    
-    
-                                        <div class="px-2">
-                                            <h3 class="fw-semibold my-3 text-center">{{ $p->nama }}.</h3>
-                                            <div class="mb-3 d-flex gap-2 flex-wrap ">
-                                                @foreach ($p->kotas as $kota)
-                                                    <span class="badge bg-primary">{{ $kota->nama }}</span>
-                                                @endforeach
-                                            </div>
-                                            <p>
+                                    <a href="{{ route('detailPaket', $p->slug) }}" class="text-decoration-none text-dark">
+                                        <div class="card  card-paket border-0 p-3 shadow-lg">
+
+                                            <div class="bg-primary border m-2 position-relative" style="border-radius: 16px;">
+                                                <img src="{{ asset('/images/' . $p->gambar) }}"
+                                                    style="width: 100%; height: 300px; border-radius: 16px;" alt="">
+                                                <div class="bg-danger text-white px-4 py-1 rounded fw-semibold position-absolute rounded-pill"
+                                                    style="transform: rotate(30deg); top: 10px; right: -20px;">
+                                                    {{ $p->durasi }}
+                                                </div>
+        
                                                 <span
-                                                    class="read-more">{{ Illuminate\Support\Str::limit($p->deskripsi, $limit = 130, $end = '...') }}</span>
-                                                <a href="{{ route('detailPaket', $p->slug) }}" class="show-more">Read more</a>
-                                            </p>
-    
-    
-                                            <p class="fw-bold m-0">Fasilitas : {{ $p->fasilitas }}
-                                            </p>
-                                            <p class="fw-bold">Kendaraan : {{ $p->kendaraan->nama }} /<span
-                                                    class="text-danger"> ({{ $p->kendaraan->kapasitas }} orang) </span>
-                                            </p>
-                                            <p class="fs-2 text-danger fw-bold text-center">Rp
-                                                {{ number_format($p->harga, 0, ',', '.') }} <span
-                                                    class="fs-5 text-dark fw-normal"> / Paket</span> </p>
+                                                    class="position-absolute bottom-0 end-0 m-2 bg-white px-2 py-1 rounded fw-semibold">
+                                                    {{ $p->kategori->nama }}
+                                                </span>
+                                            </div>
+                                            <div class="px-2">
+                                                <h3 class="fw-semibold my-3 text-center">{{ $p->nama }}.</h3>
+                                                <div class="mb-3 d-flex gap-2 flex-wrap ">
+                                                    @foreach ($p->kotas as $kota)
+                                                        <span class="badge bg-primary">{{ $kota->nama }}</span>
+                                                    @endforeach
+                                                </div>
+                                                <p>
+                                                    <span
+                                                        class="read-more">{{ Illuminate\Support\Str::limit($p->deskripsi, $limit = 130, $end = '...') }}</span>
+                                                    <a href="{{ route('detailPaket', $p->slug) }}" class="show-more">Read more</a>
+                                                </p>
+        
+        
+                                                <p class="fw-bold m-0">Fasilitas : {{ $p->fasilitas }}
+                                                </p>
+                                                <p class="fw-bold">Kendaraan : {{ $p->kendaraan->nama }} /<span
+                                                        class="text-danger"> ({{ $p->kendaraan->kapasitas }} orang) </span>
+                                                </p>
+                                                <p class="fs-2 text-danger fw-bold text-center">Rp
+                                                    {{ number_format($p->harga, 0, ',', '.') }} <span
+                                                        class="fs-5 text-dark fw-normal"> / Paket</span> </p>
+                                            </div>
+        
+                                            <a href="{{ route('detailPaket', $p->slug) }}"
+                                                class="btn btn-paket  mb-1 btn-lg">Detail Info</a>
+                                            <a href="{{ route('detailPaketForm', $p->slug) }}"
+                                                class="btn btn-paket2 mt-2  mb-1 btn-lg">Pesan Sekarang</a>
                                         </div>
-    
-                                        <a href="{{ route('detailPaket', $p->slug) }}"
-                                            class="btn btn-paket  mb-1 btn-lg">Detail Info</a>
-                                        <a href="{{ route('detailPaketForm', $p->slug) }}"
-                                            class="btn btn-paket2 mt-2  mb-1 btn-lg">Pesan Sekarang</a>
-                                    </div>
+                                    </a>
+                                   
                                 </div>
-                            @endforeach
+                    @endforeach
                 </div>
             @else
                 <div class="text-center col-md-12">
@@ -177,5 +179,64 @@
 
 
     </div>
+@endsection
+
+@section('script')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(() => {
+        // Ambil elemen input harga minimum dan maksimum serta pesan error
+        const inputMinPrice = $('#min_price');
+        const inputMaxPrice = $('#max_price');
+        const errorMessage = $('#inputError');
+
+        // Tambahkan event listener untuk event input pada harga minimum
+        inputMinPrice.on('input', (event) => {
+            // Ambil nilai dari input harga minimum
+            const minPrice = parseInt(inputMinPrice.val());
+            const maxPrice = parseInt(inputMaxPrice.val());
+
+            // Cek jika nilai input bukan angka atau kurang dari 1
+            if (isNaN(minPrice) || minPrice < 1) {
+                // Tampilkan pesan error
+                errorMessage.text('Harga minimum hanya boleh angka dan minimal 1.');
+                // Bersihkan nilai input
+                inputMinPrice.val('');
+            } else if (!isNaN(maxPrice) && minPrice >= maxPrice) {
+                // Tampilkan pesan error jika harga minimum lebih besar atau sama dengan harga maksimum
+                errorMessage.text('Harga minimum harus lebih rendah dari harga maksimum.');
+                // Bersihkan nilai input
+                inputMinPrice.val('');
+            } else {
+                // Kosongkan pesan error jika input valid
+                errorMessage.text('');
+            }
+        });
+
+        // Tambahkan event listener untuk event input pada harga maksimum
+        inputMaxPrice.on('input', (event) => {
+            // Ambil nilai dari input harga maksimum
+            const maxPrice = parseInt(inputMaxPrice.val());
+            const minPrice = parseInt(inputMinPrice.val());
+
+            // Cek jika nilai input bukan angka atau kurang dari 1
+            if (isNaN(maxPrice) || maxPrice < 1) {
+                // Tampilkan pesan error
+                errorMessage.text('Harga maksimum hanya boleh angka dan minimal 1.');
+                // Bersihkan nilai input
+                inputMaxPrice.val('');
+            } else if (!isNaN(minPrice) && maxPrice <= minPrice) {
+                // Tampilkan pesan error jika harga maksimum lebih rendah atau sama dengan harga minimum
+                errorMessage.text('Harga maksimum harus lebih tinggi dari harga minimum.');
+                // Bersihkan nilai input
+                inputMaxPrice.val('');
+            } else {
+                // Kosongkan pesan error jika input valid
+                errorMessage.text('');
+            }
+        });
+    });
+</script>
+
 @endsection
 
