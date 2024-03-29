@@ -32,7 +32,7 @@ class SendEmailMarketingJob implements ShouldQueue
     
      public function handle()
      {
-         // Kirim email ke pelanggan
+        
          Mail::to($this->subscriber->email)->send(new SendEmail($this->emailMarketing, $this->subscriber));
      }
 }

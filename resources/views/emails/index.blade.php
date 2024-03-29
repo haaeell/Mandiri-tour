@@ -5,6 +5,7 @@
 @section('breadcumb','Email Marketing')
 @section('content')
     <div class="container">
+        <p> (Mengirim Email ke Seluruh data pelanggan)</p>
         <div class="card p-3 shadow">
             <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">
@@ -46,7 +47,8 @@
                                     <td><span class="badge {{ $email->status == 'draft' ? 'bg-primary' : ($email->status == 'sent' ? 'bg-success' : '') }}">
                                         {{ $email->status }}
                                     </span></td>
-                                    <td>{{ $email->content}}</td>
+                                    <td>{{ substr($email->content, 0, 30) }}</td>
+
                                     <td>{{ $email->created_at_indo }}</td>
 
                                     <td>

@@ -1,8 +1,8 @@
 @extends('layouts.dashboard')
 @section('title')
-    Daftar Paket paket
+    Daftar Paket Wisata
 @endsection
-@section('breadcumb','Paket paket')
+@section('breadcumb','Paket Wisata')
     
 @section('content')
     <div class="row d-flex">

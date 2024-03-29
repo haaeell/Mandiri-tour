@@ -24,8 +24,7 @@ class EmailController extends Controller
 
     private function getEmailsByStatus($status)
     {
-        return EmailMarketing::where('status', $status)->get();
-        // Sesuaikan dengan struktur dan kondisi database Anda
+        return EmailMarketing::where('status', $status)->orderBy('created_at','desc')->get();
     }
 
     public function store(Request $request)
@@ -42,19 +41,12 @@ class EmailController extends Controller
             'content' => $request->content,
             'status' => 'draft',
         ]);
-    
-
-        EmailMarketing::create([
-            'subject' => $request->subject,
-            'content' => $request->content,
-            'status' => 'draft',
-        ]);
 
         return redirect()->back()->with('success', 'Email Marketing berhasil disimpan.');
     }
     public function update(Request $request, EmailMarketing $email)
     {
-        // Metode untuk memperbarui data email marketing dalam database
+       
         $request->validate([
             'subject' => 'required',
             'content' => 'required',
