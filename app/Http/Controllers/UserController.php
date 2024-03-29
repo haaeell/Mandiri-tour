@@ -112,6 +112,7 @@ class UserController extends Controller
             },
         ],
         'phone' => 'required|min:10',
+        'address' => 'nullable',
         'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         'role' => 'required',
     ], $messages);

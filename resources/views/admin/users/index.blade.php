@@ -113,7 +113,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="modalCenterTitle">Tambah User</h5>
+                                <h5 class="modal-title" id="modalCenterTitle">Edit User</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -132,7 +132,7 @@
                                                 <div class="form-group has-icon-left">
                                                     <div class="position-relative">
                                                         <input type="text" class="form-control" placeholder="Name"
-                                                            name="name" id="first-name-horizontal-icon"
+                                                            name="name" 
                                                             value="{{ $user->name }}" required>
                                                         <div class="form-control-icon">
                                                             <i class="bi bi-person"></i>
@@ -150,7 +150,7 @@
                                                 <div class="form-group has-icon-left">
                                                     <div class="position-relative">
                                                         <input type="text" class="form-control" placeholder="Email"
-                                                            id="first-name-horizontal-icon" value="{{ $user->email }}"
+                                                             value="{{ $user->email }}"
                                                             name="email" required>
                                                         <div class="form-control-icon">
                                                             <i class="bi bi-envelope"></i>
@@ -186,7 +186,7 @@
                                                     <div class="position-relative">
                                                         <input type="text" class="form-control"
                                                             value="{{ $user->address }}" name="address"
-                                                            placeholder="Alamat" id="first-name-horizontal-icon">
+                                                            placeholder="Alamat" >
                                                         <div class="form-control-icon">
                                                             <i class="bi bi-geo-alt-fill"></i>
                                                         </div>
@@ -199,12 +199,9 @@
                                                 <label for="first-name-horizontal-icon">Gambar</label>
                                             </div>
                                             <div class="col-md-10">
-                                                <div class="form-group has-icon-left">
-                                                    <div class="position-relative">
-                                                        <input type="file" id="imageInput" name="image"
-                                                            class="form-control mb-3 @error('image') is-invalid @enderror">
-                                                    </div>
-                                                </div>
+                                                <input type="file" class="form-control mb-3 imageInput" name="image" accept="image/*">
+                                                <!-- Preview gambar -->
+                                                <img class="previewImage" src="{{ asset('/images/' . $user->image)}}" alt="Preview Image"  data-old-src="{{ asset('/images/' . $user->image)}}" style="border-radius: 50%;">
                                             </div>
                                         </div>
                                         <div class="mb-2 d-flex">
@@ -279,7 +276,7 @@
                                     <div class="form-group has-icon-left">
                                         <div class="position-relative">
                                             <input type="text" class="form-control" placeholder="Name" name="name"
-                                                id="first-name-horizontal-icon" required>
+                                                 required>
                                             <div class="form-control-icon">
                                                 <i class="bi bi-person"></i>
                                             </div>
@@ -296,7 +293,7 @@
                                     <div class="form-group has-icon-left">
                                         <div class="position-relative">
                                             <input type="text" class="form-control" placeholder="Email"
-                                                id="first-name-horizontal-icon" name="email" required>
+                                                 name="email" required>
                                             <div class="form-control-icon">
                                                 <i class="bi bi-envelope"></i>
                                             </div>
@@ -331,7 +328,7 @@
                                     <div class="form-group has-icon-left">
                                         <div class="position-relative">
                                             <input type="text" class="form-control" name="address"
-                                                placeholder="Alamat" id="first-name-horizontal-icon">
+                                                placeholder="Alamat" >
                                             <div class="form-control-icon">
                                                 <i class="bi bi-geo-alt-fill"></i>
                                             </div>
@@ -492,16 +489,7 @@
     }
 </script>
 
-    <script>
-        function previewImage(event) {
-            var ofReader = new FileReader();
-            ofReader.readAsDataURL(document.getElementById("gambar").files[0]);
 
-            ofReader.onload = function(oFREvent) {
-                document.getElementById("preview").src = oFREvent.target.result;
-            };
-        }
-    </script>
 
     <script>
         $(document).ready(function() {

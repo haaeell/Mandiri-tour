@@ -112,18 +112,15 @@
                                                         </div>
                                                         <div class="mb-2 d-flex">
                                                             <div class="col-md-2">
-                                                                <label for="first-name-horizontal-icon">Deskripsi <span
-                                                                        class="text-danger">*</span></label>
+                                                                <label for="deskripsi">Deskripsi <span class="text-danger">*</span></label>
                                                             </div>
                                                             <div class="col-md-10">
                                                                 <div class="form-group has-icon-left">
                                                                     <div class="position-relative">
-                                                                        <input type="text" class="form-control"
-                                                                            placeholder="Deskripsi" name="deskripsi"
-                                                                            id="first-name-horizontal-icon"
-                                                                            value="{{ $item->deskripsi }}" required>
+                                                                        <!-- Ganti input teks dengan textarea -->
+                                                                        <textarea class="form-control" placeholder="Deskripsi" name="deskripsi" id="deskripsi" rows="4" required>{{ $item->deskripsi }}</textarea>
                                                                         <div class="form-control-icon">
-                                                                            <i class="bi bi-person"></i>
+                                                                            <i class="bi bi-info-circle"></i>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -135,11 +132,10 @@
                                                                         class="text-danger">*</span></label>
                                                             </div>
                                                             <div class="col-md-10">
-                                                                <div class="form-group has-icon-left">
-                                                                    <div class="position-relative">
-                                                                        <input type="file" class="image-preview-filepond"
-                                                                            value="{{ $item->gambar }}" name="gambar">
-                                                                    </div>
+                                                                <div class="form-group ">
+                                                                    <input type="file" class="form-control mb-3 imageInput"
+                                                                    value="{{ $item->gambar }}" name="gambar">
+                                                                    <img class="previewImage" src="{{ asset('/images/' . $item->gambar)}}" alt="Preview Image"  data-old-src="{{ asset('/images/' . $item->gambar)}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -212,16 +208,14 @@
                                 </div>
                                 <div class="mb-2 d-flex">
                                     <div class="col-md-2">
-                                        <label for="first-name-horizontal-icon">Deskripsi <span
-                                                class="text-danger">*</span></label>
+                                        <label for="deskripsi">Deskripsi <span class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-md-10">
                                         <div class="form-group has-icon-left">
                                             <div class="position-relative">
-                                                <input type="text" class="form-control" placeholder="Deskripsi"
-                                                    name="deskripsi" id="first-name-horizontal-icon" required>
+                                                <textarea class="form-control" placeholder="Deskripsi" name="deskripsi" id="deskripsi" rows="4" required></textarea>
                                                 <div class="form-control-icon">
-                                                    <i class="bi bi-person"></i>
+                                                    <i class="bi bi-info-circle"></i>
                                                 </div>
                                             </div>
                                         </div>

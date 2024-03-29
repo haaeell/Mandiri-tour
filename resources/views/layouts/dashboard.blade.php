@@ -34,6 +34,12 @@
         /* Atur nilai z-index yang sangat tinggi */
     }
 
+    .previewImage {
+        height: 100px;
+        border: 1px solid #334de0
+    }
+    
+
     .modal-open .select2-container {
         z-index: 1050;
         /* Sesuaikan dengan z-index modal */
@@ -407,6 +413,40 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Event listener untuk input file gambar
+            $('.imageInput').change(function() {
+                var modalId = $(this).closest('.modal').attr('id'); // Dapatkan ID modal yang terkait dengan input gambar yang dipilih
+                var previewImage = $('#' + modalId).find('.previewImage'); // Temukan elemen gambar preview di dalam modal yang terkait
+                var oldImageUrl = previewImage.attr('data-old-src'); // Dapatkan URL gambar lama
+                
+                // Ambil file yang dipilih
+                var file = this.files[0];
+    
+                // Jika pengguna memilih gambar baru
+                if (file) {
+                    // Buat objek FileReader
+                    var reader = new FileReader();
+                    
+                    // Saat file selesai dibaca
+                    reader.onload = function(e) {
+                        // Perbarui preview gambar dengan gambar yang dipilih
+                        previewImage.attr('src', e.target.result);
+                        previewImage.show(); // Tampilkan elemen gambar preview
+                    }
+                    
+                    // Baca isi file sebagai URL data
+                    reader.readAsDataURL(file);
+                } else {
+                    // Jika pengguna tidak memilih gambar baru, tampilkan gambar lama
+                    previewImage.attr('src', oldImageUrl);
+                    previewImage.show(); // Tampilkan elemen gambar preview
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('.select2').select2();
@@ -551,10 +591,8 @@
     </script>
     <script src="{{ asset('../assets') }}/extensions/filepond/filepond.js"></script>
     <script src="{{ asset('../assets') }}/extensions/toastify-js/src/toastify.js"></script>
-    <script src="{{ asset('../assets') }}/extensions/apexcharts/apexcharts.min.js"></script>
     <script src="{{ asset('../assets') }}/static/js/pages/dashboard.js"></script>
     <script src="{{ asset('../assets') }}/static/js/pages/filepond.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 
 </body>

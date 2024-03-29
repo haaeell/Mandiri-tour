@@ -39,7 +39,7 @@ class GaleriController extends Controller
         $data = $request->validate([
             'nama' => 'required',
             'deskripsi' => 'required',
-             'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             
         ], $messages);
     
