@@ -41,7 +41,7 @@
                                 
                             <div class="swiper-slide">
                                 <div class=" p-3 card-layanan">
-                                    <p>{{$item->nama}}</p>
+                                    <a class="nav-link" href="{{ route('paketWisata', ['min_price' => '', 'max_price' => '', 'city' => '', 'kendaraan' => '', 'kategori' => $item->id]) }}">{{ $item->nama }}</a>
                                 </div>
                             </div>
                             @endforeach
@@ -123,7 +123,7 @@
     <div class="container">
         <h2 class="text-center fw-bold mb-5">Mengapa Memilih Kami?</h2>
         
-        <div class="row py-4 justify-content-center align-items-center shadow" style="border: 2px solid #aeaeae; border-radius: 24px;">
+        <div class="row py-4 justify-content-center align-items-center " style="border-radius: 24px;box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;">
             <div class="col-md-9 order-md-1 order-2 text-center-sm">
                 <h3 class="fw-semibold">Paket All-in-One</h3>
                 <p class="text-md-left text-center-sm">Kami menyediakan paket wisata yang mencakup segala sesuatu mulai dari tiket, akomodasi, transportasi lokal, hingga tur dan kegiatan, sehingga Anda tidak perlu repot mengatur semuanya sendiri.</p>
@@ -133,7 +133,7 @@
             </div>
         </div>
         
-        <div class="row py-4 justify-content-center my-4 align-items-center shadow" style="border: 2px solid #aeaeae; border-radius: 24px;">
+        <div class="row py-4 justify-content-center my-4 align-items-center " style="border-radius: 24px;box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;">
             <div class="col-md-2 order-md-1 mb-3 mb-md-0 text-md-left text-center-sm">
                 <img class="USPItemImage" src="https://ik.imagekit.io/tvlk/image/imageResource/2017/09/13/1505323164752-40c57d1e4907fba0ddd47bdb99fbeb56.png?tr=q-75"/>
             </div>
@@ -143,7 +143,7 @@
             </div>
         </div>
         
-        <div class="row py-4 justify-content-center align-items-center shadow" style="border: 2px solid #aeaeae; border-radius: 24px;">
+        <div class="row py-4 justify-content-center align-items-center " style="border-radius: 24px;box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;">
             <div class="col-md-9 order-md-1 order-2 text-md-left text-center-sm">
                 <h3 class="fw-semibold">Jaminan Keamanan dan Kepuasan Pelanggan</h3>
                 <p class="text-md-left text-center-sm">Kepuasan dan keselamatan pelanggan adalah prioritas utama kami. Kami bekerja keras untuk memastikan bahwa setiap perjalanan Anda berjalan lancar dan menyenangkan.</p>

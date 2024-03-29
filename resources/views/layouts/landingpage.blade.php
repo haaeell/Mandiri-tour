@@ -28,7 +28,7 @@
             </div>
           <div class="navbar-nav ">
               
-            <a class="nav-link active  text-white fw-bold" aria-current="page" href="#"><i class="bi bi-telephone-forward-fill"></i> Contact Us</a>
+            <a class="nav-link active  text-white fw-bold" aria-current="page" href="https://api.whatsapp.com/send?phone=6285321726312&text=Halo,%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20Mandiri%20Tour%20&%20Travel" target="_blank" ><i class="bi bi-telephone-forward-fill"></i> Contact Us</a>
           
         </div>
       </nav>
