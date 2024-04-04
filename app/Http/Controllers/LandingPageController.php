@@ -158,7 +158,8 @@ class LandingPageController extends Controller
     
     public function about()
     {
-        return view('landingpage.about');
+        $kategori = Kategori::all();
+        return view('landingpage.about',compact('kategori'));
     }
 
     public function editProfil($id)

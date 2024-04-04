@@ -156,11 +156,14 @@
                     </thead>
                     <tbody>
                         @foreach($topUsers as $user)
-                            <tr>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->total_orders }}</td>
-                            </tr>
+                        @if ($user->total_orders >= 1)
+                        <tr>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->total_orders }}</td>
+                        </tr>
+                            
+                        @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -180,13 +183,14 @@
                         </thead>
                         <tbody>
                             @foreach($topPaketWisata as $paketWisata)
-                            <tr>
-                                <td>{{ $paketWisata->nama }}</td>
-                                
-                                <td>{{ $paketWisata->total_orders }}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
+                                @if($paketWisata->total_orders >= 1)
+                                    <tr>
+                                        <td>{{ $paketWisata->nama }}</td>
+                                        <td>{{ $paketWisata->total_orders }}</td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                            </tbody>
                     </table>
                 </div>
             </div>

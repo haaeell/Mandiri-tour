@@ -74,7 +74,7 @@
                                 </div>
                                 
                                 <div class="px-2">
-                                    <h3 class="fw-semibold my-3 text-center">{{ $p->nama }}.</h3>
+                                    <h3 class="fw-semibold my-3 text-center">{{ $p->nama }}</h3>
                                     <div class="mb-3 d-flex flex-wrap gap-2">
                                         @foreach ($p->kotas as $kota)
                                             <span class="badge text-bg-primary">{{ $kota->nama }}</span>
@@ -250,7 +250,7 @@
 @auth
         var username = "{{ Auth::user()->name }} ,";
     @else
-        var username = ''; // Atur username menjadi string kosong jika pengguna belum login
+        var username = ''; 
     @endauth
         var typed = new Typed('#welcome', {
             strings: [`${username} Selamat Datang di Mandiri Tour Subang`, 'Ayo menikmati liburanmu bersama kami!'],
@@ -287,14 +287,14 @@
         var swiper = new Swiper(".SwiperPaket", {
             slidesPerView: 1,
             spaceBetween: 20,
-            loop: true, // Menampilkan 1 kartu pada tampilan awal
+            loop: true, 
             breakpoints: {
                 768: {
                     slidesPerView: 3 
                 }
             },
             autoplay: {
-                delay: 2000, // Menentukan durasi antara perpindahan slide dalam milidetik (misalnya, 3000ms = 3 detik)
+                delay: 2000, 
             },
             pagination: {
                 el: ".swiper-pagination",
@@ -315,17 +315,16 @@
           },
           loop:true,
           breakpoints: {
-            // Layar sedang dan kecil
             768: {
               slidesPerView: 4
             },
-            // Layar kecil
+            
             576: {
               slidesPerView: 1
             }
           },
           autoplay: {
-                delay: 1000, // Menentukan durasi antara perpindahan slide dalam milidetik (misalnya, 3000ms = 3 detik)
+                delay: 1000, 
             },
         });
       </script>
