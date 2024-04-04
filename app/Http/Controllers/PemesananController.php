@@ -183,7 +183,7 @@ public function uploadBukti(Request $request, $id)
     $admin = User::where('role', 'admin')->first();
     $admin->notify(new KonfirmasiPembayaranNotification($pemesanan));
 
-    return redirect()->route('riwayatPesanan')->with('success', 'Bukti Pembayaran berhasil diunggah!');
+    return redirect()->back()->with('success', 'Bukti Pembayaran berhasil diunggah!');
 }
 
 

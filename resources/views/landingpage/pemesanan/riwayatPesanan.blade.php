@@ -10,7 +10,7 @@
             <h2 class="fw-semibold text-center my-3 bg-primary p-3 text-light"  style="border-top-left-radius: 24px; border-top-right-radius: 24px;">Riwayat Pesanan</h2>
             @if(count($riwayatPesanan) > 0)
             <div class="table-responsive">
-                <table class="table table-hover" >
+                <table class="table table-hover" id="table" >
                     <thead>
                         <tr class="text-center">
                             <th>No</th>

@@ -57,17 +57,14 @@
                                             <td>  <span class="badge {{ $riwayat->status === 'resolved' ? 'text-bg-success' : ($riwayat->status === 'pending' ? 'text-bg-warning' : 'text-bg-default') }}">
                                                 {{ $riwayat->status }}
                                             </span></td>
-                                            <td>{{ $riwayat->admin_response ?? 'Belum ada tanggapan' }}</td>
+                                            <td > {{ $riwayat->admin_response ?? 'Belum ada tanggapan' }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                <!-- Tampilkan data keluhan di sini -->
-
-                                
                             </table>
                             
                         @else
-                            <p>Belum ada riwayat keluhan.</p>
+                            <p class="text-center">~ Belum ada riwayat keluhan. ~</p>
                         @endif
                     </div>
                 </div>

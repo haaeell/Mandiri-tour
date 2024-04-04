@@ -137,7 +137,7 @@
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <a href="index.html"><img src="{{ asset('../assets') }}/img/logo2.png" class="pt-3"
+                            <a href="/"><img src="{{ asset('../assets') }}/img/logo2.png" class="pt-3"
                                     style="max-width: 100px; height: auto;" alt=""></a>
                         </div>
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
@@ -186,7 +186,7 @@
                         </li>
                         <li class="sidebar-title">Menu</li>
                         <li
-                            class="sidebar-item has-sub {{ request()->is('kota') || request()->is('wisata') || request()->is('hotel') || request()->is('bus') || request()->is('paket-wisata') ? 'active' : '' }}">
+                            class="sidebar-item has-sub {{ request()->is('kota') || request()->is('wisata') || request()->is('hotel') || request()->is('bus') || request()->is('paket-wisata') || request()->is('kategori') ? 'active' : '' }}">
 
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-grid-1x2-fill"></i>

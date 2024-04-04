@@ -142,7 +142,7 @@ class LandingPageController extends Controller
             }
         }
 
-        $riwayatPesanan = Pemesanan::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+        $riwayatPesanan = Pemesanan::where('user_id', auth()->user()->id)->orderBy('updated_at', 'desc')->get();
 
         return view('landingpage.pemesanan.riwayatPesanan', compact('riwayatPesanan'));
     }
