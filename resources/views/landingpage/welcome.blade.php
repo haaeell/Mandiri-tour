@@ -172,6 +172,20 @@
             </div>
         </div>
     </section>
+
+    <section>
+        <div class="py-5 container">
+            <div class="col-md-12 text-center mb-5">
+                <h2 class="fw-bold">LOKASI</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d991.3037650980204!2d107.802243!3d-6.366208!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69473cdfb558c5%3A0xd126976d06c030d!2sMandiri%20Tour%20Subang!5e0!3m2!1sen!2sid!4v1712263580292!5m2!1sen!2sid" width="100%" height="450"style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     {{-- TESTIMONI --}}
     
     {{-- <section>
@@ -231,7 +245,7 @@
                     <h4 class="fw-semibold mt-3 mb-5">KONTAK KAMI</h4>
                     <ul class="list-unstyled">
                         <li class="mb-2"><i class="bi bi-whatsapp"></i> <a class="text-decoration-none text-dark" href="https://wa.me/+62867645642" target="_blank">Whatsapp : +62867645642</a></li>
-                        <li class="mb-2"><i class="bi bi-envelope"></i> <a class="text-decoration-none text-dark" href="mailto:your_email@example.com">Email : your_email@example.com</a></li>
+                        <li class="mb-2"><i class="bi bi-envelope"></i> <a class="text-decoration-none text-dark" href="mailto:mandiritoursubang1@example.com">Email : mandiritoursubang1@example.com</a></li>
                         <li class="mb-2"><i class="bi bi-instagram"></i> <a class="text-decoration-none text-dark" href="https://instagram.com/mandiritour_subang" target="_blank">Instagram : mandiritour_subang</a></li>
 
                     </ul>
@@ -239,6 +253,8 @@
             </div>
         </div>
     </footer>
+
+
 
    
 @endsection
