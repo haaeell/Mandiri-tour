@@ -4,10 +4,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h2 class="text-start">
+            <h2 class="text-start mb-4 fw-semibold">
                 Reset Password
             </h2>
-            <div class="card">
+            <div class="card p-2 shadow" style="border-radius: 16px">
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('password.update') }}">
