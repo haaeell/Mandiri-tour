@@ -148,8 +148,8 @@
                                                 </p>
         
         
-                                                <p class="fw-bold m-0">Fasilitas : {{ $p->fasilitas }}
-                                                </p>
+                                                {{-- <p class="fw-bold m-0">Fasilitas : {{ $p->fasilitas }}
+                                                </p> --}}
                                                 <p class="fw-bold">Kendaraan : {{ $p->kendaraan->nama }} /<span
                                                         class="text-danger"> ({{ $p->kendaraan->kapasitas }} orang) </span>
                                                 </p>
@@ -192,51 +192,66 @@
 
         // Tambahkan event listener untuk event input pada harga minimum
         inputMinPrice.on('input', (event) => {
+            // Filter karakter selain angka
+            inputMinPrice.val(inputMinPrice.val().replace(/\D/, ''));
+
             // Ambil nilai dari input harga minimum
             const minPrice = parseInt(inputMinPrice.val());
             const maxPrice = parseInt(inputMaxPrice.val());
 
-            // Cek jika nilai input bukan angka atau kurang dari 1
-            if (isNaN(minPrice) || minPrice < 1) {
+            // Cek jika nilai input kurang dari 1
+            if (minPrice < 1) {
                 // Tampilkan pesan error
                 errorMessage.text('Harga minimum hanya boleh angka dan minimal 1.');
-                // Bersihkan nilai input
-                inputMinPrice.val('');
-            } else if (!isNaN(maxPrice) && minPrice >= maxPrice) {
-                // Tampilkan pesan error jika harga minimum lebih besar atau sama dengan harga maksimum
-                errorMessage.text('Harga minimum harus lebih rendah dari harga maksimum.');
-                // Bersihkan nilai input
-                inputMinPrice.val('');
             } else {
                 // Kosongkan pesan error jika input valid
                 errorMessage.text('');
+            }
+
+            // Jika harga maksimum tidak valid, tidak perlu menampilkan pesan error terkait hubungan harga minimum dan maksimum
+            if (isNaN(maxPrice) || maxPrice < 1) {
+                return;
+            }
+
+            // Periksa hubungan harga minimum dan maksimum
+            if (minPrice >= maxPrice) {
+                // Tampilkan pesan error jika harga minimum lebih besar atau sama dengan harga maksimum
+                errorMessage.text('Harga minimum harus lebih rendah dari harga maksimum.');
             }
         });
 
         // Tambahkan event listener untuk event input pada harga maksimum
         inputMaxPrice.on('input', (event) => {
+            // Filter karakter selain angka
+            inputMaxPrice.val(inputMaxPrice.val().replace(/\D/, ''));
+
             // Ambil nilai dari input harga maksimum
             const maxPrice = parseInt(inputMaxPrice.val());
             const minPrice = parseInt(inputMinPrice.val());
 
-            // Cek jika nilai input bukan angka atau kurang dari 1
-            if (isNaN(maxPrice) || maxPrice < 1) {
+            // Cek jika nilai input kurang dari 1
+            if (maxPrice < 1) {
                 // Tampilkan pesan error
                 errorMessage.text('Harga maksimum hanya boleh angka dan minimal 1.');
-                // Bersihkan nilai input
-                inputMaxPrice.val('');
-            } else if (!isNaN(minPrice) && maxPrice <= minPrice) {
-                // Tampilkan pesan error jika harga maksimum lebih rendah atau sama dengan harga minimum
-                errorMessage.text('Harga maksimum harus lebih tinggi dari harga minimum.');
-                // Bersihkan nilai input
-                inputMaxPrice.val('');
             } else {
                 // Kosongkan pesan error jika input valid
                 errorMessage.text('');
             }
+
+            // Jika harga minimum tidak valid, tidak perlu menampilkan pesan error terkait hubungan harga minimum dan maksimum
+            if (isNaN(minPrice) || minPrice < 1) {
+                return;
+            }
+
+            // Periksa hubungan harga minimum dan maksimum
+            if (maxPrice <= minPrice) {
+                // Tampilkan pesan error jika harga maksimum lebih rendah atau sama dengan harga minimum
+                errorMessage.text('Harga maksimum harus lebih tinggi dari harga minimum.');
+            }
         });
     });
 </script>
+
 
 @endsection
 

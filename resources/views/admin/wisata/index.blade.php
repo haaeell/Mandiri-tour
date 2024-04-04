@@ -117,7 +117,6 @@
                                                             <div class="col-md-10">
                                                                 <div class="form-group has-icon-left">
                                                                     <div class="position-relative">
-                                                                        <!-- Ganti input teks dengan textarea -->
                                                                         <textarea class="form-control" placeholder="Deskripsi" name="deskripsi" id="deskripsi" rows="4" required>{{ $item->deskripsi }}</textarea>
                                                                         <div class="form-control-icon">
                                                                             <i class="bi bi-info-circle"></i>

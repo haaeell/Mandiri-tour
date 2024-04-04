@@ -18,7 +18,7 @@ class PaketWisataController extends Controller
      */
     public function index()
     {
-        $paket = PaketWisata::with('wisatas')->get();
+        $paket = PaketWisata::with('wisatas')->orderBy('created_at','desc')->get();
         return view('admin.paket_wisata.index',compact('paket'));
     }
 

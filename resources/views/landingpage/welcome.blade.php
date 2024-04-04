@@ -86,8 +86,8 @@
                                         <a href="{{ route('detailPaket', $p->slug) }}" class="show-more">Read more</a>
                                     </p>
                                     
-                                    <p class="fw-bold m-0">Fasilitas : {{$p->fasilitas}}
-                                    </p>
+                                    {{-- <p class="fw-bold m-0">Fasilitas : {{$p->fasilitas}}
+                                    </p> --}}
                                     <p class="fw-bold">Kendaraan : {{$p->kendaraan->nama}}  /<span class="text-danger"> ({{ $p->kendaraan->kapasitas }} orang) </span> 
                                     </p>
                                     <p class="fs-2 text-danger fw-bold text-center">Rp {{ number_format($p->harga, 0, ',', '.') }} <span class="fs-5 text-dark fw-normal"> / Paket</span> </p>

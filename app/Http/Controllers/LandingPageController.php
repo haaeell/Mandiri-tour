@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
 
 
 class LandingPageController extends Controller
@@ -94,7 +95,7 @@ class LandingPageController extends Controller
             });
         }
 
-        $paketWisata = $query->get();
+        $paketWisata = $query->orderBy('created_at','desc')->get();
 
         $kotas = Kota::all();
         $kendaraan = Kendaraan::all();
@@ -268,19 +269,20 @@ class LandingPageController extends Controller
     return redirect()->route('customer.edit-password', $id)->with('success', 'Password berhasil diperbarui.');
 }
 
+
+
 public function fetchWisata(Request $request)
 {
+    $perPage = $request->query('perPage', 12); 
     $kotaId = $request->query('kota_id');
 
     // Jika kota ID disertakan, ambil hanya wisata yang terkait dengan kota tersebut
     if ($kotaId) {
-        $wisatas = Wisata::where('kota_id', $kotaId)->get();
+        $wisatas = Wisata::where('kota_id', $kotaId)->paginate($perPage);
     } else {
-        // Jika tidak ada kota ID, ambil semua data wisata
-        $wisatas = Wisata::all();
+        $wisatas = Wisata::paginate($perPage);
     }
 
-    // Format data untuk JSON response
     $formattedWisatas = $wisatas->map(function ($wisata) {
         return [
             'nama' => $wisata->nama,
@@ -289,9 +291,20 @@ public function fetchWisata(Request $request)
             'gambar' => asset('/images/'.$wisata->gambar) // Menambahkan URL gambar
         ];
     });
-
-    return response()->json($formattedWisatas);
+    
+    $showPagination = $wisatas->count() > $perPage;
+    return response()->json([
+        'data' => $formattedWisatas,
+        'showPagination' => $showPagination,
+        'meta' => [
+            'current_page' => $wisatas->currentPage(),
+            'last_page' => $wisatas->lastPage(),
+            'per_page' => $wisatas->perPage(),
+            'total' => $wisatas->total(),
+        ]
+    ]);
 }
+
 
 public function fetchKota()
 {

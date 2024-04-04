@@ -2,13 +2,13 @@
 @section('title')
     Daftar Paket Wisata
 @endsection
-@section('breadcumb','Paket Wisata')
-    
+@section('breadcumb', 'Paket Wisata')
+
 @section('content')
     <div class="row d-flex">
         <div class="col-md-12 card p-4">
             <div class="col-md-2">
-                <a href="{{ route('paket-wisata.create')}}" class="btn btn-primary mb-3 " >
+                <a href="{{ route('paket-wisata.create') }}" class="btn btn-primary mb-3 ">
                     Tambah
                 </a>
             </div>
@@ -35,34 +35,34 @@
                             <td>
                                 <ul>
                                     @foreach ($item->kotas as $kota)
-                                    <li>{{ $kota->nama }}</li>
+                                        <li>{{ $kota->nama }}</li>
                                     @endforeach
                                 </ul>
-                                
-                               
+
+
                             </td>
                             <td>
                                 <img src="{{ $item->gambar ? asset('/images/' . $item->gambar) : asset('assets/img/profile.png') }}"
-                                    alt="{{ $item->gambar ? 'item Image' : 'Default Image' }}" width="50" onClick="showImage(this)">
+                                    alt="{{ $item->gambar ? 'item Image' : 'Default Image' }}" width="50"
+                                    onClick="showImage(this)">
                             </td>
-                            <td>{{ implode(' ', array_slice(str_word_count($item->deskripsi, 2), 0, 3)) }}</td>
-
-                            <td>{{ $item->fasilitas }}</td>
+                            <td>{{substr($item->deskripsi,0,30) }}...</td>
+                            <td>{{substr($item->fasilitas,0,30) }}...</td>
                             <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
                             <td>
                                 @foreach ($item->wisatas as $wisata)
-                                
-                                <span class="badge bg-info mb-1">
-                                    {{ $wisata->nama }}
-                                </span>
+                                    <span class="badge bg-info mb-1">
+                                        {{ $wisata->nama }}
+                                    </span>
                                 @endforeach
                             </td>
                             <td>
                                 <div class="d-flex gap-1 ">
-                                    <a href="{{ route('paket-wisata.show', $item->id) }}" class="btn btn-secondary btn-sm text-center">
+                                    <a href="{{ route('paket-wisata.show', $item->id) }}"
+                                        class="btn btn-secondary btn-sm text-center">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    
+
                                     <a href="{{ route('paket-wisata.edit', $item->id) }}"
                                         class="btn btn-warning btn-sm  text-center">
                                         <i class="bi bi-pencil-fill"></i></a>
@@ -80,16 +80,18 @@
                                 </div>
                                 <div class="mt-2">
                                     @if ($item->rundowns->isNotEmpty())
-                                    <!-- Jika ada rundown terkait -->
-                                    <a href="{{ route('rundown.edit', $item->rundowns->first()->paket_wisata_id) }}" class="btn btn-info text-white fw-bold">
-                                        Edit Rundown
-                                    </a>
-                                @else
-                                    <!-- Jika tidak ada rundown terkait -->
-                                    <a href="{{ route('rundown.add', $item->id) }}" class="btn btn-info text-white fw-bold">
-                                        Tambah Rundown
-                                    </a>
-                                @endif
+                                        <!-- Jika ada rundown terkait -->
+                                        <a href="{{ route('rundown.edit', $item->rundowns->first()->paket_wisata_id) }}"
+                                            class="btn btn-info text-white fw-bold">
+                                            Edit Rundown
+                                        </a>
+                                    @else
+                                        <!-- Jika tidak ada rundown terkait -->
+                                        <a href="{{ route('rundown.add', $item->id) }}"
+                                            class="btn btn-info text-white fw-bold">
+                                            Tambah Rundown
+                                        </a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -172,6 +174,6 @@
             });
         }
     </script>
-    
+
 
 @endsection

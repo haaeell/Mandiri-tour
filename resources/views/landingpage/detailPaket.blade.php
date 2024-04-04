@@ -32,9 +32,15 @@
                 @endif
 
                 
-            <p class="fw-bold mt-2">Kendaraan : {{ $paketWisata->kendaraan->nama }} /<span class="text-danger">
+            <h5 class="fw-bold mt-4 mb-1">Kendaraan : {{ $paketWisata->kendaraan->nama }} /<span class="text-danger">
                     ({{ $paketWisata->kendaraan->kapasitas }} orang) </span>
-            </p>
+            </h5>
+            
+            <p class="deskripsi-paket m-0">{{ Illuminate\Support\Str::limit($paketWisata->kendaraan->deskripsi, $limit = 100) }}</p>
+                <!-- Anchor "Lihat Selengkapnya" -->
+                @if (strlen($paketWisata->kendaraan->deskripsi) > 100)
+                    <a href="#" class="lihat-selengkapnya" data-full-description="{{ $paketWisata->kendaraan->deskripsi }}">Lihat Selengkapnya</a>
+                @endif
             <div class="d-flex mt-3 justify-content-between">
 
                 <h3 class="fw-semibold text-danger">Rp {{ number_format($paketWisata->harga, 0, ',', '.') }}

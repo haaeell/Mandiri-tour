@@ -91,7 +91,7 @@ class WisataController extends Controller
         'nama' => 'required',
         'kota_id' => 'required',
         'deskripsi' => 'required',
-        'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
     ], $messages);
 
     $wisata = Wisata::findOrFail($id);

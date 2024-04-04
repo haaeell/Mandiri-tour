@@ -25,14 +25,25 @@
                                     <span class="badge bg-primary">{{ $kota->nama }}</span>
                                 @endforeach
                             </div>
-                            <p>{{ Illuminate\Support\Str::limit($paketWisata->deskripsi, $limit = 250, $end = '...') }}</p>
+                            <p class="deskripsi-paket m-0">{{ Illuminate\Support\Str::limit($paketWisata->deskripsi, $limit = 400) }}</p>
+                            @if (strlen($paketWisata->deskripsi) > 400)
+                                <a href="#" class="lihat-selengkapnya" data-full-description="{{ $paketWisata->deskripsi }}">Lihat Selengkapnya</a>
+                            @endif
+            
 
-                            <p class="fw-bold">Kendaraan : {{ $paketWisata->kendaraan->nama }} /<span class="text-danger">
+                            <p class="fw-bold m-0">Kendaraan : {{ $paketWisata->kendaraan->nama }} /<span class="text-danger">
                                     ({{ $paketWisata->kendaraan->kapasitas }} orang) </span>
                             </p>
+                            {{-- <p class="deskripsi-paket m-0">
+                                {{ Illuminate\Support\Str::limit($paketWisata->kendaraan->deskripsi, $limit = 100) }}</p>
+                            @if (strlen($paketWisata->kendaraan->deskripsi) > 100)
+                                <a href="#" class="lihat-selengkapnya"
+                                    data-full-description="{{ $paketWisata->kendaraan->deskripsi }}">Lihat Selengkapnya</a>
+                            @endif --}}
                             <div class="d-flex mt-5}">
 
-                                <h3 class="fw-semibold text-danger">Rp {{ number_format($paketWisata->harga, 0, ',', '.') }}
+                                <h3 class="fw-semibold text-danger">Rp
+                                    {{ number_format($paketWisata->harga, 0, ',', '.') }}
                                 </h3>
 
                             </div>
@@ -41,39 +52,46 @@
                     <div class="row mt-4">
                         <div class="card p-4" style="background-color: #dfe2f5; border:2px solid #25aae1">
                             <div class="mb-4">
-                                <h5 class="fw-bold text-primary "><i class="bi bi-box-seam-fill "></i> Tentang {{$paketWisata->nama}}</h5>
+                                <h5 class="fw-bold text-primary "><i class="bi bi-box-seam-fill "></i> Tentang
+                                    {{ $paketWisata->nama }}</h5>
                                 <div class="col-md-10">
                                     <p class="m-0 ">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde, dolor! Lorem ipsum, dolor sit amet consectetur adipisicing
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde, dolor! Lorem ipsum,
+                                        dolor sit amet consectetur adipisicing
                                     </p>
                                 </div>
                             </div>
-                        
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <ul class="nav nav-tabs" id="myTabs" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active fw-semibold" id="rundown-tab" data-bs-toggle="tab" data-bs-target="#rundown"
-                                                type="button" role="tab" aria-controls="rundown" aria-selected="false">Rundown
+                                            <button class="nav-link active fw-semibold" id="rundown-tab"
+                                                data-bs-toggle="tab" data-bs-target="#rundown" type="button" role="tab"
+                                                aria-controls="rundown" aria-selected="false">Rundown
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link fw-semibold" id="wisata-tab" data-bs-toggle="tab" data-bs-target="#wisata"
-                                                type="button" role="tab" aria-controls="wisata" aria-selected="true">Wisata yang dikunjungi
+                                            <button class="nav-link fw-semibold" id="wisata-tab" data-bs-toggle="tab"
+                                                data-bs-target="#wisata" type="button" role="tab"
+                                                aria-controls="wisata" aria-selected="true">Wisata yang dikunjungi
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link fw-semibold" id="fasilitas-tab" data-bs-toggle="tab" data-bs-target="#fasilitas"
-                                                type="button" role="tab" aria-controls="fasilitas" aria-selected="false">Fasilitas
+                                            <button class="nav-link fw-semibold" id="fasilitas-tab" data-bs-toggle="tab"
+                                                data-bs-target="#fasilitas" type="button" role="tab"
+                                                aria-controls="fasilitas" aria-selected="false">Fasilitas
                                             </button>
                                         </li>
                                     </ul>
-                        
+
                                     <div class="tab-content" id="myTabsContent">
-                                        <div class="tab-pane fade show active mt-3" id="rundown" role="tabpanel" aria-labelledby="rundown-tab">
+                                        <div class="tab-pane fade show active mt-3" id="rundown" role="tabpanel"
+                                            aria-labelledby="rundown-tab">
                                             <div class="d-flex justify-content-end mb-3">
                                                 @if (!$rundownsGrouped->isEmpty())
-                                                    <a href="{{ route('rundown.generatePdf', $paketWisata->id) }}" class="btn btn-primary btn-sm">Cetak Rundown</a>
+                                                    <a href="{{ route('rundown.generatePdf', $paketWisata->id) }}"
+                                                        class="btn btn-primary btn-sm">Cetak Rundown</a>
                                                 @endif
                                             </div>
                                             <div class="accordion" id="accordionExample">
@@ -81,21 +99,26 @@
                                                     <p class="text-center">Rundown belum tersedia.</p>
                                                 @else
                                                     @foreach ($rundownsGrouped as $hari => $rundowns)
-                                                        <div class="accordion-item mb-2 " >
+                                                        <div class="accordion-item mb-2 ">
                                                             <h2 class="accordion-header " id="heading{{ $loop->index }}">
-                                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                                                    data-bs-target="#collapse{{ $loop->index }}" aria-expanded="false"
+                                                                <button class="accordion-button collapsed" type="button"
+                                                                    data-bs-toggle="collapse"
+                                                                    data-bs-target="#collapse{{ $loop->index }}"
+                                                                    aria-expanded="false"
                                                                     aria-controls="collapse{{ $loop->index }}">
                                                                     Hari ke-{{ $hari }}
                                                                 </button>
                                                             </h2>
-                                                            <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse"
-                                                                aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
+                                                            <div id="collapse{{ $loop->index }}"
+                                                                class="accordion-collapse collapse"
+                                                                aria-labelledby="heading{{ $loop->index }}"
+                                                                data-bs-parent="#accordionExample">
                                                                 <div class="accordion-body ">
                                                                     <ul>
                                                                         @foreach ($rundowns as $rundown)
                                                                             <li>
-                                                                                {{ \Carbon\Carbon::parse($rundown->mulai)->format('H.i') }} -
+                                                                                {{ \Carbon\Carbon::parse($rundown->mulai)->format('H.i') }}
+                                                                                -
                                                                                 {{ \Carbon\Carbon::parse($rundown->selesai)->format('H.i') }}:
                                                                                 {{ $rundown->deskripsi }}
                                                                             </li>
@@ -108,16 +131,18 @@
                                                 @endif
                                             </div>
                                         </div>
-                        
-                                        <div class="tab-pane fade mt-3" id="wisata" role="tabpanel" aria-labelledby="wisata-tab">
+
+                                        <div class="tab-pane fade mt-3" id="wisata" role="tabpanel"
+                                            aria-labelledby="wisata-tab">
                                             <ol>
                                                 @foreach ($paketWisata->wisatas as $wisata)
                                                     <li>{{ $wisata->nama }} - {{ $wisata->kota->nama }}</li>
                                                 @endforeach
                                             </ol>
                                         </div>
-                        
-                                        <div class="tab-pane fade mt-3" id="fasilitas" role="tabpanel" aria-labelledby="fasilitas-tab">
+
+                                        <div class="tab-pane fade mt-3" id="fasilitas" role="tabpanel"
+                                            aria-labelledby="fasilitas-tab">
                                             {{ $paketWisata->fasilitas }}
                                         </div>
                                     </div>
@@ -181,49 +206,64 @@
 @endsection
 
 @section('script')
-<script>
-    $(document).ready(() => {
-        // Ambil elemen input tanggal dan pesan
-        const inputTanggal = $('#tanggal_keberangkatan');
-        const pesanTanggal = $('#tanggal_keberangkatan_message');
+    <script>
+        $(document).ready(() => {
+            const inputTanggal = $('#tanggal_keberangkatan');
+            const pesanTanggal = $('#tanggal_keberangkatan_message');
 
-        // Hitung tanggal minimal (H-3)
-        const today = new Date(); // Tanggal hari ini
-        const tanggalMinimal = new Date(today); // Salin tanggal hari ini
-        tanggalMinimal.setDate(tanggalMinimal.getDate() + 3); // Tambahkan 3 hari
+            const today = new Date(); 
+            const tanggalMinimal = new Date(today); 
+            tanggalMinimal.setDate(tanggalMinimal.getDate() + 8);
 
-        // Konversi tanggal minimal ke format ISO (YYYY-MM-DD) untuk diatur sebagai nilai atribut min
-        const tanggalMinimalISO = tanggalMinimal.toISOString().split('T')[0];
-        inputTanggal.attr('min', tanggalMinimalISO);
+            
+            const tanggalMinimalISO = tanggalMinimal.toISOString().split('T')[0];
+            inputTanggal.attr('min', tanggalMinimalISO);
 
-        // Tampilkan pesan untuk pengguna
-        pesanTanggal.html(`Tanggal keberangkatan minimal H-3 atau ${tanggalMinimal.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}.`);
-    });
-</script>
-
-<script>
-    $(document).ready(() => {
-        // Ambil elemen input jumlah paket dan pesan error
-        const inputJumlahPaket = $('#jumlah_paket');
-        const errorMessage = $('#error_message');
-
-        // Tambahkan event listener untuk event input
-        inputJumlahPaket.on('input', (event) => {
-            // Ambil nilai dari input
-            const nilaiInput = inputJumlahPaket.val();
-
-            // Cek jika nilai input bukan angka atau kurang dari 1
-            if (!(/^\d+$/.test(nilaiInput)) || parseInt(nilaiInput) < 1) {
-                // Tampilkan pesan error
-                errorMessage.text('Minimal jumlah paket adalah 1.');
-                // Bersihkan nilai input
-                inputJumlahPaket.val('');
-            } else {
-                // Kosongkan pesan error jika input valid
-                errorMessage.text('');
-            }
+            
+            pesanTanggal.html(
+                `Tanggal keberangkatan minimal H-7 atau ${tanggalMinimal.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}.`
+                );
         });
-    });
-</script>
+    </script>
 
+    <script>
+        $(document).ready(() => {
+            
+            const inputJumlahPaket = $('#jumlah_paket');
+            const errorMessage = $('#error_message');
+
+            
+            inputJumlahPaket.on('input', (event) => {
+                
+                const nilaiInput = inputJumlahPaket.val();
+
+                
+                if (!(/^\d+$/.test(nilaiInput)) || parseInt(nilaiInput) < 1) {
+                    
+                    errorMessage.text('Minimal jumlah paket adalah 1.');
+                    
+                    inputJumlahPaket.val('');
+                } else {
+                    
+                    errorMessage.text('');
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const lihatSelengkapnyaLinks = document.querySelectorAll('.lihat-selengkapnya');
+    
+            lihatSelengkapnyaLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const fullDescription = this.getAttribute('data-full-description');
+                    const deskripsiElement = this.previousElementSibling;
+                    deskripsiElement.textContent = fullDescription;
+                    deskripsiElement.style.display = 'block';
+                    this.style.display = 'none';
+                });
+            });
+        });
+    </script>
 @endsection

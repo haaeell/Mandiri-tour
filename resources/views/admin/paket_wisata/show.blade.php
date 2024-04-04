@@ -61,22 +61,19 @@
                 </li>
             </ul>
             <div class="tab-content" id="myTabsContent">
-                <div class="tab-pane fade show active mt-3" id="wisata" role="tabpanel" aria-labelledby="wisata-tab">
-                    <ol>
-                        @foreach ($paketWisata->wisatas as $wisata)
-                            <li>{{ $wisata->nama }}</li>
-                        @endforeach
-                    </ol>
-                </div>
-                <div class="tab-pane fade mt-3" id="fasilitas" role="tabpanel" aria-labelledby="fasilitas-tab">
-                    {{ $paketWisata->fasilitas }}
-                </div>
-                <div class="tab-pane fade mt-3" id="rundown" role="tabpanel" aria-labelledby="rundown-tab">
-                    <ul>
-                        <div class="accordion" id="accordionExample">
+                <div class="tab-pane fade show active mt-3" id="rundown" role="tabpanel" aria-labelledby="rundown-tab">
+                    <div class="d-flex justify-content-end mb-3">
+                        @if (!$rundownsGrouped->isEmpty())
+                            <a href="{{ route('rundown.generatePdf', $paketWisata->id) }}" class="btn btn-primary btn-sm">Cetak Rundown</a>
+                        @endif
+                    </div>
+                    <div class="accordion" id="accordionExample">
+                        @if ($rundownsGrouped->isEmpty())
+                            <p class="text-center">Rundown belum tersedia.</p>
+                        @else
                             @foreach ($rundownsGrouped as $hari => $rundowns)
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="heading{{ $loop->index }}">
+                                <div class="accordion-item mb-2 " >
+                                    <h2 class="accordion-header " id="heading{{ $loop->index }}">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapse{{ $loop->index }}" aria-expanded="false"
                                             aria-controls="collapse{{ $loop->index }}">
@@ -85,21 +82,34 @@
                                     </h2>
                                     <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse"
                                         aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
+                                        <div class="accordion-body ">
                                             <ul>
                                                 @foreach ($rundowns as $rundown)
-                                                <li>
-                                                    {{ \Carbon\Carbon::parse($rundown->mulai)->format('H.i') }} - {{ \Carbon\Carbon::parse($rundown->selesai)->format('H.i') }}: {{ $rundown->deskripsi }}
-                                                </li>
+                                                    <li>
+                                                        {{ \Carbon\Carbon::parse($rundown->mulai)->format('H.i') }} -
+                                                        {{ \Carbon\Carbon::parse($rundown->selesai)->format('H.i') }}:
+                                                        {{ $rundown->deskripsi }}
+                                                    </li>
                                                 @endforeach
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
-                        </div>
-                        
-                    </ul>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="tab-pane fade mt-3" id="wisata" role="tabpanel" aria-labelledby="wisata-tab">
+                    <ol>
+                        @foreach ($paketWisata->wisatas as $wisata)
+                            <li>{{ $wisata->nama }} - {{ $wisata->kota->nama }}</li>
+                        @endforeach
+                    </ol>
+                </div>
+
+                <div class="tab-pane fade mt-3" id="fasilitas" role="tabpanel" aria-labelledby="fasilitas-tab">
+                    {{ $paketWisata->fasilitas }}
                 </div>
             </div>
         </div>

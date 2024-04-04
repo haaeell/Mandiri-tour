@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="col-md-7 card p-4">
-            <table class="table">
+            <table class="table" id="table1">
                 <thead>
                     <tr>
                         <th>No</th>
