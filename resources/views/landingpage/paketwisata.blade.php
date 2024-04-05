@@ -4,14 +4,15 @@
 @section('content')
     <div class="container py-5">
         <div class="row d-flex justify-content-center ">
-            <h2 class="fw-bold text-center mb-4">Paket Wisata</h2>
-            <div class=" d-flex align-items-center gap-2 justify-content-center text-center mb-4 col-10 d-flex ">
-                <div class="col-10 col-md-10">
+            <h2 class="fw-bold text-center mb-4 " data-aos="fade-down">PAKET WISATA</h2>
+           
+            <div class=" d-flex align-items-center gap-2 justify-content-center text-center mb-4 col-10 ">
+                <div class="col-8 col-md-9">
 
                     <form action="" method="get" class="w-100 position-relative">
                         <input type="search" style="border-radius: 32px; border:2px solid #3f86ed" name="keyword"
                             id="search" placeholder="Cari Tempat wisata atau kota"
-                            class="form-control px-3 py-2 my-4 shadow">
+                            class="form-control px-3 py-2 my-4 shadow" data-aos="fade-right" data-aos-delay="300">
                         <div class="position-absolute top-50 end-0 translate-middle-y">
                             <span class="input-group-text" style="background-color: transparent; border: none;"><i
                                     class="bi bi-search"></i></span>
@@ -20,10 +21,10 @@
 
 
                 </div>
-                <div>
+                <div class="col-md-3">
 
-                    <button type="button" class="btn btn-outline-primary shadow " style="border-radius: 32px;"
-                        data-bs-toggle="modal" data-bs-target="#filterModal">
+                    <button type="button" class="btn btn-outline-primary shadow w-full d-block " style="border-radius: 32px;"
+                        data-bs-toggle="modal" data-bs-target="#filterModal" data-aos="fade-left" data-aos-delay="300">
                         Filter <i class="bi bi-funnel-fill"></i>
                     </button>
                 </div>
@@ -117,7 +118,9 @@
             @if ($paketWisata->count() > 0)
                 <div class="row">
                     @foreach ($paketWisata as $p)
-                                <div class="col-md-4 mb-5">
+                                <div class="col-md-4 mb-5"  data-aos="flip-left"
+                                data-aos-easing="ease-out-cubic"
+                                data-aos-duration="2000" data-aos-delay="500">
                                     <a href="{{ route('detailPaket', $p->slug) }}" class="text-decoration-none text-dark">
                                         <div class="card  card-paket border-0 p-3 shadow-lg">
 

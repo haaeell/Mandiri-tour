@@ -10,7 +10,7 @@
                     <i class="bi bi-clock-fill text-warning me-2"></i> <!-- Tambahkan ikon jam disini -->
                     Pembayaran Sedang Diperiksa!
                 </h4>
-                <p>Pembayaran Anda sedang dalam proses pengecekan oleh admin. <br>
+                <p>Pembayaran Anda sedang dalam proses pengecekan oleh admin. Silakan cek riwayat pesanan untuk detail lebih lanjut! <br>
                     Terima kasih atas kesabaran Anda.</p>
 
                 <a href="https://wa.me/6285321726312" target="_blank" class="btn-sm btn btn-warning text-white ">

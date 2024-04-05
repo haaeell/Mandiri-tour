@@ -8,39 +8,40 @@
         height: 400px;
     }
 </style>
-    <section class="banner">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8 text-center text-light" style="margin-top: 150px">
-                    <div class="col-md-10 mx-auto">
-                        <p id="welcomeText" class="m-0 fs-4 fw-semibold p-3" style="border: 3px solid #fff; border-radius: 10px 18px 10px 18px; text-align: center;"><span id="welcome"></span></p>
-                    </div>
-                    
-                    <h1 class="fw-bold m-0 mt-3">Mandiri Tour & Travel</h1>
-                    <div class="col-md-8 mx-auto ">
-
-                        <p class="mb-3 fw-semibold fs-5 ">Temukan Keindahan Indonesia Bersama Kami!</p>
-                    </div>
-                    <a href="/paket" class="btn btn-primary fw-bold mt-3 btn-login bn26">Get Started</a> 
+<section class="banner" >
+    <div class="container">
+        <div class="row justify-content-center ">
+            <div class="col-md-8 text-center text-light" style="margin-top: 150px">
+                <div class="col-md-10 mx-auto"data-aos="fade-down" data-aos-delay="300">
+                    <p id="welcomeText" class="m-0 fs-4 fw-semibold p-3" style="border: 3px solid #fff; border-radius: 10px 18px 10px 18px; text-align: center;"><span id="welcome"></span></p>
                 </div>
+                <h1 class="fw-bold m-0 mt-3 text-banner "data-aos="fade-right" data-aos-delay="400" style="text-shadow: 1px 1px 3px blue;">Mandiri Tour & Travel</h1>
+                <div class="col-md-8 mx-auto "data-aos="fade-left" data-aos-delay="500">
+                    <p class="mb-3 fw-semibold fs-5 ">Temukan Keindahan Indonesia Bersama Kami!</p>
+                </div>
+                <a href="/paket" class="btn btn-primary fw-bold mt-3 btn-login bn26" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="600">Get Started</a> 
             </div>
-            
         </div>
-    </section>
+    </div>
+</section>
 
 
     {{-- LAYANAN --}}
-    <section class="py-5 " style="background-color: rgb(224, 241, 248)">
+    <section class="py-5" style="background-color: rgb(224, 241, 248)" >
         <div class="row d-flex justify-content-center align-items-center">
-            <div class="col-md-12 text-center">
-                <h2 class="fw-bold ">LAYANAN</h2>
+            <div class="col-md-8 mx-auto text-center">
+                <div class="col-md-8 mx-auto" data-aos="fade-down">
+                    <h2 class="fw-bold text-header" > <span class=" gradient-text">LAYANAN</span> KAMI</h2>
+                    <p>Komitmen kami adalah menyediakan layanan terbaik bagi pelanggan dengan pengalaman yang tak terlupakan.</p>
+
+                </div>
                 <div class="container mt-5">
                     <div class="swiper mySwiper">
                         <div class="swiper-wrapper">
                             @foreach ($kategori as $item)
                                 
-                            <div class="swiper-slide">
-                                <div class=" p-3 card-layanan">
+                            <div class="swiper-slide" data-aos="fade-left" data-aos-duration="1000" >
+                                <div class="p-3 card-layanan">
                                     <a class="nav-link" href="{{ route('paketWisata', ['min_price' => '', 'max_price' => '', 'city' => '', 'kendaraan' => '', 'kategori' => $item->id]) }}">{{ $item->nama }}</a>
                                 </div>
                             </div>
@@ -51,11 +52,14 @@
             </div>
         </div>
     </section>
+    
     {{-- PAKET WISATA --}}
     <section>
         <div class="container py-5">
-            <div class="col-md-12 text-center">
-                <h2 class="fw-bold">PAKET WISATA POPULER</h2>
+            <div class="col-md-8 mx-auto text-center">
+                <h2 class="fw-bold text-header" data-aos="fade-down">PAKET WISATA <span class="gradient-text">POPULER</span></h2>
+                <p class="m-0">Jelajahi keindahan Indonesia dengan paket wisata yang telah terbukti populer. Dengan pilihan destinasi yang menarik dan layanan berkualitas, nikmati petualangan tak terlupakan bersama kami.</p>
+                
             </div>
             <div class="swiper SwiperPaket mt-5">
                 <div class="swiper-wrapper">
@@ -111,6 +115,7 @@
                     class="btn btn-login bn26"
                     href="/paket"
                     role="button"
+                    data-aos="zoom-in" data-aos-duration="500" 
                     >Lihat Semua</a
                 >
             </div>
@@ -120,35 +125,42 @@
     </section>
 
     {{-- MENGAPA MEMILIH KAMI--}}
-    <div class="container">
-        <h2 class="text-center fw-bold mb-5">Mengapa Memilih Kami?</h2>
+    <div class="container" data-aos="fade-up" data-aos-duration="1000">
+        <div class="row">
+
+            <div class="col-md-8 text-center mb-3 mx-auto">
+                <h2 class="fw-bold text-header">Alasan Memilih <span class="gradient-text">Kami</span></h2>
+                <p>Kami adalah pilihan yang tepat untuk memenuhi kebutuhan Anda. Kami menyediakan layanan berkualitas tinggi dengan komitmen kepada kepuasan pelanggan.</p>
+                
+            </div>
+        </div>
         
         <div class="row py-4 justify-content-center align-items-center " style="border-radius: 24px;box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;">
-            <div class="col-md-9 order-md-1 order-2 text-center-sm">
+            <div class="col-md-9 order-md-1 order-2 text-center-sm" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="300">
                 <h3 class="fw-semibold">Paket All-in-One</h3>
                 <p class="text-md-left text-center-sm">Kami menyediakan paket wisata yang mencakup segala sesuatu mulai dari tiket, akomodasi, transportasi lokal, hingga tur dan kegiatan, sehingga Anda tidak perlu repot mengatur semuanya sendiri.</p>
             </div>
-            <div class="col-md-2 order-md-2 order-1 text-md-right text-center-sm mb-3 mb-md-0">
+            <div class="col-md-2 order-md-2 order-1 text-md-right text-center-sm mb-3 mb-md-0"  data-aos="fade-left" data-aos-duration="1000" data-aos-delay="500">
                 <img class="USPItemImage" src="https://ik.imagekit.io/tvlk/image/imageResource/2017/09/13/1505323179630-8705894a194d158b966e77f8004a8c71.png?tr=q-75" alt="Paket All-in-One">
             </div>
         </div>
         
         <div class="row py-4 justify-content-center my-4 align-items-center " style="border-radius: 24px;box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;">
-            <div class="col-md-2 order-md-1 mb-3 mb-md-0 text-md-left text-center-sm">
+            <div class="col-md-2 order-md-1 mb-3 mb-md-0 text-md-left text-center-sm" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="300">
                 <img class="USPItemImage" src="https://ik.imagekit.io/tvlk/image/imageResource/2017/09/13/1505323164752-40c57d1e4907fba0ddd47bdb99fbeb56.png?tr=q-75"/>
             </div>
-            <div class="col-md-9 order-md-2 text-md-right text-center-sm">
+            <div class="col-md-9 order-md-2 text-md-right text-center-sm" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="500">
                 <h3 class="fw-semibold">Layanan Personal</h3>
                 <p class="text-md-right text-center-sm">Kami memahami bahwa setiap pelanggan memiliki kebutuhan dan preferensi yang berbeda. Tim kami siap memberikan layanan yang personal dan membantu Anda merencanakan liburan yang sesuai dengan keinginan Anda.</p>
             </div>
         </div>
         
         <div class="row py-4 justify-content-center align-items-center " style="border-radius: 24px;box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;">
-            <div class="col-md-9 order-md-1 order-2 text-md-left text-center-sm">
+            <div class="col-md-9 order-md-1 order-2 text-md-left text-center-sm" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="300">
                 <h3 class="fw-semibold">Jaminan Keamanan dan Kepuasan Pelanggan</h3>
                 <p class="text-md-left text-center-sm">Kepuasan dan keselamatan pelanggan adalah prioritas utama kami. Kami bekerja keras untuk memastikan bahwa setiap perjalanan Anda berjalan lancar dan menyenangkan.</p>
             </div>
-            <div class="col-md-2 order-md-2 order-1 text-md-right text-center-sm mb-3 mb-md-0">
+            <div class="col-md-2 order-md-2 order-1 text-md-right text-center-sm mb-3 mb-md-0" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="500">
                 <img class="USPItemImage" src="https://ik.imagekit.io/tvlk/image/imageResource/2017/09/13/1505323174671-6761c1f627f2e2cf37f6a66829380405.png?tr=q-75" alt="Jaminan Keamanan dan Kepuasan Pelanggan">
             </div>
         </div>
@@ -157,10 +169,11 @@
     
     
     {{-- GALLERY --}}
-    <section>
+    <section class="my-5">
         <div class=" py-5">
-            <div class="col-md-12 text-center mb-5">
-                <h2 class="fw-bold">GALLERY</h2>
+            <div class="col-md-6 mx-auto text-center mb-5" data-aos="fade-down">
+                <h2 class="fw-bold">GALERI <span class="gradient-text">PERJALANAN</span></h2>
+                <p>Temukan keindahan dan keunikan destinasi wisata yang kami tawarkan melalui galeri perjalanan kami.</p>
             </div>
             <div class="owl-carousel owl-theme">
                 @foreach ($galeri as $item)
@@ -175,10 +188,11 @@
 
     <section>
         <div class="py-5 container">
-            <div class="col-md-12 text-center mb-5">
-                <h2 class="fw-bold">LOKASI</h2>
+            <div class="col-md-8 mx-auto text-center mb-5"data-aos="fade-down">
+                <h2 class="fw-bold text-header" >LOKASI <span class="gradient-text">PERUSAHAAN</span></h2>
+                <p>Kami siap melayani Anda dengan layanan terbaik dan menjawab semua kebutuhan perjalanan Anda. Jangan ragu untuk datang dan berkonsultasi dengan tim kami yang berpengalaman.</p>
             </div>
-            <div class="row">
+            <div class="row"data-aos="flip-down">
                 <div class="col-md-12">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d991.3037650980204!2d107.802243!3d-6.366208!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69473cdfb558c5%3A0xd126976d06c030d!2sMandiri%20Tour%20Subang!5e0!3m2!1sen!2sid!4v1712263580292!5m2!1sen!2sid" width="100%" height="450"style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>

@@ -54,10 +54,10 @@
                             <div class="mb-4">
                                 <h5 class="fw-bold text-primary "><i class="bi bi-box-seam-fill "></i> Tentang
                                     {{ $paketWisata->nama }}</h5>
+
                                 <div class="col-md-10">
                                     <p class="m-0 ">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde, dolor! Lorem ipsum,
-                                        dolor sit amet consectetur adipisicing
+                                         Berikut informasi tambahan meliputi rundown perjalanan , wisata yang dikunjungi dan  fasilitas yang disediakan
                                     </p>
                                 </div>
                             </div>

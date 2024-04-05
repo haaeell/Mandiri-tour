@@ -3,11 +3,11 @@
 <section>
   <div class="container py-5">
       <div class="col-md-12 text-center">
-          <h2 class="fw-bold">PROFIL PERUSAHAAN</h2>
+          <h2 class="fw-bold" data-aos="fade-down">PROFIL PERUSAHAAN</h2>
       </div>
       <div class="row d-flex justify-content-center  align-items-center mt-5 ">
 
-          <div class="col-md-6 p-4">
+          <div class="col-md-6 p-4" data-aos="fade-right" data-aos-delay="300">
               <h2 class="fw-semibold">Tentang Kami</h2>
               <p>
                   <span class="fw-semibold">PT Mandiri Tour & Travel</span> merupakan sebuah biro perjalanan wisata 
@@ -18,7 +18,7 @@
                       layanan perjalanan, termasuk paket wisata dalam negeri yang meliputi studi 
                       banding, studi tiru, studi wisata, wisata keluarga, dan wisata religi .</p>
           </div>
-          <div class="col-md-6  p-4">
+          <div class="col-md-6  p-4" data-aos="fade-left" data-aos-delay="300">
               <img src="../assets/img/logo2.png" class="pt-3" style="max-width: 400px; height: auto;"
                   alt="">
           </div>

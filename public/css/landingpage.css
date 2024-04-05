@@ -367,3 +367,15 @@ body{
     cursor: pointer; 
 }
 
+.gradient-text {
+    display: inline-block;
+    background: linear-gradient(to right, #41b4ee, #0058b1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 900;
+  }
+
+  .text-header{
+    color: #424242;
+  }
+

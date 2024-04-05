@@ -54,9 +54,9 @@
 </style>
 
 <div class="container py-5">
-    <h2 class="fw-bold text-center mb-3">WISATA</h2>
+    <h2 class="fw-bold text-center mb-3" data-aos="fade-down">WISATA</h2>
     <div class="row">
-        <div class="col-md-3 mb-3">
+        <div class="col-md-3 mb-3" data-aos="fade-right">
             <label for="select-kota" class="form-label">Filter Wisata Berdasarkan Kota:</label>
             <select id="select-kota" class="form-select select2">
                 <option value="">Semua Kota</option>
@@ -185,7 +185,10 @@ async function loadKota() {
         data.forEach(wisata => {
             const deskripsiSingkat = wisata.deskripsi.substring(0, 50) + '...';
             wisataHtml += `
-                <div class="col-md-3">
+                <div class="col-md-3" data-aos="fade-left"
+     data-aos-anchor="#example-anchor"
+     data-aos-offset="500"
+     data-aos-duration="500">
                     <div style="cursor: pointer;" class="card mb-3 border-0" data-bs-toggle="modal" data-bs-target="#modalDeskripsi" data-deskripsi="${wisata.deskripsi}">
                         <img src="${wisata.gambar}" class="card-img-top img-card" style="height: 200px; object-fit: cover;" alt="${wisata.nama}">
                         <div class="card-body">

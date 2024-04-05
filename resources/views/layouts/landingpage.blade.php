@@ -18,10 +18,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.green.css" integrity="sha512-riTSV+/RKaiReucjeDW+Id3WlRLVZlTKAJJOHejihLiYHdGaHV7lxWaCfAvUR0ErLYvxTePZpuKZbrTbwpyG9w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
    
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg  bg-body-tertiary shadow-md" style="background: rgb(25,185,227);
+    <nav  class="navbar navbar-expand-lg  bg-body-tertiary shadow-md" style="background: rgb(25,185,227);
     background: linear-gradient(90deg, rgba(25,185,227,1) 24%, #3f86ed 100%);!important;">
         <div class="container">
             <div class="d-flex gap-3 ">
@@ -198,6 +199,10 @@ function scrollToTop() {
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
     <script>
         $(document).ready(function() {
             $('.select2').select2();
