@@ -250,20 +250,4 @@
             });
         });
     </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const lihatSelengkapnyaLinks = document.querySelectorAll('.lihat-selengkapnya');
-    
-            lihatSelengkapnyaLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const fullDescription = this.getAttribute('data-full-description');
-                    const deskripsiElement = this.previousElementSibling;
-                    deskripsiElement.textContent = fullDescription;
-                    deskripsiElement.style.display = 'block';
-                    this.style.display = 'none';
-                });
-            });
-        });
-    </script>
 @endsection

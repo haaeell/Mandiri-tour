@@ -39,7 +39,7 @@
             <p class="deskripsi-paket m-0">{{ Illuminate\Support\Str::limit($paketWisata->kendaraan->deskripsi, $limit = 100) }}</p>
                 <!-- Anchor "Lihat Selengkapnya" -->
                 @if (strlen($paketWisata->kendaraan->deskripsi) > 100)
-                    <a href="#" class="lihat-selengkapnya" data-full-description="{{ $paketWisata->kendaraan->deskripsi }}">Lihat Selengkapnya</a>
+                    <a href="#" class="lihat-selengkapnya kendaraan" data-full-description="{{ $paketWisata->kendaraan->deskripsi }}">Lihat Selengkapnya</a>
                 @endif
             <div class="d-flex mt-3 justify-content-between">
 
@@ -146,22 +146,3 @@
 @endsection
 
 
-@section('script')
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const lihatSelengkapnyaLinks = document.querySelectorAll('.lihat-selengkapnya');
-
-        lihatSelengkapnyaLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const fullDescription = this.getAttribute('data-full-description');
-                const deskripsiElement = this.previousElementSibling;
-                deskripsiElement.textContent = fullDescription;
-                deskripsiElement.style.display = 'block';
-                this.style.display = 'none';
-            });
-        });
-    });
-</script>
-
-@endsection

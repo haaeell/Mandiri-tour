@@ -267,5 +267,30 @@ function scrollToTop() {
     </script>
 @endif
     
+<script>
+    $(document).ready(function() {
+        $('.lihat-selengkapnya').click(function(e) {
+            e.preventDefault();
+            var fullDescription = $(this).attr('data-full-description');
+            var deskripsiElement = $(this).prev();
+            var isKendaraan = $(this).hasClass('kendaraan');
+
+            // Fungsi untuk memotong string di jQuery
+            function strLimit(str, limit) {
+                return str.length > limit ? str.substring(0, limit) + '...' : str;
+            }
+
+            // Jika deskripsi sudah ditampilkan secara penuh, kembalikan ke versi singkat
+            if ($(this).text() === 'Sembunyikan') {
+                var limit = isKendaraan ? 150 : 400; // Tentukan limit berdasarkan jenis deskripsi
+                deskripsiElement.text(strLimit(fullDescription, limit));
+                $(this).text('Lihat Selengkapnya');
+            } else { // Jika deskripsi dalam versi singkat, tampilkan secara penuh
+                deskripsiElement.text(fullDescription);
+                $(this).text('Sembunyikan');
+            }
+        });
+    });
+</script>
 </body>
 </html>
