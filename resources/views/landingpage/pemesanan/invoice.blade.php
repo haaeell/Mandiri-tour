@@ -173,6 +173,7 @@
                     <table class="table">
                         <thead class="table-light">
                             <tr>
+                                <th>Nama Pemesan</th>
                                 <th>Nama Paket</th>
                                 <th>Jumlah Paket</th>
                                 <th>Alamat</th>
@@ -183,6 +184,7 @@
 
                         <tbody class="table-group-divider">
                             <tr>
+                                <td>{{ $pemesanan->user->name }}</td>
                                 <td>{{ $pemesanan->paket->nama }}</td>
                                 <td>{{ $pemesanan->jumlah_paket }}</td>
                                 <td>{{ $pemesanan->alamat }}</td>
