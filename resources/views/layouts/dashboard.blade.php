@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="{{ asset('../assets') }}/compiled/css/app.css">
     <link rel="stylesheet" href="{{ asset('../assets') }}/compiled/css/app-dark.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </head>
 
 <style>
