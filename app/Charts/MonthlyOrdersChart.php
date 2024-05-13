@@ -18,8 +18,8 @@ class MonthlyOrdersChart
     {
         // Ambil data pemesanan, penjualan, dan pemesanan dibatalkan dari database
         $data = DB::table('pemesanan')
-            ->select(DB::raw('YEAR(created_at) as tahun'),
-                      DB::raw('MONTH(created_at) as bulan'), 
+            ->select(DB::raw('YEAR(updated_at) as tahun'),
+                      DB::raw('MONTH(updated_at) as bulan'), 
                       DB::raw('COUNT(*) as total_pemesanan'),
                       DB::raw('SUM(CASE WHEN status_pembayaran = "Pembayaran Diterima" THEN 1 ELSE 0 END) as total_penjualan'),
                       DB::raw('SUM(CASE WHEN status_pembayaran = "Pemesanan dibatalkan" THEN 1 ELSE 0 END) as total_pemesanan_dibatalkan'))

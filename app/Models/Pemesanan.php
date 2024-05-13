@@ -22,13 +22,11 @@ class Pemesanan extends Model
         'alamat',
     ];
 
-    // Relasi dengan model User
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relasi dengan model Paket
     public function paket()
     {
         return $this->belongsTo(PaketWisata::class);

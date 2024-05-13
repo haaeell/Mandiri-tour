@@ -48,11 +48,10 @@ public function data(Request $request)
     $pemesanans = Pemesanan::with('user', 'paket')
         ->whereYear('updated_at', Carbon::parse($bulan)->year)
         ->whereMonth('updated_at', Carbon::parse($bulan)->month)
-        ->where('status_pembayaran', 'Pembayaran Diterima') // Filter berdasarkan status_pembayaran
+        ->where('status_pembayaran', 'Pembayaran Diterima') 
         ->orderBy('updated_at', 'desc')
         ->get();
 
-    // Transformasi data sebelum mengirim respons
     $transformedData = $pemesanans->map(function ($pemesanan) {
         return [
             'id' => $pemesanan->id,

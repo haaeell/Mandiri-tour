@@ -45,7 +45,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $email->subject }}</td>
                                     <td><span class="badge {{ $email->status == 'draft' ? 'bg-primary' : ($email->status == 'sent' ? 'bg-success' : '') }}">
-                                        {{ $email->status }}
+                                        {{ $email->status == 'draft' ? 'Draft' : 'Terkirim' }}
                                     </span></td>
                                     <td>{{ substr($email->content, 0, 30) }}</td>
 
@@ -57,7 +57,7 @@
                                         <div class="d-flex gap-2">
 
                                             <a href="{{ route('email.send', $email->id) }}" class="btn btn-success text-white btn-sm">
-                                                Send
+                                                Kirim
                                              </a>
                                             <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#editEmailModal{{ $email->id }}">

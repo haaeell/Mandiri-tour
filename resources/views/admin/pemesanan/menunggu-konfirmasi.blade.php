@@ -63,7 +63,7 @@
                                     <div>
                                         {!! $item->bukti_pembayaran ? '<img src="' . asset('storage/' . $item->bukti_pembayaran) . '" width="50" style="cursor: pointer;" onClick="showImage(this)">' : '<span class="fw-bold text-danger">Belum Dibayar</span>' !!}
                                     </div>
-                                    <div class="d-flex">
+                                    <div class="d-flex align-items-center">
                                         @if ($item->status_pembayaran == 'Menunggu Konfirmasi Admin' && $item->bukti_pembayaran)
                                         <form id="confirmForm" action="{{ route('admin.pemesanan.konfirmasi', $item->id) }}" method="post">
                                             @csrf

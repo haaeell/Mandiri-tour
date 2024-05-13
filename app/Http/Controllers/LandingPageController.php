@@ -26,7 +26,7 @@ class LandingPageController extends Controller
         ->leftJoin('pemesanan', 'paket_wisata.id', '=', 'pemesanan.paket_id')
         ->groupBy('paket_wisata.id')
         ->orderByDesc('total_orders')
-        ->take(4) // Ambil 4 data teratas
+        ->take(4) 
         ->get();
         $kategori = Kategori::all();
         $galeri = Galeri::all();
@@ -35,11 +35,9 @@ class LandingPageController extends Controller
     }
     public function keluhan()
     {
-        // Dapatkan keluhan yang belum dibaca oleh pengguna
         $unreadNotifications = Auth::user()->unreadNotifications;
 
         foreach ($unreadNotifications as $notification) {
-            // Cek apakah notifikasi terkait dengan keluhan yang sudah ditanggapi
             if ($notification->type === 'App\Notifications\KeluhanDitanggapiNotification') {
                 $notificationData = $notification->data;
 
@@ -134,7 +132,6 @@ class LandingPageController extends Controller
         $unreadNotifications = Auth::user()->unreadNotifications;
 
         foreach ($unreadNotifications as $notification) {
-            // Cek apakah notifikasi terkait dengan keluhan yang sudah ditanggapi
             if ($notification->type === 'App\Notifications\KonfirmasiPembayaran') {
                 $notificationData = $notification->data;
 

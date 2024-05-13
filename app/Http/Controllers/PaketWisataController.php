@@ -18,8 +18,8 @@ class PaketWisataController extends Controller
      */
     public function index()
     {
-        $paket = PaketWisata::with('wisatas')->orderBy('created_at','desc')->get();
-        return view('admin.paket_wisata.index',compact('paket'));
+        $paket = PaketWisata::with('wisatas')->orderBy('created_at', 'desc')->get();
+        return view('admin.paket_wisata.index', compact('paket'));
     }
 
     /**
@@ -31,68 +31,65 @@ class PaketWisataController extends Controller
         $kotas = Kota::all();
         $categories = Kategori::all();
         $kendaraans = Kendaraan::all();
-        return view('admin.paket_wisata.tambah', compact('kotas','wisatas','kendaraans','categories'));
+        return view('admin.paket_wisata.tambah', compact('kotas', 'wisatas', 'kendaraans', 'categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    
-    $request->validate([
-        'nama' => 'required',
-        'kendaraan_id' => 'required',
-        'kotas' => 'required|array',
-        'deskripsi' => 'required',
-        'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        'fasilitas' => 'required',
-        'harga' => 'required',
-        'kategori_id' => 'required',
-        'durasi' => 'required',
-        'wisatas' => 'required|array',
-    ], [
-        'required' => 'Kolom :attribute harus diisi.',
-        'image' => 'File :attribute harus berupa gambar.',
-        'mimes' => 'File :attribute harus memiliki format PNG, JPG, atau JPEG.',
-        'max' => 'File :attribute tidak boleh lebih dari 2MB (2048 KB).',
-        'array' => 'Kolom :attribute harus berupa array.',
-    ]);
+    {
 
-    // Simpan gambar
-    $namaGambar = null;
-    if ($image = $request->file('gambar')) {
-        $path = 'images';
-        $namaGambar = date('YmdHis') . "." . $image->getClientOriginalExtension();
-        $image->move($path, $namaGambar);
+        $request->validate([
+            'nama' => 'required',
+            'kendaraan_id' => 'required',
+            'kotas' => 'required|array',
+            'deskripsi' => 'required',
+            'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'fasilitas' => 'required',
+            'harga' => 'required',
+            'kategori_id' => 'required',
+            'durasi' => 'required',
+            'wisatas' => 'required|array',
+        ], [
+            'required' => 'Kolom :attribute harus diisi.',
+            'image' => 'File :attribute harus berupa gambar.',
+            'mimes' => 'File :attribute harus memiliki format PNG, JPG, atau JPEG.',
+            'max' => 'File :attribute tidak boleh lebih dari 2MB (2048 KB).',
+            'array' => 'Kolom :attribute harus berupa array.',
+        ]);
+
+        $namaGambar = null;
+        if ($image = $request->file('gambar')) {
+            $path = 'images';
+            $namaGambar = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($path, $namaGambar);
+        }
+
+        $slug = Str::slug($request->nama);
+        $harga = str_replace('.', '', $request->harga);
+        $harga = str_replace(',', '.', $harga);
+        $harga = doubleval($harga);
+
+        $wisata = PaketWisata::create([
+            'nama' => $request->nama,
+            'deskripsi' => $request->deskripsi,
+            'gambar' => $namaGambar,
+            'fasilitas' => $request->fasilitas,
+            'harga' => $harga,
+            'kategori_id' => $request->kategori_id,
+            'durasi' => $request->durasi,
+            'kendaraan_id' => $request->kendaraan_id,
+            'slug' => $slug,
+        ]);
+
+        $wisata->kotas()->attach($request->kotas);
+        $wisata->wisatas()->attach($request->wisatas);
+
+
+        session()->flash('success', 'Data berhasil ditambah');
+        return redirect()->route('paket-wisata.index');
     }
-
-    $slug = Str::slug($request->nama);
-    $harga = str_replace('.', '', $request->harga);
-    $harga = str_replace(',', '.', $harga);
-    $harga = doubleval($harga);
-
-    // Simpan data ke dalam tabel wisata
-    $wisata = PaketWisata::create([
-        'nama' => $request->nama,
-        'deskripsi' => $request->deskripsi,
-        'gambar' => $namaGambar,
-        'fasilitas' => $request->fasilitas,
-        'harga' => $harga,
-        'kategori_id' => $request->kategori_id,
-        'durasi' => $request->durasi,
-        'kendaraan_id' => $request->kendaraan_id,
-        'slug' => $slug,
-    ]);
-
-    // Attach relasi kotas dan wisatas
-    $wisata->kotas()->attach($request->kotas);
-    $wisata->wisatas()->attach($request->wisatas);
-
-
-    session()->flash('success', 'Data berhasil ditambah');
-    return redirect()->route('paket-wisata.index');
-}
 
 
 
@@ -102,31 +99,28 @@ class PaketWisataController extends Controller
      * Display the specified resource.
      */
     public function show($id)
-{
-    $paketWisata = PaketWisata::findOrFail($id);
-    $rundownsGrouped = $paketWisata->rundowns->groupBy('hari_ke')->map(function ($rundowns) {
-        return $rundowns->sortBy('mulai');
-    });
-    return view('admin.paket_wisata.show', compact('paketWisata','rundownsGrouped'));
-}
+    {
+        $paketWisata = PaketWisata::findOrFail($id);
+        $rundownsGrouped = $paketWisata->rundowns->groupBy('hari_ke')->map(function ($rundowns) {
+            return $rundowns->sortBy('mulai');
+        });
+        return view('admin.paket_wisata.show', compact('paketWisata', 'rundownsGrouped'));
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit($id)
-{
-    // Mendapatkan data paket wisata berdasarkan ID
-    $paketWisata = PaketWisata::findOrFail($id);
+    {
+        $paketWisata = PaketWisata::findOrFail($id);
 
-    // Mendapatkan data kota dan wisata untuk dipilih pada form
-    $kotas = Kota::all();
-    $wisatas = Wisata::all();
-    $kendaraans = Kendaraan::all();
-    $categories = Kategori::all();
+        $kotas = Kota::all();
+        $wisatas = Wisata::all();
+        $kendaraans = Kendaraan::all();
+        $categories = Kategori::all();
 
-    // Menampilkan halaman edit dengan membawa data yang diperlukan
-    return view('admin.paket_wisata.edit', compact('paketWisata', 'kotas', 'wisatas','kendaraans','categories'));
-}
+        return view('admin.paket_wisata.edit', compact('paketWisata', 'kotas', 'wisatas', 'kendaraans', 'categories'));
+    }
 
     /**
      * Update the specified resource in storage.
@@ -152,22 +146,20 @@ class PaketWisataController extends Controller
             'array' => 'Kolom :attribute harus berupa array.',
             'numeric' => 'Kolom :attribute harus berupa angka.',
         ]);
-    
+
         $paketWisata = PaketWisata::findOrFail($id);
-        $harga = str_replace('.', '', $request->harga); // Menghapus titik sebagai pemisah ribuan
-$harga = str_replace(',', '.', $harga); // Mengganti koma dengan titik sebagai tanda desimal
-$harga = doubleval($harga); // Konversi ke angka
+        $harga = str_replace('.', '', $request->harga); 
+        $harga = str_replace(',', '.', $harga); 
+        $harga = doubleval($harga);
 
 
-    
-        // Simpan gambar jika ada perubahan
         if ($request->hasFile('gambar')) {
             $path = 'images';
             $namaGambar = date('YmdHis') . "." . $request->file('gambar')->getClientOriginalExtension();
             $request->file('gambar')->move($path, $namaGambar);
             $paketWisata->gambar = $namaGambar;
         }
-    
+
         $paketWisata->nama = $request->nama;
         $paketWisata->deskripsi = $request->deskripsi;
         $paketWisata->fasilitas = $request->fasilitas;
@@ -175,16 +167,14 @@ $harga = doubleval($harga); // Konversi ke angka
 
         $paketWisata->kategori_id = $request->kategori_id;
         $paketWisata->durasi = $request->durasi;
-    
-        // Tambahkan relasi kendaraan
+
         $paketWisata->kendaraan_id = $request->kendaraan_id;
-    
-        // Sync relasi kotas dan wisatas
+
         $paketWisata->kotas()->sync($request->kotas);
         $paketWisata->wisatas()->sync($request->wisatas);
-    
+
         $paketWisata->save();
-    
+
         return redirect()->route('paket-wisata.index')->with('success', 'Data berhasil diupdate');
     }
 
@@ -195,10 +185,8 @@ $harga = doubleval($harga); // Konversi ke angka
     public function destroy(string $id)
     {
         $data = PaketWisata::findorFail($id);
-         $data->delete();
-         session()->flash('success', 'Data berhasil dihapus');
-         return redirect()->back();
+        $data->delete();
+        session()->flash('success', 'Data berhasil dihapus');
+        return redirect()->back();
     }
-
-    
 }

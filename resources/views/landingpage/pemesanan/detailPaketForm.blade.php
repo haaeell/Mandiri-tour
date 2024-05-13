@@ -25,21 +25,18 @@
                                     <span class="badge bg-primary">{{ $kota->nama }}</span>
                                 @endforeach
                             </div>
-                            <p class="deskripsi-paket m-0">{{ Illuminate\Support\Str::limit($paketWisata->deskripsi, $limit = 400) }}</p>
+                            <p class="deskripsi-paket m-0">
+                                {{ Illuminate\Support\Str::limit($paketWisata->deskripsi, $limit = 400) }}</p>
                             @if (strlen($paketWisata->deskripsi) > 400)
-                                <a href="#" class="lihat-selengkapnya" data-full-description="{{ $paketWisata->deskripsi }}">Lihat Selengkapnya</a>
+                                <a href="#" class="lihat-selengkapnya"
+                                    data-full-description="{{ $paketWisata->deskripsi }}">Lihat Selengkapnya</a>
                             @endif
-            
 
-                            <p class="fw-bold m-0">Kendaraan : {{ $paketWisata->kendaraan->nama }} /<span class="text-danger">
+
+                            <p class="fw-bold m-0">Kendaraan : {{ $paketWisata->kendaraan->nama }} /<span
+                                    class="text-danger">
                                     ({{ $paketWisata->kendaraan->kapasitas }} orang) </span>
                             </p>
-                            {{-- <p class="deskripsi-paket m-0">
-                                {{ Illuminate\Support\Str::limit($paketWisata->kendaraan->deskripsi, $limit = 100) }}</p>
-                            @if (strlen($paketWisata->kendaraan->deskripsi) > 100)
-                                <a href="#" class="lihat-selengkapnya"
-                                    data-full-description="{{ $paketWisata->kendaraan->deskripsi }}">Lihat Selengkapnya</a>
-                            @endif --}}
                             <div class="d-flex mt-5}">
 
                                 <h3 class="fw-semibold text-danger">Rp
@@ -57,7 +54,8 @@
 
                                 <div class="col-md-10">
                                     <p class="m-0 ">
-                                         Berikut informasi tambahan meliputi rundown perjalanan , wisata yang dikunjungi dan  fasilitas yang disediakan
+                                        Berikut informasi tambahan meliputi rundown perjalanan , wisata yang dikunjungi dan
+                                        fasilitas yang disediakan
                                     </p>
                                 </div>
                             </div>
@@ -155,27 +153,27 @@
 
             <div class="col-md-4">
                 <div class="card p-3 shadow-lg" style="border: 2px solid #25aae1">
-                    <form action="{{ route('pesanPaket') }}" method="post">
+                    <form action="{{ route('pesanPaket') }}" method="post" id="pesanForm">
                         @csrf
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama </label>
                             <input type="text" class="form-control" id="nama" value="{{ Auth::user()->name }}"
-                                readonly>
+                                disabled>
                         </div>
 
                         <input type="hidden" class="form-control" id="user_id" name="user_id"
-                            value="{{ Auth::user()->id }}" readonly>
+                            value="{{ Auth::user()->id }}" >
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email </label>
                             <input type="text" class="form-control" id="email" value="{{ Auth::user()->email }}"
-                                readonly>
+                                disabled>
                         </div>
                         <div class="mb-3">
                             <label for="paket_id" class="form-label">Nama Paket </label>
                             <input type="hidden" class="form-control" id="paket_id" name="paket_id"
-                                value="{{ $paketWisata->id }}" readonly>
-                            <input type="text" class="form-control" value="{{ $paketWisata->nama }}" readonly>
+                                value="{{ $paketWisata->id }}" >
+                            <input type="text" class="form-control" value="{{ $paketWisata->nama }}" disabled>
                         </div>
                         <div class="mb-3">
                             <label for="jumlah_paket" class="form-label">Jumlah Paket:</label>
@@ -191,10 +189,10 @@
                         </div>
                         <div class="mb-3">
                             <label for="alamat" class="form-label">Alamat:</label>
-                            <input type="text" class="form-control" id="alamat" name="alamat"
-                                value="{{ old('alamat') }}" required>
+                            <textarea class="form-control" id="alamat" name="alamat" rows="5" required>{{ old('alamat') }}</textarea>
+
                         </div>
-                        <button type="submit" class="btn btn-login bn26">Submit</button>
+                        <button type="button" id="submitBtn" class="btn btn-login bn26">Submit</button>
                     </form>
 
                 </div>
@@ -206,45 +204,95 @@
 @endsection
 
 @section('script')
+<script>
+    $(document).ready(function() {
+        $('#submitBtn').click(function (e) {
+            e.preventDefault();
+            validateAndSubmit();
+        });
+    });
+
+    function validateAndSubmit() {
+        var jumlahPaket = $('#jumlah_paket').val();
+        var tanggalKeberangkatan = $('#tanggal_keberangkatan').val();
+        var alamat = $('#alamat').val();
+        var today = new Date();
+        var minimumDate = new Date();
+        minimumDate.setDate(today.getDate() + 3);
+
+        if (!jumlahPaket.trim()) {
+            showErrorAlert('Jumlah paket harus diisi');
+            return;
+        }
+        if (!alamat.trim()) {
+            showErrorAlert('Alamat harus diisi');
+            return;
+        }
+        if (new Date(tanggalKeberangkatan) < minimumDate) {
+            showErrorAlert('Tanggal keberangkatan minimal adalah H-3 dari hari ini');
+            return;
+        }
+        
+        showConfirmation();
+    }
+
+    function showErrorAlert(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: message
+        });
+    }
+
+    function showConfirmation() {
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: 'Anda akan melanjutkan proses pemesanan',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, lanjutkan',
+            cancelButtonText: 'Batalkan'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('pesanForm').submit();
+            }
+        });
+    }
+</script>
     <script>
         $(document).ready(() => {
             const inputTanggal = $('#tanggal_keberangkatan');
             const pesanTanggal = $('#tanggal_keberangkatan_message');
 
-            const today = new Date(); 
-            const tanggalMinimal = new Date(today); 
-            tanggalMinimal.setDate(tanggalMinimal.getDate() + 8);
+            const today = new Date();
+            const tanggalMinimal = new Date(today);
+            tanggalMinimal.setDate(tanggalMinimal.getDate() + 7);
 
-            
+
             const tanggalMinimalISO = tanggalMinimal.toISOString().split('T')[0];
             inputTanggal.attr('min', tanggalMinimalISO);
 
-            
+
             pesanTanggal.html(
                 `Tanggal keberangkatan minimal H-7 atau ${tanggalMinimal.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}.`
-                );
+            );
         });
     </script>
 
     <script>
         $(document).ready(() => {
-            
+
             const inputJumlahPaket = $('#jumlah_paket');
             const errorMessage = $('#error_message');
 
-            
             inputJumlahPaket.on('input', (event) => {
-                
+
                 const nilaiInput = inputJumlahPaket.val();
 
-                
                 if (!(/^\d+$/.test(nilaiInput)) || parseInt(nilaiInput) < 1) {
-                    
                     errorMessage.text('Minimal jumlah paket adalah 1.');
-                    
                     inputJumlahPaket.val('');
                 } else {
-                    
                     errorMessage.text('');
                 }
             });

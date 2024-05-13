@@ -143,7 +143,7 @@
         </div>
         <div class="col-md-8">
             <div class="container">
-                <h2 class="fw-semibold text-center mb-4">Top Customers with Most Orders</h2>
+                <h2 class="fw-semibold text-center mb-4">Daftar Pelanggan dengan order terbanyak</h2>
             <div class="card p-4 shadow ">
 
                 <table class="table-bordered table ">
