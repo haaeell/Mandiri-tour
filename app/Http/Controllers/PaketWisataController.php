@@ -183,10 +183,17 @@ class PaketWisataController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        $data = PaketWisata::findorFail($id);
-        $data->delete();
-        session()->flash('success', 'Data berhasil dihapus');
+{
+    $data = PaketWisata::findOrFail($id);
+
+    if ($data->pemesanan()->exists()) {
+        session()->flash('error', 'Data tidak bisa dihapus karena sudah dipakai di tabel pemesanan.');
         return redirect()->back();
     }
+
+    $data->delete();
+    session()->flash('success', 'Data berhasil dihapus');
+    return redirect()->back();
+}
+
 }

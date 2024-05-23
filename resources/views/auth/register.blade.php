@@ -71,9 +71,7 @@
                                 <button type="submit" class="btn btn-primary d-block w-100" id="register-btn">
                                     {{ __('Register') }}
                                 </button>
-                                <div id="loading" class="text-center" style="display: none;">
-                                    <p class="text-center mt-3">Bentar yaaa...</p>
-                                 </div>
+                                
                             </div>
                         </div>
                     </form>
@@ -89,7 +87,8 @@ $(document).ready(function() {
     $('#register-form').submit(function(event) {
         event.preventDefault();
         $('#register-btn').prop('disabled', true);
-        $('#loading').show();
+        
+        $('#register-btn').text('Bentar yaaa...');  
 
         $(this).unbind('submit').submit();
     });

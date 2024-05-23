@@ -9,7 +9,7 @@ use Laravel\Scout\Searchable;
 class PaketWisata extends Model
 {
     use HasFactory, Searchable;
-    
+
     protected $table = 'paket_wisata';
     protected $fillable = [
         'nama', 'gambar', 'durasi', 'deskripsi', 'fasilitas', 'harga', 'kategori_id', 'kendaraan_id', 'slug'
@@ -27,25 +27,29 @@ class PaketWisata extends Model
     public function wisatas()
     {
         return $this->belongsToMany(Wisata::class, 'paket_wisata_wisata', 'paket_wisata_id', 'wisata_id');
-    } 
+    }
     public function kendaraan()
     {
         return $this->belongsTo(Kendaraan::class);
     }
 
     public function toSearchableArray(): array
-{
-    return [
-        'nama' => $this->nama,
-        'harga' => $this->harga,
-        'kota' => $this->kota,
-        'kapasitas' => $this->kapasitas,
-        'kendaraan' => $this->kendaraan,
-    ];
-}
-public function rundowns()
+    {
+        return [
+            'nama' => $this->nama,
+            'harga' => $this->harga,
+            'kota' => $this->kota,
+            'kapasitas' => $this->kapasitas,
+            'kendaraan' => $this->kendaraan,
+        ];
+    }
+    public function rundowns()
     {
         return $this->hasMany(Rundown::class);
     }
 
+    public function pemesanan()
+    {
+        return $this->hasMany(Pemesanan::class, 'paket_id');
+    }
 }
