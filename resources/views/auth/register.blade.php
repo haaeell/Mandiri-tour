@@ -8,7 +8,7 @@
             <div class="card border-0 p-3" style="border-radius: 18px; box-shadow:  20px 20px 60px #bebebe,
             -20px -20px 60px #ffffff;">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" id="register-form">
                         @csrf
 
                         <div class="mb-3 row">
@@ -68,9 +68,12 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary d-block w-100">
+                                <button type="submit" class="btn btn-primary d-block w-100" id="register-btn">
                                     {{ __('Register') }}
                                 </button>
+                                <div id="loading" class="text-center" style="display: none;">
+                                    <p class="text-center mt-3">Bentar yaaa...</p>
+                                 </div>
                             </div>
                         </div>
                     </form>
@@ -79,4 +82,18 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#register-form').submit(function(event) {
+        event.preventDefault();
+        $('#register-btn').prop('disabled', true);
+        $('#loading').show();
+
+        $(this).unbind('submit').submit();
+    });
+});
+</script>
+
 @endsection

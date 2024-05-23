@@ -32,24 +32,24 @@ class LoginController extends Controller
      * @var string
      */
     public function login(Request $request)
-{
-    // Validasi data input
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ], $this->messages());
 
-    $credentials = $request->only('email', 'password');
-    if (Auth::attempt($credentials)) {
-        if (Auth::user()->role == 'admin') {
-            return redirect()->route('home');
+
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            if (Auth::user()->role == 'admin') {
+                return redirect()->route('home');
+            } else {
+                return redirect()->intended('/');
+            }
         } else {
-            return redirect()->intended('/');
+            return redirect('/login')->with('error', 'Email atau password salah. Silakan coba lagi.');
         }
-    } else {
-        return redirect('/login')->with('error', 'Email atau password salah. Silakan coba lagi.');
     }
-}
 
     /**
      * Create a new controller instance.
@@ -61,48 +61,53 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    protected function messages()
+    {
+        return [
+            'email.required' => 'Alamat email wajib diisi.',
+            'email.email' => 'Alamat email harus dalam format yang benar.',
+            'password.required' => 'Kata sandi wajib diisi.',
+        ];
+    }
+
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
-    
+
 
     public function handleGoogleCallback()
-{
-    try {
-        $googleUser = Socialite::driver('google')->user();
-        
-        if (!$googleUser) {
-            return redirect('/login')->with('error', 'Tidak dapat mengambil detail pengguna dari Google.');
-        }
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
 
-        if (!isset($googleUser->email)) {
-            return redirect('/login')->with('error', 'Email tidak disediakan oleh Google.');
-        }
-
-        // Tambahkan pengecekan apakah email sudah terdaftar di tabel users
-        $existingUser = User::where('email', $googleUser->email)->first();
-        
-        if ($existingUser) {
-            // Jika email sudah terdaftar, langsung login
-            Auth::login($existingUser, true);
-
-            if ($existingUser->role == 'admin') {
-                return redirect('/home');
-            } else {
-                return redirect('/');
+            if (!$googleUser) {
+                return redirect('/login')->with('error', 'Tidak dapat mengambil detail pengguna dari Google.');
             }
+
+            if (!isset($googleUser->email)) {
+                return redirect('/login')->with('error', 'Email tidak disediakan oleh Google.');
+            }
+
+            // Tambahkan pengecekan apakah email sudah terdaftar di tabel users
+            $existingUser = User::where('email', $googleUser->email)->first();
+
+            if ($existingUser) {
+                // Jika email sudah terdaftar, langsung login
+                Auth::login($existingUser, true);
+
+                if ($existingUser->role == 'admin') {
+                    return redirect('/home');
+                } else {
+                    return redirect('/');
+                }
+            }
+
+            return redirect('/login')->with('error', 'Email belum terdaftar. Silakan register terlebih dahulu!');
+        } catch (\Exception $e) {
+            return redirect('/login')->with('error', 'Terjadi kesalahan. Silakan coba lagi atau hubungi administrator.');
         }
-
-        // Jika email belum terdaftar, berikan pesan error khusus
-        return redirect('/login')->with('error', 'Email belum terdaftar. Silakan register terlebih dahulu!');
-
-    } catch (\Exception $e) {
-        return redirect('/login')->with('error', 'Terjadi kesalahan. Silakan coba lagi atau hubungi administrator.');
     }
-}
-
 
     
-
 }
