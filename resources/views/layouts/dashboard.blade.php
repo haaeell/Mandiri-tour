@@ -225,7 +225,7 @@
 
 
                         </li>
-                        <li class="sidebar-item has-sub {{ request()->is('pemesanan') || request()->is('pemesanan-baru') || request()->is('pesanan-diterima') || request()->is('pesanan-dibatalkan') || request()->is('menunggu-konfirmasi') ? 'active' : '' }}">
+                        <li class="sidebar-item has-sub {{ request()->is('pemesanan') || request()->is('pemesanan-baru') || request()->is('pesanan-diterima') || request()->is('pesanan-dibatalkan') || request()->is('menunggu-konfirmasi') || request()->is('pesanan-ditolak') ? 'active' : '' }}">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-basket3-fill"></i>
                                 <span>Pemesanan
@@ -279,20 +279,14 @@
                                 </li>
                                 <li class="submenu-item {{ request()->is('pesanan-dibatalkan') ? 'active' : '' }} ">
                                     <a href="{{ route('pemesanan.pesanan-dibatalkan') }}" class="submenu-link">Pesanan Dibatalkan
-                                        {{-- <span class="position-absolute top-40 start-80 translate-middle badge rounded-pill bg-danger">
-                                            {{
-                                                \App\Models\Pemesanan::where('status_pembayaran', 'Pemesanan Dibatalkan')->count()
-                                            }}
-                                        </span> --}}
+                                    </a>
+                                </li>
+                                <li class="submenu-item {{ request()->is('pesanan-ditolak') ? 'active' : '' }} ">
+                                    <a href="{{ route('pemesanan.pesanan-ditolak') }}" class="submenu-link">Pesanan Ditolak
                                     </a>
                                 </li>
                                 <li class="submenu-item {{ request()->is('pesanan-diterima') ? 'active' : '' }}">
                                     <a href="{{ route('pemesanan.pesanan-diterima') }}" class="submenu-link">Pesanan Diterima
-                                        {{-- <span class="position-absolute top-40 start-80 translate-middle badge rounded-pill bg-success">
-                                            {{
-                                                \App\Models\Pemesanan::where('status_pembayaran', 'Pembayaran Diterima')->count()
-                                            }}
-                                        </span> --}}
                                     </a>
                                 </li>
                                 <li class="submenu-item {{ request()->is('pemesanan') ? 'active' : '' }} ">

@@ -57,7 +57,7 @@
                             
                             </td>
                             <td>
-                                {{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->isoFormat('D MMMM YYYY') }}
+                                {{ \Carbon\Carbon::parse($item->created_at)->isoFormat('D MMMM YYYY') }}
                             </td>
                             <td>
                                 <div class="d-flex gap-2">

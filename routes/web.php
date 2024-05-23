@@ -142,6 +142,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/pemesanan-baru', [PemesananController::class, 'pemesananBaru'])->name('pemesanan.pemesanan-baru');
     Route::get('/menunggu-konfirmasi', [PemesananController::class, 'menungguKonfirmasi'])->name('pemesanan.menunggu-konfirmasi');
     Route::get('/pesanan-dibatalkan', [PemesananController::class, 'pesananDibatalkan'])->name('pemesanan.pesanan-dibatalkan');
+    Route::get('/pesanan-ditolak', [PemesananController::class, 'pesananDitolak'])->name('pemesanan.pesanan-ditolak');
     Route::get('/pesanan-diterima', [PemesananController::class, 'pesananDiterima'])->name('pemesanan.pesanan-diterima');
 
     Route::resource('kategori', KategoriController::class);

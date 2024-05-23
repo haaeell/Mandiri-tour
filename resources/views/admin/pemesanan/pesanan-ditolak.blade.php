@@ -1,13 +1,17 @@
 @extends('layouts.dashboard')
 @section('title')
-    Pesanan Baru
+    Pesanan Ditolak
 @endsection
 @section('breadcumb', 'Pemesanan')
 
 @section('content')
     <div class="row d-flex">
         <div class="col-md-12 card p-4 shadow">
-            
+            <div class="col-md-2">
+                <a href="{{ route('pemesanan.create') }}" class="btn btn-primary mb-3 ">
+                    Tambah
+                </a>
+            </div>
             <table class="table table-hovered" id="table1">
                 <thead>
                     <tr>
@@ -33,27 +37,9 @@
                             <td>{{ $item->jumlah_paket }}</td>
                             <td>{{ $item->alamat }}</td>
                             <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
-                            <td> @if($item->status_pembayaran == 'Belum Dibayar')
-                                <span class="badge bg-danger">
-                                    {{$item->status_pembayaran}}
-                                </span>
-                            @elseif($item->status_pembayaran == 'Menunggu Konfirmasi Admin')
-                                <span class="badge bg-warning">
-                                    {{$item->status_pembayaran}}
-                                </span>
-                            @elseif($item->status_pembayaran == 'Pembayaran Diterima')
-                                <span class="badge bg-success">
-                                    {{$item->status_pembayaran}}
-                                </span>
-                            @elseif($item->status_pembayaran == 'Pembayaran Ditolak')
-                                <span class="badge bg-danger">
-                                    {{$item->status_pembayaran}}
-                                </span>
-                            @elseif($item->status_pembayaran == 'Pemesanan Dibatalkan')
-                                <span class="badge bg-secondary">
-                                    {{$item->status_pembayaran}}
-                                </span>
-                            @endif
+                            <td> <span class="badge bg-dark">
+                                {{$item->status_pembayaran}}
+                            </span>
                             </td>
                             <td>
                                 {{ \Carbon\Carbon::parse($item->created_at)->isoFormat('D MMMM YYYY') }}
@@ -70,7 +56,7 @@
                                             <button type="submit" class="btn btn-info btn-sm">Konfirmasi Pembayaran</button>
                                         </form>
                                     @endif
-                                    @if ($item->status_pembayaran == 'Pembayaran Diterima')
+                                    @if ($item->status_pembayaran == 'Pembayaran Ditolak')
                                         <span class="fw-bold text-success">Pembayaran Sukses</span>
                                     @endif
                                     </div>
@@ -122,19 +108,77 @@
     let message = encodeURIComponent(`
         Halo ${nama},
         
-        Informasi Pemesanan:
-        Paket: ${paket}
-        jumlah paket: ${jumlahPeserta}
-        Alamat: ${alamat}
+        Kami berharap Anda dalam keadaan baik.
 
-        Kami mengingatkan bahwa pembayaran Anda belum diterima. Jika ada pertanyaan, silakan tanyakan.
+        Kami ingin mengonfirmasi pemesanan yang telah Anda buat dengan rincian sebagai berikut:
+        - Paket Wisata: ${paket}
+        - Jumlah Paket: ${jumlahPeserta}
+        - Alamat: ${alamat}
+
+        Mohon untuk diketahui bahwa pesanan Anda telah kami terima. Namun, kami ingin mengingatkan bahwa pembayaran belum kami terima.
+
+        Jika Anda memiliki pertanyaan atau memerlukan bantuan lebih lanjut, jangan ragu untuk menghubungi kami.
+
+        Terima kasih atas kerjasamanya.
     `);
 
     let whatsappUrl = 'https://api.whatsapp.com/send?phone=' + phoneNumber + '&text=' + message;
     window.open(whatsappUrl, '_blank');
 }
 
+
 </script>
+    <script>
+        $(document).ready(function() {
+            $('#form-tambah').submit(function(e) {
+                e.preventDefault();
+
+                let formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                        });
+
+                        $('#form-tambah')[0].reset();
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            // Handle validation errors
+                            let errors = xhr.responseJSON.errors;
+                            let errorMessage = '';
+
+                            for (let key in errors) {
+                                errorMessage += errors[key][0] + '<br>';
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Validation Error',
+                                html: errorMessage,
+                            });
+                        } else {
+                            // Handle other errors
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'An error occurred while processing your request.',
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         function confirmDelete(userId) {
             const userName = document.querySelector(`.delete-btn[data-id="${userId}"]`).getAttribute('data-name');

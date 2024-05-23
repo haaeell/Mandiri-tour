@@ -276,6 +276,14 @@ public function pesananDibatalkan()
 
     return view('admin.pemesanan.pesanan-dibatalkan', ['pemesanan' => $pemesanan]);
 }
+public function pesananDitolak()
+{
+    $pemesanan = Pemesanan::where('status_pembayaran', 'Pembayaran Ditolak')
+        ->latest()
+        ->get();
+
+    return view('admin.pemesanan.pesanan-ditolak', ['pemesanan' => $pemesanan]);
+}
 public function pesananDiterima()
 {
     $pemesanan = Pemesanan::where('status_pembayaran', 'Pembayaran Diterima')
