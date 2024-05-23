@@ -85,10 +85,9 @@ class KotaController extends Controller
     $data = Kota::with('wisata')->find($id);
 
     if ($data->wisata->isNotEmpty()) {
-        // Ada data terhubung dengan tabel Wisata
         session()->flash('warning', 'Terdapat data terhubung di tabel Wisata. Anda tidak bisa menghapus data ini.');
     } else {
-        $data->forceDelete(); // Penghapusan permanen jika tidak ada keterkaitan
+        $data->forceDelete(); 
         session()->flash('success', 'Data berhasil dihapus secara permanen');
     }
 

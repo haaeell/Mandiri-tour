@@ -6,6 +6,8 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\GaleriController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 
 use App\Http\Controllers\HomeController;
@@ -43,20 +45,20 @@ Route::get('/fetch-kota', [LandingpageController::class, 'fetchKota'])->name('fe
 
 
 
-Route::get('/login/google',[LoginController::class, 'redirectToGoogle']);
-Route::get('/login/google/callback',[LoginController::class, 'handleGoogleCallback']);
+Route::get('/login/google', [LoginController::class, 'redirectToGoogle']);
+Route::get('/login/google/callback', [LoginController::class, 'handleGoogleCallback']);
 Route::get('/paket/{slug}', [LandingpageController::class, 'detailPaket'])->name('detailPaket');
 
 
-Route::get('/testing', [TestingController::class,'index']);
+Route::get('/testing', [TestingController::class, 'index']);
 Route::post('/kabisat', [TestingController::class, 'checkTahunKabisat'])->name('kabisat');
-Route::get('/rundown/{id}', [RundownController::class,'generatePdf'])->name('rundown.generatePdf');
+Route::get('/rundown/{id}', [RundownController::class, 'generatePdf'])->name('rundown.generatePdf');
 
 
 
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','verified'])->group(function () {
     Route::post('/pesan-paket', [PemesananController::class, 'pesanPaket'])->name('pesanPaket');
     Route::get('/pemesanan/invoice/{id}', [PemesananController::class, 'invoice'])->name('pemesanan.invoice');
     Route::post('/pemesanan/upload/{id}', [PemesananController::class, 'uploadBukti'])->name('pemesanan.upload');
@@ -67,7 +69,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/keluhan', [KeluhanController::class, 'store'])->name('keluhan.store');
 
     Route::get('/Detailpaket/form/{slug}', [LandingpageController::class, 'detailPaketForm'])->name('detailPaketForm');
-    
+
     Route::get('/cetak-invoice/{id}', [PemesananController::class, 'cetakInvoice'])->name('cetak.invoice');
 });
 
@@ -77,12 +79,27 @@ Route::middleware(['auth', 'check.user.profile'])->group(function () {
     Route::put('/profilUpdate/{id}', [LandingpageController::class, 'updateProfil'])->name('customer.update-profil');
     Route::put('/profilEdit/password/{id}', [LandingpageController::class, 'updatePassword'])->name('customer.update-password');
     Route::put('/hapus-gambar-profil', [LandingpageController::class, 'hapusGambarProfil'])->name('hapus-gambar-profil');
-
 });
 
 
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+Route::get('/email/verify', function () {
+
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $r) {
+    $r->fulfill();
+
+    return redirect('/');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+Route::post('/email/verification-notification', function (Request $r) {
+
+    $r->user()->sendEmailVerificationNotification();
+
+    return back()->with('resent', 'Verification link sent ');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 Route::group(['middleware' => 'admin'], function () {
     Route::resource('users', UserController::class);
     Route::post('users/{id}/reset-password', [UserController::class, 'resetPassword'])->name('reset-password');
@@ -99,16 +116,16 @@ Route::group(['middleware' => 'admin'], function () {
     Route::resource('pemesanan', PemesananController::class);
     Route::resource('emails', EmailController::class);
 
-    Route::get('/admin/rundown/{id}',[RundownController::class,'create'])->name('rundown.add');
-    Route::post('/tambah-rundown', [RundownController::class,'store'])->name('rundown.store');
-    Route::get('/edit-rundown/{id}', [RundownController::class,'edit'])->name('rundown.edit');
+    Route::get('/admin/rundown/{id}', [RundownController::class, 'create'])->name('rundown.add');
+    Route::post('/tambah-rundown', [RundownController::class, 'store'])->name('rundown.store');
+    Route::get('/edit-rundown/{id}', [RundownController::class, 'edit'])->name('rundown.edit');
     Route::put('/update-rundown/{id}', [RundownController::class, 'updateRundown'])->name('rundown.updateRundown');
     Route::delete('/delete-all/{id}',  [RundownController::class, 'deleteAll'])->name('rundown.deleteAll');
     Route::delete('/rundown/delete-activity', [RundownController::class, 'deleteActivity'])->name('rundown.deleteActivity');
-    
+
 
     Route::get('/admin/keluhan', [KeluhanController::class, 'index'])->name('keluhan.index-admin');
-    
+
     Route::get('/keluhan/{id}/tanggapi', [KeluhanController::class, 'tanggapi'])->name('keluhan.tanggapi');
     Route::post('/keluhan/{id}/tanggapi', [KeluhanController::class, 'prosesTanggapi'])->name('keluhan.proses-tanggapi');
 
@@ -121,7 +138,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::post('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
     Route::get('/laporan/data', [LaporanController::class, 'data'])->name('laporan.data');
-        
+
     Route::get('/pemesanan-baru', [PemesananController::class, 'pemesananBaru'])->name('pemesanan.pemesanan-baru');
     Route::get('/menunggu-konfirmasi', [PemesananController::class, 'menungguKonfirmasi'])->name('pemesanan.menunggu-konfirmasi');
     Route::get('/pesanan-dibatalkan', [PemesananController::class, 'pesananDibatalkan'])->name('pemesanan.pesanan-dibatalkan');
