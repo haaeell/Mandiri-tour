@@ -27,7 +27,7 @@
                             <div>
                                 
                             </div>
-                            <button type="submit" class="btn w-100 btn-primary mt-3 d-block ">Submit</button>
+                            <button type="submit" id="keluhan-btn" class="btn w-100 btn-primary mt-3 d-block ">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -73,56 +73,17 @@
     </div>
 @endsection
 @section('script')
-{{-- <script>
+<script>
     $(document).ready(function() {
-        $('#form-tambah').submit(function(e) {
-            e.preventDefault();
-
-            var formData = new FormData(this);
-
-            $.ajax({
-                type: 'POST',
-                url: $(this).attr('action'),
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                    });
-
-                    $('#form-tambah')[0].reset();
-                    window.location.reload();
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        // Handle validation errors
-                        var errors = xhr.responseJSON.errors;
-                        var errorMessage = '';
-
-                        for (var key in errors) {
-                            errorMessage += errors[key][0] + '<br>';
-                        }
-
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Validation Error',
-                            html: errorMessage,
-                        });
-                    } else {
-                        // Handle other errors
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'An error occurred while processing your request.',
-                        });
-                    }
-                }
-            });
+        $('#form-tambah').on('submit', function(event) {
+            event.preventDefault(); 
+            
+            $('#keluhan-btn').prop('disabled', true);  
+            $('#keluhan-btn').text('Bentar yaaa...');  
+    
+            this.submit(); 
         });
     });
-</script> --}}
+    </script>
 
 @endsection

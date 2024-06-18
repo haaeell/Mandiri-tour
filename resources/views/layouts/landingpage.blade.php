@@ -144,16 +144,14 @@
                                             <li>
                                                 <a class="dropdown-item"
                                                     href="{{ route('customer.edit-profil', ['id' => Auth::user()->id]) }}">Edit
-                                                    Profil</a>
-
-
+                                                    Profil
+                                                </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item"
                                                     href="{{ route('customer.edit-password', ['id' => Auth::user()->id]) }}">Edit
-                                                    Password</a>
-
-
+                                                    Password
+                                                </a>
                                             </li>
                                             <li>
                                                 <hr class="dropdown-divider">
@@ -319,7 +317,7 @@
             }
 
             if ($(this).text() === 'Sembunyikan') {
-                var limit = isKendaraan ? 150 : 400; 
+                var limit = isKendaraan ? 150 : 400;
                 deskripsiElement.text(strLimit(fullDescription, limit));
                 $(this).text('Lihat Selengkapnya');
             } else {

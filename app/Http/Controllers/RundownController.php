@@ -145,7 +145,6 @@ public function deleteActivity(Request $request)
 
     public function deleteAll($id)
 {
-    // Lakukan penghapusan semua rundown untuk paket wisata dengan ID tertentu
     Rundown::where('paket_wisata_id', $id)->delete();
 
     session()->flash('success', 'Semua Rundown Berhasil Dihapus');
@@ -155,37 +154,25 @@ public function deleteActivity(Request $request)
 
 public function generatePdf($id)
     {
-        // Mendapatkan paket wisata berdasarkan ID
         $paketWisata = PaketWisata::findOrFail($id);
-        
-        // Mendapatkan grup rundown berdasarkan hari ke dan menyortirnya berdasarkan waktu mulai
         $rundownsGrouped = $paketWisata->rundowns->groupBy('hari_ke')->map(function ($rundowns) {
             return $rundowns->sortBy('mulai');
         });
 
-        // Mengirimkan data ke view PDF
         $nama_paket_wisata = $paketWisata->nama;
         $pdf = $this->renderPdfView($rundownsGrouped, $nama_paket_wisata);
 
-        // Mengembalikan PDF sebagai respons
         return $pdf->stream('rundown.pdf');
     }
 
     private function renderPdfView($rundownsGrouped, $nama_paket_wisata)
     {
-        // Render view ke dalam string
         $html = view('admin.rundown.pdf', compact('rundownsGrouped', 'nama_paket_wisata'))->render();
-
-        // Buat instance Dompdf
         $dompdf = new Dompdf();
 
-        // Load HTML ke dalam Dompdf
         $dompdf->loadHtml($html);
-
-        // Render PDF
         $dompdf->render();
 
-        // Mengembalikan instance Dompdf
         return $dompdf;
     }
 }

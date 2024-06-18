@@ -64,7 +64,6 @@
                                     @endif
                                 </div>
                                 <input type="hidden" name="hapus_gambar" id="hapus_gambar" value="0">
-
                             </div>
                         </div>
                       

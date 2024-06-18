@@ -23,15 +23,15 @@ class LandingPageController extends Controller
     public function index()
     {
         $topPaketWisata = PaketWisata::select('paket_wisata.*', DB::raw('COUNT(pemesanan.id) as total_orders'))
-        ->leftJoin('pemesanan', 'paket_wisata.id', '=', 'pemesanan.paket_id')
-        ->groupBy('paket_wisata.id')
-        ->orderByDesc('total_orders')
-        ->take(4) 
-        ->get();
+            ->leftJoin('pemesanan', 'paket_wisata.id', '=', 'pemesanan.paket_id')
+            ->groupBy('paket_wisata.id')
+            ->orderByDesc('total_orders')
+            ->take(4)
+            ->get();
         $kategori = Kategori::all();
         $galeri = Galeri::all();
 
-        return view('landingpage.welcome', compact('topPaketWisata','kategori', 'galeri'));
+        return view('landingpage.welcome', compact('topPaketWisata', 'kategori', 'galeri'));
     }
     public function keluhan()
     {
@@ -45,7 +45,6 @@ class LandingPageController extends Controller
             }
         }
 
-        // Dapatkan riwayat keluhan untuk ditampilkan di halaman
         $riwayatKeluhan = Keluhan::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
 
         return view('landingpage.keluhan', compact('riwayatKeluhan'));
@@ -92,7 +91,7 @@ class LandingPageController extends Controller
             });
         }
 
-        $paketWisata = $query->orderBy('created_at','desc')->get();
+        $paketWisata = $query->orderBy('created_at', 'desc')->get();
 
         $kotas = Kota::all();
         $kendaraan = Kendaraan::all();
@@ -108,7 +107,7 @@ class LandingPageController extends Controller
             ->take(3)
             ->get();
 
-        return view('landingpage.paketwisata', compact('paketWisata', 'kotas', 'search', 'min_price', 'max_price', 'city_id', 'kendaraan_id', 'nama_kota', 'nama_kendaraan', 'paketTerpopuler', 'kendaraan','kategori_id','nama_kategori','kategori'));
+        return view('landingpage.paketwisata', compact('paketWisata', 'kotas', 'search', 'min_price', 'max_price', 'city_id', 'kendaraan_id', 'nama_kota', 'nama_kendaraan', 'paketTerpopuler', 'kendaraan', 'kategori_id', 'nama_kategori', 'kategori'));
     }
 
     public function detailPaket($slug)
@@ -147,21 +146,20 @@ class LandingPageController extends Controller
     public function wisata()
     {
         $wisata = Wisata::all();
-        
-        return view('landingpage.wisata',compact('wisata'));
+
+        return view('landingpage.wisata', compact('wisata'));
     }
 
-    
-    
+
+
     public function about()
     {
         $kategori = Kategori::all();
-        return view('landingpage.about',compact('kategori'));
+        return view('landingpage.about', compact('kategori'));
     }
 
     public function editProfil($id)
     {
-        // Pastikan pengguna hanya dapat mengedit profil mereka sendiri
         if ($id != auth()->user()->id) {
             return redirect()->route('home')->with('error', 'Anda tidak diizinkan mengakses halaman ini.');
         }
@@ -172,64 +170,60 @@ class LandingPageController extends Controller
     }
 
     public function updateProfil(Request $request, $id)
-{
-    $messages = [
-        'required' => 'Kolom :attribute harus diisi.',
-        'email.unique' => 'Email sudah digunakan.',
-        'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
-    ];
+    {
+        $messages = [
+            'required' => 'Kolom :attribute harus diisi.',
+            'email.unique' => 'Email sudah digunakan.',
+            'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
+        ];
 
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-        'phone' => 'required|string|max:20',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ], $messages);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'phone' => 'required|string|max:20',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], $messages);
 
-    $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-    // Periksa apakah ada file gambar yang diunggah sebelumnya
-    $oldImage = $user->image;
+        $oldImage = $user->image;
 
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->phone = $request->phone;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
 
-    if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $path = 'images';
-        $namaGambar = date('YmdHis') . "." . $image->getClientOriginalExtension();
-        $image->move($path, $namaGambar);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $path = 'images';
+            $namaGambar = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($path, $namaGambar);
 
-        // Simpan nama gambar baru
-        $user->image = $namaGambar;
+            $user->image = $namaGambar;
 
-        // Hapus gambar lama jika ada
-        if (!empty($oldImage) && Storage::exists($oldImage)) {
-            Storage::delete($oldImage);
+            if (!empty($oldImage) && Storage::exists($oldImage)) {
+                Storage::delete($oldImage);
+            }
+        } elseif ($request->has('hapus_gambar') && $request->hapus_gambar == '1') {
+            if (!empty($oldImage) && Storage::exists($oldImage)) {
+                Storage::delete($oldImage);
+            }
+            $user->image = null;
         }
-    } elseif ($request->has('hapus_gambar') && $request->hapus_gambar == '1') {
-        // Jika pengguna memilih untuk menghapus gambar
-        if (!empty($oldImage) && Storage::exists($oldImage)) {
-            Storage::delete($oldImage);
-        }
-        $user->image = null; // Atur gambar pengguna menjadi null
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
     }
-
-    $user->save();
-
-    return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
-}
 
 
     public function hapusGambarProfil(Request $request)
-{
-    $userId = Auth::user()->id;
-    $user = User::findOrFail($userId);
-    $user->update(['image' => null]);
+    {
+        $userId = Auth::user()->id;
+        $user = User::findOrFail($userId);
+        $user->update(['image' => null]);
 
-    return response()->json(['message' => 'Gambar profil berhasil dihapus']);
-}
+        return response()->json(['message' => 'Gambar profil berhasil dihapus']);
+    }
 
     public function editPassword($id)
     {
@@ -242,60 +236,55 @@ class LandingPageController extends Controller
         return view('landingpage.edit-password', compact('user'));
     }
     public function updatePassword(Request $request, $id)
-{
-    $messages = [
-        'required' => 'Kolom :attribute harus diisi.',
-        'min' => 'Kolom :attribute harus memiliki minimal :min karakter.',
-        'confirmed' => 'Konfirmasi password tidak cocok.',
-    ];
-
-    $request->validate([
-        'current_password' => 'required|string',
-        'password' => 'required|string|min:8|confirmed',
-    ], $messages);
-
-    $user = User::findOrFail($id);
-
-    if (!Hash::check($request->current_password, $user->password)) {
-        return redirect()->back()->with('error', 'Password saat ini salah.');
-    }
-
-    $user->password = bcrypt($request->password);
-    $user->save();
-
-    return redirect()->route('customer.edit-password', $id)->with('success', 'Password berhasil diperbarui.');
-}
-
-public function fetchWisata(Request $request)
-{
-    $kotaId = $request->query('kota_id');
-
-    // Jika kota ID disertakan, ambil hanya wisata yang terkait dengan kota tersebut
-    if ($kotaId) {
-        $wisatas = Wisata::where('kota_id', $kotaId)->get();
-    } else {
-        // Jika tidak ada kota ID, ambil semua data wisata
-        $wisatas = Wisata::all();
-    }
-
-    // Format data untuk JSON response
-    $formattedWisatas = $wisatas->map(function ($wisata) {
-        return [
-            'nama' => $wisata->nama,
-            'deskripsi' => $wisata->deskripsi,
-            'kota' => $wisata->kota->nama,
-            'gambar' => asset('/images/'.$wisata->gambar) // Menambahkan URL gambar
+    {
+        $messages = [
+            'required' => 'Kolom :attribute harus diisi.',
+            'min' => 'Kolom :attribute harus memiliki minimal :min karakter.',
+            'confirmed' => 'Konfirmasi password tidak cocok.',
         ];
-    });
 
-    return response()->json($formattedWisatas);
-}
+        $request->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ], $messages);
 
-public function fetchKota()
-{
-    $kotas = Kota::all();
-    return response()->json($kotas);
-}
+        $user = User::findOrFail($id);
 
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->with('error', 'Password saat ini salah.');
+        }
 
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return redirect()->route('customer.edit-password', $id)->with('success', 'Password berhasil diperbarui.');
+    }
+
+    public function fetchWisata(Request $request)
+    {
+        $kotaId = $request->query('kota_id');
+
+        if ($kotaId) {
+            $wisatas = Wisata::where('kota_id', $kotaId)->get();
+        } else {
+            $wisatas = Wisata::all();
+        }
+
+        $formattedWisatas = $wisatas->map(function ($wisata) {
+            return [
+                'nama' => $wisata->nama,
+                'deskripsi' => $wisata->deskripsi,
+                'kota' => $wisata->kota->nama,
+                'gambar' => asset('/images/' . $wisata->gambar) 
+            ];
+        });
+
+        return response()->json($formattedWisatas);
+    }
+
+    public function fetchKota()
+    {
+        $kotas = Kota::all();
+        return response()->json($kotas);
+    }
 }

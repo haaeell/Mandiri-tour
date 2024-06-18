@@ -22,7 +22,7 @@
                         <th>Alamat</th>
                         <th>Total Pembayaran</th>
                         <th>Status Pembayaran</th>
-                        <th>Tanggal Pemesanan</th>
+                        <th>Tanggal Ditolak</th>
                         <th>Bukti Pembayaran</th>
                         <th>Aksi</th>
                     </tr>
@@ -42,7 +42,7 @@
                             </span>
                             </td>
                             <td>
-                                {{ \Carbon\Carbon::parse($item->created_at)->isoFormat('D MMMM YYYY') }}
+                                {{ \Carbon\Carbon::parse($item->updated_at)->isoFormat('D MMMM YYYY') }}
                             </td>
                             <td>
                                 <div class="d-flex gap-2">

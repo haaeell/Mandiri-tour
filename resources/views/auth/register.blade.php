@@ -5,8 +5,7 @@
     <div class="row justify-content-center py-5">
         <div class="col-md-6">
             <h2 class="fw-semibold mb-4 text-center">Register</h2>
-            <div class="card border-0 p-3" style="border-radius: 18px; box-shadow:  20px 20px 60px #bebebe,
-            -20px -20px 60px #ffffff;">
+            <div class="card border-0 p-3" style="border-radius: 18px; box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;">
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}" id="register-form">
                         @csrf
@@ -39,6 +38,7 @@
                             <label for="phone" class="col-md-4 col-form-label text-md-end">{{ __('Phone Number') }}</label>
                             <div class="col-md-8">
                                 <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required>
+                                <span id="phone-error" class="text-danger" style="display: none;">Nomor telepon harus angka.</span>
                                 @error('phone')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -71,7 +71,6 @@
                                 <button type="submit" class="btn btn-primary d-block w-100" id="register-btn">
                                     {{ __('Register') }}
                                 </button>
-                                
                             </div>
                         </div>
                     </form>
@@ -84,12 +83,30 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('#register-form').submit(function(event) {
-        event.preventDefault();
-        $('#register-btn').prop('disabled', true);
-        
-        $('#register-btn').text('Bentar yaaa...');  
+    
+    $('#phone').on('keypress', function(e) {
+        var charCode = e.which ? e.which : e.keyCode;
+        if (charCode < 48 || charCode > 57) {
+            e.preventDefault();
+            $('#phone-error').show(); 
+        } else {
+            $('#phone-error').hide(); 
+        }
+    });
 
+    $('#phone').on('input', function() {
+        var phone = $(this).val();
+        var isValid = /^\d*$/.test(phone); 
+        if (!isValid) {
+            $('#phone-error').show(); 
+        } else {
+            $('#phone-error').hide(); 
+        }
+    });
+
+    $('#register-form').submit(function(event) {
+        $('#register-btn').prop('disabled', true);
+        $('#register-btn').text('Bentar yaaa...');
         $(this).unbind('submit').submit();
     });
 });

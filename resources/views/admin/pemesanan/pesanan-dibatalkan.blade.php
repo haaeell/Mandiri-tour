@@ -18,7 +18,7 @@
                         <th>Alamat</th>
                         <th>Total Pembayaran</th>
                         <th>Status Pembayaran</th>
-                        <th>Tanggal Pemesanan</th>
+                        <th>Tanggal Dibatalkan</th>
                         <th>Bukti Pembayaran</th>
                         <th>Aksi</th>
                     </tr>

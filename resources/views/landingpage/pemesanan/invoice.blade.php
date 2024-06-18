@@ -10,7 +10,8 @@
                     <i class="bi bi-clock-fill text-warning me-2"></i> <!-- Tambahkan ikon jam disini -->
                     Pembayaran Sedang Diperiksa!
                 </h4>
-                <p>Pembayaran Anda sedang dalam proses pengecekan oleh admin. Silakan cek riwayat pesanan untuk detail lebih lanjut! <br>
+                <p>Pembayaran Anda sedang dalam proses pengecekan oleh admin. Silakan cek riwayat pesanan untuk detail lebih
+                    lanjut! <br>
                     Terima kasih atas kesabaran Anda.</p>
 
                 <a href="https://wa.me/6285321726312" target="_blank" class="btn-sm btn btn-warning text-white ">
@@ -95,24 +96,27 @@
                                             <td>{{ $pemesanan->paket->nama }}</td>
                                             <td>{{ $pemesanan->jumlah_paket }}</td>
                                             <td>{{ 'Rp ' . number_format($pemesanan->paket->harga, 0, ',', '.') }}</td>
-                                            <td class="  "> <i>{{ ucwords(\App\Helpers\TerbilangHelper::terbilang($pemesanan->total_pembayaran)) }} Rupiah</i></td>
-                                            <td class="fw-bold text-danger">{{ 'Rp ' . number_format($pemesanan->total_pembayaran, 0, ',', '.') }}</td>
+                                            <td class="  ">
+                                                <i>{{ ucwords(\App\Helpers\TerbilangHelper::terbilang($pemesanan->total_pembayaran)) }}
+                                                    Rupiah</i></td>
+                                            <td class="fw-bold text-danger">
+                                                {{ 'Rp ' . number_format($pemesanan->total_pembayaran, 0, ',', '.') }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        
-                        @if (!$pemesanan->bukti_pembayaran > 0)
-                        <div class="col-md-12">
-                            <h3 class="mb-0 fw-semibold">Informasi Pembayaran</h3>
-                            <p class="mt-2">Silakan transfer total pembayaran ke rekening berikut:
-                                <span class="fw-bold text-success"> Nomor Rekening BCA <span
-                                        id="noRekening">123456789012</span>. A/N KASAN</span>
-                            </p>
 
-                            <button class="btn btn-outline-success btn-sm" id="copyButton">Copy to Clipboard</button>
-                        </div>
+                        @if (!$pemesanan->bukti_pembayaran > 0)
+                            <div class="col-md-12">
+                                <h3 class="mb-0 fw-semibold">Informasi Pembayaran</h3>
+                                <p class="mt-2">Silakan transfer total pembayaran ke rekening berikut:
+                                    <span class="fw-bold text-success"> Nomor Rekening BCA <span
+                                            id="noRekening">123456789012</span>. A/N KASAN</span>
+                                </p>
+
+                                <button class="btn btn-outline-success btn-sm" id="copyButton">Copy to Clipboard</button>
+                            </div>
                         @endif
                     </div>
 
@@ -134,7 +138,7 @@
                     {{-- UPLOAD PEMBAYARAN --}}
                     <div class="col-md-4">
                         <h3 class="fw-semibold text-center mb-3">Upload Bukti Pembayaran</h3>
-                        <div class="card border-dashed-blue shadow-lg" >
+                        <div class="card border-dashed-blue shadow-lg">
                             <div class="card-body text-center" id="upload_area" onclick="openFileSelection();"
                                 ondrop="dropHandler(event);" ondragover="dragOverHandler(event);"
                                 ondragleave="dragLeaveHandler(event);">
@@ -149,8 +153,8 @@
                                     <p id="file_upload_instruction">Klik disini atau seret file gambar ke sini</p>
                                     <img id="output_image" class="img-fluid mt-3 mb-3"
                                         style="display: none; margin: 0 auto;">
-                                        <p id="file_name_display"></p>
-                                        <p id="file_size_display"></p>
+                                    <p id="file_name_display"></p>
+                                    <p id="file_size_display"></p>
 
                                     <p id="file_upload_info" class="mt-3">File harus berformat PNG, JPG, atau JPEG. Ukuran
                                         maksimum 2 MB.</p>
@@ -357,26 +361,20 @@
 @endsection
 
 @section('script')
-{{-- COPY BUTTON --}}
     <script>
         $(document).ready(function() {
             $("#copyButton").click(function() {
-                // Mengambil teks nomor rekening tanpa tanda "-"
                 var noRekening = $("#noRekening").text().replace(/-/g, '');
 
                 if (noRekening) {
-                    // Membuat elemen textarea untuk menampung teks
                     var $temp = $("<textarea>");
                     $("body").append($temp);
 
-                    // Menyalin teks ke textarea
                     $temp.val(noRekening).select();
                     document.execCommand("copy");
 
-                    // Menghapus elemen textarea
                     $temp.remove();
 
-                    // Menampilkan alert menggunakan SweetAlert
                     Swal.fire({
                         title: "Tersalin!",
                         text: "Nomor rekening telah disalin: " + noRekening,
@@ -385,7 +383,6 @@
                         showConfirmButton: false
                     });
                 } else {
-                    // Menampilkan alert menggunakan SweetAlert jika nomor rekening tidak tersedia
                     Swal.fire({
                         title: "Oops!",
                         text: "Nomor rekening tidak tersedia",
@@ -397,80 +394,79 @@
             });
         });
     </script>
-{{-- UPLOAD PEMBAYARAN --}}
-<script>
-    function openFileSelection() {
-        document.getElementById('upload_image').click();
-    }
-
-    function displayImage(event) {
-        var file = event.target.files[0];
-        displayImageFromFile(file);
-    }
-
-    function displayImageFromFile(file) {
-        var image = document.getElementById('output_image');
-        var uploadIcon = document.getElementById('upload_icon');
-        var fileNameDisplay = document.getElementById('file_name_display');
-        var fileSizeDisplay = document.getElementById('file_size_display');
-
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            image.src = e.target.result;
-            image.style.display = 'block'; // Tampilkan gambar yang dipilih
-            image.style.margin = '0 auto'; // Letakkan gambar di tengah
-            uploadIcon.style.display = 'none'; // Sembunyikan icon Bootstrap
-            document.getElementById('submit_button').style.display = 'block'; // Tampilkan tombol kirim
-            document.getElementById('file_upload_title').style.display =
-                'none'; // Sembunyikan judul "Pilih atau Seret File"
-            document.getElementById('file_upload_instruction').style.display =
-                'none'; // Sembunyikan instruksi "Klik disini atau seret file gambar ke sini"
-            document.getElementById('file_upload_info').style.display = 'none'; // Sembunyikan informasi tentang file
-        };
-        reader.readAsDataURL(file);
-
-        fileNameDisplay.textContent = 'Nama File: ' + file.name;
-        fileSizeDisplay.textContent = 'Ukuran File: ' + formatBytes(file.size);
-    }
-
-    function formatBytes(bytes, decimals = 2) {
-        if (bytes === 0) return '0 Bytes';
-
-        const k = 1024;
-        const dm = decimals < 0 ? 0 : decimals;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-    }
-
-    function dragOverHandler(event) {
-        event.preventDefault();
-        document.getElementById('upload_area').classList.add('dragover');
-    }
-
-    function dragLeaveHandler(event) {
-        event.preventDefault();
-        document.getElementById('upload_area').classList.remove('dragover');
-    }
-
-    function dropHandler(event) {
-        event.preventDefault();
-        document.getElementById('upload_area').classList.remove('dragover');
-        var file = event.dataTransfer.files[0];
-        displayImageFromFile(file);
-        document.getElementById('upload_image').files = event.dataTransfer.files;
-    }
-
-    function submitForm() {
-        var image = document.getElementById('output_image');
-        if (image.style.display !== 'none') {
-            document.getElementById('upload_form').submit();
-        } else {
-            alert('Silakan pilih gambar terlebih dahulu.');
+    <script>
+        function openFileSelection() {
+            document.getElementById('upload_image').click();
         }
-    }
-</script>
 
+        function displayImage(event) {
+            var file = event.target.files[0];
+            displayImageFromFile(file);
+        }
+
+        function displayImageFromFile(file) {
+            var image = document.getElementById('output_image');
+            var uploadIcon = document.getElementById('upload_icon');
+            var fileNameDisplay = document.getElementById('file_name_display');
+            var fileSizeDisplay = document.getElementById('file_size_display');
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                image.src = e.target.result;
+                image.style.display = 'block'; 
+                image.style.margin = '0 auto';
+                uploadIcon.style.display = 'none'; 
+                document.getElementById('submit_button').style.display = 'block'; 
+                document.getElementById('file_upload_title').style.display =
+                    'none';
+                document.getElementById('file_upload_instruction').style.display =
+                    'none'; 
+                document.getElementById('file_upload_info').style.display =
+                'none'; 
+            };
+            reader.readAsDataURL(file);
+
+            fileNameDisplay.textContent = 'Nama File: ' + file.name;
+            fileSizeDisplay.textContent = 'Ukuran File: ' + formatBytes(file.size);
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        function dragOverHandler(event) {
+            event.preventDefault();
+            document.getElementById('upload_area').classList.add('dragover');
+        }
+
+        function dragLeaveHandler(event) {
+            event.preventDefault();
+            document.getElementById('upload_area').classList.remove('dragover');
+        }
+
+        function dropHandler(event) {
+            event.preventDefault();
+            document.getElementById('upload_area').classList.remove('dragover');
+            var file = event.dataTransfer.files[0];
+            displayImageFromFile(file);
+            document.getElementById('upload_image').files = event.dataTransfer.files;
+        }
+
+        function submitForm() {
+            var image = document.getElementById('output_image');
+            if (image.style.display !== 'none') {
+                document.getElementById('upload_form').submit();
+            } else {
+                alert('Silakan pilih gambar terlebih dahulu.');
+            }
+        }
+    </script>
 @endsection

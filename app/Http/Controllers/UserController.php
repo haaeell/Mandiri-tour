@@ -144,19 +144,24 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
 {
-    $loggedInUserId = $request->user()->id; // Mendapatkan ID pengguna yang sedang login
+    $loggedInUserId = $request->user()->id; 
+    $user = User::with('pemesanan')->findOrFail($id);
 
     if ($id == $loggedInUserId) {
         session()->flash('error', 'Anda tidak dapat menghapus pengguna yang sedang login.');
         return redirect()->route('users.index');
     }
 
-    $data = User::findOrFail($id);
-    $data->delete();
+    if ($user->pemesanan->isNotEmpty()) {
+        session()->flash('error', 'Terdapat data terhubung di tabel pemesanan. Anda tidak bisa menghapus data ini.');
+    } else {
+        $user->forceDelete(); 
+        session()->flash('success', 'Data berhasil dihapus secara permanen');
+    }
 
-    session()->flash('success', 'Data berhasil dihapus');
     return redirect()->route('users.index');
 }
+
 
 
     public function batchDelete(Request $request)

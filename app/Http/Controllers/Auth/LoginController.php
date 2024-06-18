@@ -89,11 +89,9 @@ class LoginController extends Controller
                 return redirect('/login')->with('error', 'Email tidak disediakan oleh Google.');
             }
 
-            // Tambahkan pengecekan apakah email sudah terdaftar di tabel users
             $existingUser = User::where('email', $googleUser->email)->first();
 
             if ($existingUser) {
-                // Jika email sudah terdaftar, langsung login
                 Auth::login($existingUser, true);
 
                 if ($existingUser->role == 'admin') {

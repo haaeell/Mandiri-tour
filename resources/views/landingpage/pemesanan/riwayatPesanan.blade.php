@@ -57,10 +57,10 @@
                                         </td>
 
                                         <td>
-                                            {{ $item->tanggal_keberangkatan_indo }}
+                                            {{ $item->created_at_indo }}
                                         </td>
                                         <td>
-                                            {{ $item->created_at_indo }}
+                                            {{ $item->tanggal_keberangkatan_indo }}
                                         </td>
                                         <td style="cursor: pointer">
                                             {!! $item->bukti_pembayaran

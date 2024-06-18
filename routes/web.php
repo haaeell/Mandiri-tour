@@ -57,8 +57,8 @@ Route::get('/rundown/{id}', [RundownController::class, 'generatePdf'])->name('ru
 
 
 
-
-Route::middleware(['auth','verified'])->group(function () {
+// Route::middleware(['auth','verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::post('/pesan-paket', [PemesananController::class, 'pesanPaket'])->name('pesanPaket');
     Route::get('/pemesanan/invoice/{id}', [PemesananController::class, 'invoice'])->name('pemesanan.invoice');
     Route::post('/pemesanan/upload/{id}', [PemesananController::class, 'uploadBukti'])->name('pemesanan.upload');
@@ -83,22 +83,24 @@ Route::middleware(['auth', 'check.user.profile'])->group(function () {
 
 
 
-Auth::routes(['verify' => true]);
-Route::get('/email/verify', function () {
+Auth::routes();
+// Auth::routes(['verify' => true]);
+// Route::get('/email/verify', function () {
+//     return view('auth.verify');
+// })->middleware('auth')->name('verification.notice');
 
-    return view('auth.verify');
-})->middleware('auth')->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $r) {
-    $r->fulfill();
+// Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $r) {
+//     $r->fulfill();
 
-    return redirect('/');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-Route::post('/email/verification-notification', function (Request $r) {
+//     return redirect('/');
+// })->middleware(['auth', 'signed'])->name('verification.verify');
 
-    $r->user()->sendEmailVerificationNotification();
+// Route::post('/email/verification-notification', function (Request $r) {
 
-    return back()->with('resent', 'Verification link sent ');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+//     $r->user()->sendEmailVerificationNotification();
+
+//     return back()->with('resent', 'Verification link sent ');
+// })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::group(['middleware' => 'admin'], function () {
     Route::resource('users', UserController::class);

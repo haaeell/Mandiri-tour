@@ -40,13 +40,12 @@ class Pemesanan extends Model
         return 'string';
     }
     public function getTanggalKeberangkatanIndoAttribute()
-{
-    // Mengonversi kolom tanggal_keberangkatan ke dalam format bahasa Indonesia
-    return Carbon::parse($this->tanggal_keberangkatan)->translatedFormat('l, d F Y');
-}
-public function getCreatedAtIndoAttribute()
+    {
+
+        return Carbon::parse($this->tanggal_keberangkatan)->translatedFormat('l, d F Y');
+    }
+    public function getCreatedAtIndoAttribute()
     {
         return Carbon::parse($this->created_at)->translatedFormat('l, d F Y ');
     }
-    
 }
